@@ -186,9 +186,9 @@ if is_connected() == 'Yes':
                 test = 'test'
                 
         LPrint("Downloading Required Files...")
-        powpow('ReVanced CLI', 'RVCli.jar', 'https://github.com/revanced/revanced-cli/releases/download/v1.7.0/revanced-cli-1.7.0-all.jar')
+        powpow('ReVanced CLI', 'RVCli.jar', 'https://github.com/revanced/revanced-cli/releases/download/v1.10.2/revanced-cli-1.10.2-all.jar')
         powpow('ReVanced Patches', 'Patches.jar', 'https://github.com/revanced/revanced-patches/releases/download/v1.9.1/revanced-patches-1.9.1.jar')
-        powpow('ReVanced Integrations', 'Integrations.apk', 'https://github.com/revanced/revanced-integrations/releases/download/v0.11.0/app-release-unsigned.apk')
+        powpow('ReVanced Integrations', 'Integrations.apk', 'https://github.com/revanced/revanced-integrations/releases/download/v0.12.0/app-release-unsigned.apk')
         powpow('YouTube', 'youtube.apk', 'https://github.com/xemulat/MyFilesForDDL/releases/download/youtube/youtube.apk')
         LPrint("Required Files Downloaded!")
         print(" ")
