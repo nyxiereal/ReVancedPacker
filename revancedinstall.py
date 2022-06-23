@@ -5,6 +5,8 @@ from os import system, startfile, path, remove as rm
 from socket import gethostbyname, create_connection
 from colorama import Fore, init
 init(autoreset=True)
+
+#Optimized Custom Integrations
 corn = ''
 def linker(name, command):
     global corn
