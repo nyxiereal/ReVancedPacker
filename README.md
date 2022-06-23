@@ -1,5 +1,6 @@
 # ReVancedPacker
 FOSS ReVanced to Apk Packer written in Python
+Coded using 100% Open-Source Software (VSCodium)
 
 Required Programs:
 - Java 17* (Any Sub-Version)
