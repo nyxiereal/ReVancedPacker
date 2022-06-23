@@ -1,10 +1,20 @@
 from urllib.request import urlretrieve
 import sys
 from time import sleep
-from os import system, startfile, remove as rm
+from os import system, startfile, path, remove as rm
 from socket import gethostbyname, create_connection
 from colorama import Fore, init
 init(autoreset=True)
+corn = ''
+def linker(name, command):
+    global corn
+    print(" ")
+    WPrint("Include " + name)
+    rads = input("(y/n): ")
+    if rads == 'n':
+        corn = corn + ' -e ' + command
+    else:
+        test = 'test'
 
 #Progress Bar And Size Reporter
 def reporter(blocknum, blocksize, totalsize):
@@ -49,8 +59,6 @@ def is_connected():
      pass
   return 'No'
 
-corn = ''
-
 #Main
 system('cls')
 RPrint("[S>] Testing Internet...")
@@ -74,120 +82,24 @@ if is_connected() == 'Yes':
             print(" ")
         
         if integrations == '2':
-            WPrint("Include Remove Ads?")
-            rads = input("(y/n): ")
-            if rads == 'n':
-                corn = corn + ' -e general-resource-ads -e general-ads -e video-ads'
-            else:
-                test = 'test'
-            
-            print(" ")
-            WPrint("Include Seekbar Tapping?")
-            rads = input("(y/n): ")
-            if rads == 'n':
-                corn = corn + ' -e seekbar-tapping'
-            else:
-                test = 'test'
-
-            print(" ")
-            WPrint("Include Amoled Theme?")
-            rads = input("(y/n): ")
-            if rads == 'n':
-                corn = corn + ' -e amoled'
-            else:
-                test = 'test'
-
-            print(" ")
-            WPrint("Include Premium Heading?")
-            rads = input("(y/n): ")
-            if rads == 'n':
-                corn = corn + ' -e premium-heading'
-            else:
-                test = 'test'
-
-            print(" ")
-            WPrint("Include Custom Branding?")
-            rads = input("(y/n): ")
-            if rads == 'n':
-                corn = corn + ' -e custom-branding'
-            else:
-                test = 'test'
-
-            print(" ")
-            WPrint("Include Hide Cast Button?")
-            rads = input("(y/n): ")
-            if rads == 'n':
-                corn = corn + ' -e hide-cast-button'
-            else:
-                test = 'test'
-
-            print(" ")
-            WPrint("Include Disable Create Button?")
-            rads = input("(y/n): ")
-            if rads == 'n':
-                corn = corn + ' -e disable-create-button'
-            else:
-                test = 'test'
-
-            print(" ")
-            WPrint("Include Minimized Playback?")
-            rads = input("(y/n): ")
-            if rads == 'n':
-                corn = corn + ' -e minimized-playback'
-            else:
-                test = 'test'
-        
-            print(" ")
-            WPrint("Include Old Quality Layout")
-            rads = input("(y/n): ")
-            if rads == 'n':
-                corn = corn + ' -e old-quality-layout'
-            else:
-                test = 'test'
-        
-            print(" ")
-            WPrint("Include Hide Reels")
-            rads = input("(y/n): ")
-            if rads == 'n':
-                corn = corn + ' -e hide-reels'
-            else:
-                test = 'test'
-        
-            print(" ")
-            WPrint("Include Disable Shorts Button")
-            rads = input("(y/n): ")
-            if rads == 'n':
-                corn = corn + ' -e disable-shorts-button'
-            else:
-                test = 'test'
-        
-            print(" ")
-            WPrint("Include Locale Config Fix")
-            rads = input("(y/n): ")
-            if rads == 'n':
-                corn = corn + ' -e locale-config-fix'
-            else:
-                test = 'test'
-        
-            print(" ")
-            WPrint("Include MicroG Support (Reccomended on Non-Rooted Devices!)")
-            rads = input("(y/n): ")
-            if rads == 'n':
-                corn = corn + ' -e microg-support'
-            else:
-                test = 'test'
-        
-            print(" ")
-            WPrint("Include Resource Provider For Resource Mapping (Not Reccomended)")
-            rads = input("(y/n): ")
-            if rads == 'n':
-                corn = corn + ' -e resource-id-mapping-provider-resource-patch-dependency'
-            else:
-                test = 'test'
+            linker('Remove Ads', 'general-resource-ads -e general-ads -e video-ads')
+            linker('Seekbar Tapping', 'seekbar-tapping')
+            linker('Amoled Theme', 'amoled')
+            linker('Premium Heading', 'premium-heading')
+            linker('Custom Branding', 'custom-branding')
+            linker('Hide Cast Button', 'hide-cast-button')
+            linker('Disable Create Button', 'disable-create-button')
+            linker('Minimized Playback', 'minimized-playback')
+            linker('Old Quality Layout', 'old-quality-layout')
+            linker('Hide Reels', 'hide-reels')
+            linker('Disable Shorts Button', 'disable-shorts-button')
+            linker('Locale Config Fix (Reccomended if compilation failed)', 'locale-config-fix')
+            linker('Include MicroG Support (Reccomended on Non-Rooted Devices!)', 'microg-support')
+            linker('resource-id-mapping-provider-resource-patch-dependency', 'Include Resource Provider For Resource Mapping (Unknown))')
                 
         LPrint("Downloading Required Files...")
         powpow('ReVanced CLI', 'RVCli.jar', 'https://github.com/revanced/revanced-cli/releases/download/v1.11.0/revanced-cli-1.11.0-all.jar')
-        powpow('ReVanced Patches', 'Patches.jar', 'https://github.com/revanced/revanced-patches/releases/download/v1.10.0/revanced-patches-1.10.0.jar')
+        powpow('ReVanced Patches', 'Patches.jar', 'https://github.com/revanced/revanced-patches/releases/download/v1.10.1/revanced-patches-1.10.1.jar')
         powpow('ReVanced Integrations', 'Integrations.apk', 'https://github.com/revanced/revanced-integrations/releases/download/v0.13.0/app-release-unsigned.apk')
         powpow('YouTube', 'youtube.apk', 'https://github.com/xemulat/MyFilesForDDL/releases/download/youtube/youtube.apk')
         LPrint("Required Files Downloaded!")
@@ -203,10 +115,15 @@ if is_connected() == 'Yes':
         rm('youtube.apk')
         rm('RVCli.jar')
         rm('Integrations.apk')
-        rm('revanced_signed.keystore')
-        LPrint("Temp Files Cleaned...")
+        if path.exists('revanced_signed.keystore') == True:
+            rm('revanced_signed.keystore')
+        elif path.exists('revanced.keystore') == True:
+            rm('revanced.keystore')
+        LPrint("Temp Files Cleaned")
+        RPrint("Output File Saved As revanced.apk")
+        LPrint("All Actions Are Done")
         exit(sleep(4))
-
+        
     if gosever == '2':
         powpow('Java 17', 'Java.msi', 'https://github.com/xemulat/MyFilesForDDL/releases/download/jdk/java.msi')
         system('Java.msi /passive')
