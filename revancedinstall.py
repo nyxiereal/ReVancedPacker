@@ -2,9 +2,8 @@ from os import system, path, remove as rm
 from socket import create_connection, gethostbyname, gaierror
 from time import sleep
 from urllib.request import urlretrieve
-
+from sys import exit
 from colorama import Fore, init
-
 init(autoreset=True)
 
 
