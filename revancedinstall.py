@@ -186,9 +186,9 @@ if is_connected() == 'Yes':
                 test = 'test'
                 
         LPrint("Downloading Required Files...")
-        powpow('ReVanced CLI', 'RVCli.jar', 'https://github.com/revanced/revanced-cli/releases/download/v1.10.2/revanced-cli-1.10.2-all.jar')
-        powpow('ReVanced Patches', 'Patches.jar', 'https://github.com/revanced/revanced-patches/releases/download/v1.9.1/revanced-patches-1.9.1.jar')
-        powpow('ReVanced Integrations', 'Integrations.apk', 'https://github.com/revanced/revanced-integrations/releases/download/v0.12.0/app-release-unsigned.apk')
+        powpow('ReVanced CLI', 'RVCli.jar', 'https://github.com/revanced/revanced-cli/releases/download/v1.11.0/revanced-cli-1.11.0-all.jar')
+        powpow('ReVanced Patches', 'Patches.jar', 'https://github.com/revanced/revanced-patches/releases/download/v1.10.0/revanced-patches-1.10.0.jar')
+        powpow('ReVanced Integrations', 'Integrations.apk', 'https://github.com/revanced/revanced-integrations/releases/download/v0.13.0/app-release-unsigned.apk')
         powpow('YouTube', 'youtube.apk', 'https://github.com/xemulat/MyFilesForDDL/releases/download/youtube/youtube.apk')
         LPrint("Required Files Downloaded!")
         print(" ")
@@ -209,8 +209,10 @@ if is_connected() == 'Yes':
 
     if gosever == '2':
         powpow('Java 17', 'Java.msi', 'https://github.com/xemulat/MyFilesForDDL/releases/download/jdk/java.msi')
-        startfile('Java.msi')
-        exit(sleep(3))
+        system('Java.msi /passive')
+        WPrint("Installing Java 17...")
+        rm("Java.msi")
+        exit(sleep(4))
 
     if gosever == '99':
         exit(sleep(2))
