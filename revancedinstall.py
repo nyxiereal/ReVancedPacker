@@ -114,10 +114,10 @@ def main():
         powpow('YouTube', 'youtube.apk',
                'https://github.com/xemulat/MyFilesForDDL/releases/download/youtube/youtube.apk')
         printer.lprint("Required Files Downloaded!")
-        print(f"This Setup Script Will Be Used: java -jar rvcli.jar -a youtube.apk -c -o revanced.apk -b patches.jar -m integrations.apk {'-e '.join(corn)}")
+        print(f"This Setup Script Will Be Used: java -jar rvcli.jar -a youtube.apk -c -o revanced.apk -b patches.jar -m integrations.apk {' -e '.join(corn)}")
         input("If You Accept Press ENTER")
         printer.lprint("Packing The Apk, Please Wait...")
-        system(f'java -jar rvcli.jar -a youtube.apk -c -o revanced.apk -b patches.jar -m integrations.apk {"-e ".join(corn)}')
+        system(f'java -jar rvcli.jar -a youtube.apk -c -o revanced.apk -b patches.jar -m integrations.apk {" -e ".join(corn)}')
         printer.lprint("Apk Created, Done!")
         printer.lprint("Cleaning Temp Files...")
         rm('Patches.jar')
