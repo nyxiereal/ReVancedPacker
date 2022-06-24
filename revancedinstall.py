@@ -1,58 +1,81 @@
-from os import system, path, remove as rm
+from atexit import register
+from contextlib import suppress
+from json import load
+from os import system, path, remove
 from socket import create_connection, gethostbyname, gaierror
-from time import sleep
-from urllib.request import urlretrieve
 from sys import exit
+from time import sleep
+from urllib.request import urlretrieve, urlopen
+
 from colorama import Fore, init
+
 init(autoreset=True)
+
+VERSION = '1.3'
+
+with open('integrations.json') as pf, open('files.json') as ff:
+    INTEGRATIONS = load(pf)
+    FILES = load(ff)
+
 
 class Printer:
     @staticmethod
-    def clr_print(color: str, text: str, end: str = Fore.WHITE):
+    def __clr_print(color: str, text: str, end: str = Fore.WHITE):
         print(color + text + end)
 
-    def blue(self, text: str):
-        self.clr_print(Fore.BLUE, text)
+    @classmethod
+    def blue(cls, text: str):
+        cls.__clr_print(Fore.BLUE, text)
 
-    def red(self, text: str):
-        self.clr_print(Fore.RED, text)
+    @classmethod
+    def red(cls, text: str):
+        cls.__clr_print(Fore.RED, text)
 
-    def lprint(self, text: str):
-        self.clr_print(Fore.RED, f'[S>] {text}')
+    @classmethod
+    def lprint(cls, text: str):
+        cls.__clr_print(Fore.RED, f'[S>] {text}')
+
+
+class CLI:
+    __BASE = 'java -jar rvcli.jar -a youtube.apk -c -o revanced.apk -b patches.jar -m integrations.apk {args}'
+
+    def __init__(self):
+        self.__corn = []
+
+    def add(self, integration_name: str, args: list[str]):
+        rads = input(f"Include {integration_name} [Y/n]: ")
+        if rads == 'n':
+            self.__corn.extend(args)
+
+    @property
+    def command(self):
+        return self.__BASE.format(args=' '.join(f'-e {arg}' for arg in self.__corn))
+
+
+class Downloader:
+    @staticmethod
+    def __reporter(block_num, block_size, total_size):
+        read_so_far = block_num * block_size
+        if total_size > 0:
+            percent = read_so_far * 1e2 / total_size
+            print(f"\r{percent:5.1f}% {read_so_far:{len(str(total_size))}} out of {total_size}", end='')
+            if read_so_far >= total_size:
+                print()
+        else:
+            print(f"read {read_so_far}", end='')
+
+    @classmethod
+    def powpow(cls, name: str):
+        printer.red(f"Downloading {name}...")
+        urlretrieve(FILES[name][1], FILES[name][0], cls.__reporter)
+        printer.red(f'{name} Downloaded!')
 
 
 printer = Printer()
-
-# Optimized Custom Integrations
-corn = []
-
-def linker(name, command):
-    global corn
-    rads = input(f"Include {name} [Y/n]: ")
-    if rads == 'n':
-        corn.append(command)
+linker = CLI()
+downloader = Downloader()
 
 
-# Progress Bar And Size Reporter
-def reporter(block_num, block_size, total_size):
-    read_so_far = block_num * block_size
-    if total_size > 0:
-        percent = read_so_far * 1e2 / total_size
-        print(f"\r{percent:5.1f}% {read_so_far:{len(str(total_size))}} out of {total_size}", end='')
-        if read_so_far >= total_size:
-            print()
-    else:
-        print(f"read {read_so_far}", end='')
-
-
-# UrlRetriever
-def powpow(name, rep_name, rep_link):
-    printer.red(f"Downloading {name}...")
-    urlretrieve(rep_link, rep_name, reporter)
-    printer.red(f'{name} Downloaded!')
-
-
-# Check Is Internet Connection
 def is_connected():
     try:
         return create_connection((gethostbyname('github.com'), 80), 2)
@@ -60,31 +83,46 @@ def is_connected():
         return False
 
 
-# Main
+def check_updates():
+    with urlopen('https://raw.githubusercontent.com/xemulat/ReVancedPacker/main/newestversion.txt') as resp:
+        current_version = resp.read(3).decode()
+
+    if VERSION == current_version:
+        printer.lprint('You are up-to-date.')
+    else:
+        printer.lprint('Script is being updated.')
+        with urlopen('https://raw.githubusercontent.com/xemulat/ReVancedPacker/main/revancedinstall.py') as resp:
+            content = resp.read()
+        with open(__file__, 'wb') as f:
+            f.write(content)
+        printer.lprint('Script has been updated please restart the script.')
+        exit(sleep(6))
+
+
+def clear_temp():
+    temp_files = ['patches.jar', 'youtube.apk', 'rvcli.jar', 'integrations.apk',
+                  'revanced_signed.keystore', 'revanced.keystore', 'java.msi']
+    for file in temp_files:
+        if path.exists(file) and path.isfile(file):
+            remove(file)
+
+
 def main():
+    register(clear_temp)
+
     printer.lprint("Testing Internet...")
     if not is_connected():
         printer.red("You MUST Have internet connection to use this app!")
         exit(sleep(6))
 
-    yourversion = '1.3'
-    
     system('cls')
     printer.lprint("Internet is connected")
-    urlretrieve('https://raw.githubusercontent.com/xemulat/ReVancedPacker/main/newestversion.txt', 'temp.txt')
-    with open('temp.txt', 'r') as line:
-        newver = line.read(3)
-    rm('temp.txt')
-    if newver == yourversion:
-        printer.lprint("Your version is up-to-date!")
-        print(" ")
-    elif newver > yourversion:
-        printer.lprint("Your version is outdated :(")
-        print(" ")
+
+    check_updates()
 
     print("Welcome, This small Python script will Download ReVanced for you!\n"
           "All credits to ReVanced\n"
-          "You MUST have java 17")
+          "You MUST have Java 17")
 
     printer.blue("1. Download And Pack The APK\n"
                  "2. Download java\n"
@@ -97,58 +135,34 @@ def main():
         printer.blue("1. Use All")
         printer.blue("2. EXCLUDE Selected")
         integrations = input("(1/2): ")
-
         if integrations == '2':
             system('cls')
-            linker('Remove Ads', '-e general-resource-ads -e general-ads -e video-ads ')
-            linker('Seekbar Tapping', '-e seekbar-tapping ')
-            linker('Amoled Theme', '-e amoled ')
-            linker('Premium Heading', '-e premium-heading ')
-            linker('Custom Branding', '-e custom-branding ')
-            linker('Hide Cast Button', '-e hide-cast-button ')
-            linker('Disable Create Button', '-e disable-create-button ')
-            linker('Minimized Playback', '-e minimized-playback ')
-            linker('Old Quality Layout', '-e old-quality-layout ')
-            linker('Hide Reels', '-e hide-reels ')
-            linker('Disable Shorts Button', '-e disable-shorts-button ')
-            linker('Locale Config Fix (Recommended if compilation failed)', '-e locale-config-fix ')
-            linker('Include MicroG Support (Recommended on Non-Rooted Devices!)', '-e microg-support ')
-            linker('Include Resource Provider For Resource Mapping (Unknown)', '-e resource-id-mapping-provider-resource-patch-dependency')
+            for integration, args in INTEGRATIONS.items():
+                linker.add(integration, args)
 
         printer.lprint("Downloading Required Files...")
-        powpow('ReVanced CLI', 'RVCli.jar',
-               'https://github.com/revanced/revanced-cli/releases/download/v1.11.0/revanced-cli-1.11.0-all.jar')
-        powpow('ReVanced Patches', 'Patches.jar',
-               'https://github.com/revanced/revanced-patches/releases/download/v1.10.1/revanced-patches-1.10.1.jar')
-        powpow('ReVanced Integrations', 'Integrations.apk',
-               'https://github.com/revanced/revanced-integrations/releases/download/v0.13.0/app-release-unsigned.apk')
-        powpow('YouTube', 'youtube.apk',
-               'https://github.com/xemulat/MyFilesForDDL/releases/download/youtube/youtube.apk')
+
+        for file in list(FILES)[:-1]:
+            downloader.powpow(file)
+
         printer.lprint("Required Files Downloaded!")
-        print(f"This Setup Script Will Be Used: java -jar rvcli.jar -a youtube.apk -c -o revanced.apk -b patches.jar -m integrations.apk {''.join(corn)}")
-        input("If You Accept Press ENTER")
+
+        input(f"This Setup Script Will Be Used: {linker.command}\nIf You Accept Press ENTER")
         printer.lprint("Packing The Apk, Please Wait...")
-        system(f'java -jar rvcli.jar -a youtube.apk -c -o revanced.apk -b patches.jar -m integrations.apk {"".join(corn)}')
+        system(linker.command)
+
         printer.lprint("Apk Created, Done!")
         printer.lprint("Cleaning Temp Files...")
-        rm('Patches.jar')
-        rm('youtube.apk')
-        rm('RVCli.jar')
-        rm('Integrations.apk')
-        if path.exists('revanced_signed.keystore'):
-            rm('revanced_signed.keystore')
-        elif path.exists('revanced.keystore'):
-            rm('revanced.keystore')
+        clear_temp()
         printer.lprint("Temp Files Cleaned")
         printer.red("Output File Saved As revanced.apk")
         printer.lprint("All Actions Are Done")
         exit(sleep(4))
 
     if gosever == '2':
-        powpow('Java 17', 'Java.msi', 'https://github.com/xemulat/MyFilesForDDL/releases/download/jdk/java.msi')
-        system('Java.msi /passive')
+        downloader.powpow('Java 17')
+        system('java.msi /passive')
         print("Installing Java 17...")
-        rm("Java.msi")
         exit(sleep(4))
 
     if gosever == '99':
@@ -156,6 +170,5 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
-
-    
+    with suppress(KeyboardInterrupt):
+        main()
