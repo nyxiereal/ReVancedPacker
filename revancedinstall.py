@@ -1,7 +1,7 @@
 from os import system, path, remove as rm
 from socket import create_connection, gethostbyname, gaierror
 from time import sleep
-from urllib.request import urlretrieve
+from urllib.request import urlretrieve, urlopen
 from sys import exit
 from colorama import Fore, init
 init(autoreset=True)
@@ -71,16 +71,12 @@ def main():
     
     system('cls')
     printer.lprint("Internet is connected")
-    urlretrieve('https://raw.githubusercontent.com/xemulat/ReVancedPacker/main/newestversion.txt', 'temp.txt')
-    with open('temp.txt', 'r') as line:
-        newver = line.read(3)
-    rm('temp.txt')
+    with urlopen('https://raw.githubusercontent.com/xemulat/ReVancedPacker/main/newestversion.txt') as resp:
+        newver = resp.read(3).decode()
     if newver == yourversion:
-        printer.lprint("Your version is up-to-date!")
-        print(" ")
-    elif newver > yourversion:
-        printer.lprint("Your version is outdated :(")
-        print(" ")
+        printer.lprint("Your version is up-to-date!\n")
+    else:
+        printer.lprint("Your version is outdated :(\n")
 
     print("Welcome, This small Python script will Download ReVanced for you!\n"
           "All credits to ReVanced\n"
