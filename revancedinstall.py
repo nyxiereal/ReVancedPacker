@@ -4,7 +4,10 @@ from time import sleep
 from urllib.request import urlretrieve, urlopen
 from sys import exit
 from colorama import Fore, init
+from dataclasses import dataclass, field
+
 init(autoreset=True)
+
 
 class Printer:
     @staticmethod
@@ -21,38 +24,43 @@ class Printer:
         self.clr_print(Fore.RED, f'[S>] {text}')
 
 
+@dataclass
+class Linker:
+    corn: list[str] = field(init=False, default_factory=list)
+
+    def add(self, name: str, command: str):
+        rads = input(f"Include {name} [Y/n]: ")
+        if rads == 'n':
+            self.corn.append(command)
+
+    @property
+    def args(self):
+        return ''.join(self.corn)
+
+
+class Downloader:
+    @staticmethod
+    def reporter(block_num, block_size, total_size):
+        read_so_far = block_num * block_size
+        if total_size > 0:
+            percent = read_so_far * 1e2 / total_size
+            print(f"\r{percent:5.1f}% {read_so_far:{len(str(total_size))}} out of {total_size}", end='')
+            if read_so_far >= total_size:
+                print()
+        else:
+            print(f"read {read_so_far}", end='')
+
+    def powpow(self, name, rep_name, rep_link):
+        printer.red(f"Downloading {name}...")
+        urlretrieve(rep_link, rep_name, self.reporter)
+        printer.red(f'{name} Downloaded!')
+
+
 printer = Printer()
-
-# Optimized Custom Integrations
-corn = []
-
-def linker(name, command):
-    global corn
-    rads = input(f"Include {name} [Y/n]: ")
-    if rads == 'n':
-        corn.append(command)
+linker = Linker()
+downloader = Downloader()
 
 
-# Progress Bar And Size Reporter
-def reporter(block_num, block_size, total_size):
-    read_so_far = block_num * block_size
-    if total_size > 0:
-        percent = read_so_far * 1e2 / total_size
-        print(f"\r{percent:5.1f}% {read_so_far:{len(str(total_size))}} out of {total_size}", end='')
-        if read_so_far >= total_size:
-            print()
-    else:
-        print(f"read {read_so_far}", end='')
-
-
-# UrlRetriever
-def powpow(name, rep_name, rep_link):
-    printer.red(f"Downloading {name}...")
-    urlretrieve(rep_link, rep_name, reporter)
-    printer.red(f'{name} Downloaded!')
-
-
-# Check Is Internet Connection
 def is_connected():
     try:
         return create_connection((gethostbyname('github.com'), 80), 2)
@@ -68,7 +76,7 @@ def main():
         exit(sleep(6))
 
     yourversion = '1.3'
-    
+
     system('cls')
     printer.lprint("Internet is connected")
     with urlopen('https://raw.githubusercontent.com/xemulat/ReVancedPacker/main/newestversion.txt') as resp:
@@ -96,35 +104,38 @@ def main():
 
         if integrations == '2':
             system('cls')
-            linker('Remove Ads', '-e general-resource-ads -e general-ads -e video-ads ')
-            linker('Seekbar Tapping', '-e seekbar-tapping ')
-            linker('Amoled Theme', '-e amoled ')
-            linker('Premium Heading', '-e premium-heading ')
-            linker('Custom Branding', '-e custom-branding ')
-            linker('Hide Cast Button', '-e hide-cast-button ')
-            linker('Disable Create Button', '-e disable-create-button ')
-            linker('Minimized Playback', '-e minimized-playback ')
-            linker('Old Quality Layout', '-e old-quality-layout ')
-            linker('Hide Reels', '-e hide-reels ')
-            linker('Disable Shorts Button', '-e disable-shorts-button ')
-            linker('Locale Config Fix (Recommended if compilation failed)', '-e locale-config-fix ')
-            linker('Include MicroG Support (Recommended on Non-Rooted Devices!)', '-e microg-support ')
-            linker('Include Resource Provider For Resource Mapping (Unknown)', '-e resource-id-mapping-provider-resource-patch-dependency')
+            linker.add('Remove Ads', '-e general-resource-ads -e general-ads -e video-ads ')
+            linker.add('Seekbar Tapping', '-e seekbar-tapping ')
+            linker.add('Amoled Theme', '-e amoled ')
+            linker.add('Premium Heading', '-e premium-heading ')
+            linker.add('Custom Branding', '-e custom-branding ')
+            linker.add('Hide Cast Button', '-e hide-cast-button ')
+            linker.add('Disable Create Button', '-e disable-create-button ')
+            linker.add('Minimized Playback', '-e minimized-playback ')
+            linker.add('Old Quality Layout', '-e old-quality-layout ')
+            linker.add('Hide Reels', '-e hide-reels ')
+            linker.add('Disable Shorts Button', '-e disable-shorts-button ')
+            linker.add('Locale Config Fix (Recommended if compilation failed)', '-e locale-config-fix ')
+            linker.add('Include MicroG Support (Recommended on Non-Rooted Devices!)', '-e microg-support ')
+            linker.add('Include Resource Provider For Resource Mapping (Unknown)',
+                   '-e resource-id-mapping-provider-resource-patch-dependency')
 
         printer.lprint("Downloading Required Files...")
-        powpow('ReVanced CLI', 'RVCli.jar',
+        downloader.powpow('ReVanced CLI', 'RVCli.jar',
                'https://github.com/revanced/revanced-cli/releases/download/v1.11.0/revanced-cli-1.11.0-all.jar')
-        powpow('ReVanced Patches', 'Patches.jar',
+        downloader.powpow('ReVanced Patches', 'Patches.jar',
                'https://github.com/revanced/revanced-patches/releases/download/v1.10.1/revanced-patches-1.10.1.jar')
-        powpow('ReVanced Integrations', 'Integrations.apk',
+        downloader.powpow('ReVanced Integrations', 'Integrations.apk',
                'https://github.com/revanced/revanced-integrations/releases/download/v0.13.0/app-release-unsigned.apk')
-        powpow('YouTube', 'youtube.apk',
+        downloader.powpow('YouTube', 'youtube.apk',
                'https://github.com/xemulat/MyFilesForDDL/releases/download/youtube/youtube.apk')
         printer.lprint("Required Files Downloaded!")
-        print(f"This Setup Script Will Be Used: java -jar rvcli.jar -a youtube.apk -c -o revanced.apk -b patches.jar -m integrations.apk {''.join(corn)}")
+        print(
+            f"This Setup Script Will Be Used: java -jar rvcli.jar -a youtube.apk -c -o revanced.apk -b patches.jar -m integrations.apk {linker.args}")
         input("If You Accept Press ENTER")
         printer.lprint("Packing The Apk, Please Wait...")
-        system(f'java -jar rvcli.jar -a youtube.apk -c -o revanced.apk -b patches.jar -m integrations.apk {"".join(corn)}')
+        system(
+            f'java -jar rvcli.jar -a youtube.apk -c -o revanced.apk -b patches.jar -m integrations.apk {linker.args}')
         printer.lprint("Apk Created, Done!")
         printer.lprint("Cleaning Temp Files...")
         rm('Patches.jar')
@@ -141,7 +152,7 @@ def main():
         exit(sleep(4))
 
     if gosever == '2':
-        powpow('Java 17', 'Java.msi', 'https://github.com/xemulat/MyFilesForDDL/releases/download/jdk/java.msi')
+        downloader.powpow('Java 17', 'Java.msi', 'https://github.com/xemulat/MyFilesForDDL/releases/download/jdk/java.msi')
         system('Java.msi /passive')
         print("Installing Java 17...")
         rm("Java.msi")
@@ -153,5 +164,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-    
