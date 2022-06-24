@@ -3,7 +3,6 @@ from urllib.request import urlretrieve, urlopen
 # Don't Remove pls
 urlretrieve('https://raw.githubusercontent.com/xemulat/ReVancedPacker/main/files.json', 'files.json')
 urlretrieve('https://raw.githubusercontent.com/xemulat/ReVancedPacker/main/integrations.json', 'integrations.json')
-
 from atexit import register
 from contextlib import suppress
 from json import load
@@ -103,8 +102,8 @@ def check_updates():
 
 
 def clear_temp():
-    temp_files = ['patches.jar', 'youtube.apk', 'rvcli.jar', 'integrations.apk',
-                  'revanced_signed.keystore' or 'revanced.keystore', 'java.msi']
+    temp_files = ['patches.jar', 'youtube.apk', 'rvcli.jar', 'integrations.apk', 'integrations.json'
+                  'revanced_signed.keystore' or 'revanced.keystore', 'java.msi', 'files.json']
     for file in temp_files:
         if path.exists(file) and path.isfile(file):
             remove(file)
