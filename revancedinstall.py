@@ -1,17 +1,20 @@
+from os import system, path, remove
+from urllib.request import urlretrieve, urlopen
+# Don't Remove pls
+urlretrieve('https://raw.githubusercontent.com/xemulat/ReVancedPacker/main/files.json', 'files.json')
+urlretrieve('https://raw.githubusercontent.com/xemulat/ReVancedPacker/main/integrations.json', 'integrations.json')
+
 from atexit import register
 from contextlib import suppress
 from json import load
-from os import system, path, remove
 from socket import create_connection, gethostbyname, gaierror
 from sys import exit
 from time import sleep
-from urllib.request import urlretrieve, urlopen
-
 from colorama import Fore, init
 
 init(autoreset=True)
 
-VERSION = '1.3'
+VERSION = '1.5'
 
 with open('integrations.json') as pf, open('files.json') as ff:
     INTEGRATIONS = load(pf)
@@ -101,7 +104,7 @@ def check_updates():
 
 def clear_temp():
     temp_files = ['patches.jar', 'youtube.apk', 'rvcli.jar', 'integrations.apk',
-                  'revanced_signed.keystore', 'revanced.keystore', 'java.msi']
+                  'revanced_signed.keystore' or 'revanced.keystore', 'java.msi']
     for file in temp_files:
         if path.exists(file) and path.isfile(file):
             remove(file)
@@ -131,7 +134,7 @@ def main():
     gosever = input("(1/99): ")
     if gosever == '1':
         system('cls')
-        print("Use All Integrations or EXCLUDE selected Integrations")
+        printer.red("Use All Integrations or EXCLUDE selected Integrations")
         printer.blue("1. Use All")
         printer.blue("2. EXCLUDE Selected")
         integrations = input("(1/2): ")
