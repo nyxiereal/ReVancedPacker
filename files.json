@@ -1,0 +1,22 @@
+{
+    "ReVanced CLI": [
+        "rvcli.jar",
+        "https://github.com/revanced/revanced-cli/releases/download/v1.11.0/revanced-cli-1.11.0-all.jar"
+    ],
+    "ReVanced Patches": [
+        "patches.jar",
+        "https://github.com/revanced/revanced-patches/releases/download/v1.10.1/revanced-patches-1.10.1.jar"
+    ],
+    "ReVanced Integrations": [
+        "integrations.apk",
+        "https://github.com/revanced/revanced-integrations/releases/download/v0.13.0/app-release-unsigned.apk"
+    ],
+    "YouTube": [
+        "youtube.apk",
+        "https://github.com/xemulat/MyFilesForDDL/releases/download/youtube/youtube.apk"
+    ],
+    "Java 17": [
+        "java.msi",
+        "https://github.com/xemulat/MyFilesForDDL/releases/download/jdk/java.msi"
+    ]
+}

@@ -1,0 +1,46 @@
+{
+    "Remove Ads": [
+        "general-resource-ads",
+        "general-ads",
+        "video-ads"
+    ],
+    "Seekbar Tapping": [
+        "seekbar-tapping"
+    ],
+    "Amoled Theme": [
+        "amoled"
+    ],
+    "Premium Heading": [
+        "premium-heading"
+    ],
+    "Custom Branding": [
+        "custom-branding"
+    ],
+    "Hide Cast Button": [
+        "hide-cast-button"
+    ],
+    "Disable Create Button": [
+        "disable-create-button"
+    ],
+    "Minimized Playback": [
+        "minimized-playback"
+    ],
+    "Old Quality Layout": [
+        "old-quality-layout"
+    ],
+    "Hide Reels": [
+        "hide-reels"
+    ],
+    "Disable Shorts Button": [
+        "disable-shorts-button"
+    ],
+    "Locale Config Fix (Recommended if compilation failed)": [
+        "locale-config-fix"
+    ],
+    "Include MicroG Support (Recommended on Non-Rooted Devices!)": [
+        "microg-support"
+    ],
+    "Include Resource Provider For Resource Mapping (Unknown)": [
+        "resource-id-mapping-provider-resource-patch-dependency"
+    ]
+}
