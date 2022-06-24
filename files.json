@@ -18,5 +18,9 @@
     "Java 17": [
         "java.msi",
         "https://github.com/xemulat/MyFilesForDDL/releases/download/jdk/java.msi"
+    ],
+    "Youtube Beta": [
+        "Youtube.apkm",
+        "https://github.com/xemulat/MyFilesForDDL/releases/download/youtube-beta/youtube.apkm"
     ]
 }
