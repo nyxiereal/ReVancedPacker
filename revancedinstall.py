@@ -13,7 +13,7 @@ from colorama import Fore, init
 
 init(autoreset=True)
 
-VERSION = '1.5'
+VERSION = '1.2'
 
 with open('integrations.json') as pf, open('files.json') as ff:
     INTEGRATIONS = load(pf)
@@ -84,30 +84,29 @@ def is_connected():
     except gaierror:
         return False
 
-
-def check_updates():
-    with urlopen('https://raw.githubusercontent.com/xemulat/ReVancedPacker/main/newestversion.txt') as resp:
-        current_version = resp.read(3).decode()
-
-    if VERSION == current_version:
-        printer.lprint('You are up-to-date.')
-    else:
-        printer.lprint('Script is being updated.')
-        with urlopen('https://raw.githubusercontent.com/xemulat/ReVancedPacker/main/revancedinstall.py') as resp:
-            content = resp.read()
-        with open(__file__, 'wb') as f:
-            f.write(content)
-        printer.lprint('Script has been updated please restart the script.')
-        exit(sleep(6))
-
-
 def clear_temp():
     temp_files = ['patches.jar', 'youtube.apk', 'rvcli.jar', 'integrations.apk', 'integrations.json'
-                  'revanced_signed.keystore' or 'revanced.keystore', 'java.msi', 'files.json']
+                  'java.msi', 'files.json']
     for file in temp_files:
         if path.exists(file) and path.isfile(file):
             remove(file)
 
+def check_updates():
+    urlretrieve('https://raw.githubusercontent.com/xemulat/ReVancedPacker/main/newestversion.txt', 'temp.txt')
+    with open('temp.txt', 'r') as line:
+	    newver = line.read(3)
+    remove('temp.txt')
+    if VERSION == newver:
+        printer.lprint("Your Version is Up-To-Date!")
+    else:
+        printer.lprint("Your Version is Outdated!")
+        print("Auto-Update?")
+        updt = input("(Y/n): ")
+        if updt == 'y':
+            urlretrieve('https://github.com/xemulat/ReVancedPacker/releases/download/' + newver + '/RV.Apk.Packer.' + newver + '.exe', 'RV.Apk.Packer.' + newver + '.exe')
+        else:
+            print("")
+    
 
 def main():
     register(clear_temp)
@@ -119,8 +118,6 @@ def main():
 
     system('cls')
     printer.lprint("Internet is connected")
-
-    check_updates()
 
     print("Welcome, This small Python script will Download ReVanced for you!\n"
           "All credits to ReVanced\n"
@@ -155,6 +152,7 @@ def main():
 
         printer.lprint("Apk Created, Done!")
         printer.lprint("Cleaning Temp Files...")
+        remove('revanced.keystore' or 'revanced_signed.keystore')
         clear_temp()
         printer.lprint("Temp Files Cleaned")
         printer.red("Output File Saved As revanced.apk")
@@ -168,9 +166,12 @@ def main():
         exit(sleep(4))
 
     if gosever == '99':
+        remove('integrations.json')
+        clear_temp()
         exit(sleep(2))
+        
 
-
+check_updates()
 if __name__ == '__main__':
     with suppress(KeyboardInterrupt):
         main()
