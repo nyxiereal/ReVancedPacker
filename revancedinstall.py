@@ -163,7 +163,6 @@ def main():
         downloader.powpow('Java 17')
         system('java.msi /passive')
         print("Installing Java 17...")
-        clear_temp()
         exit(sleep(4))
 
     if gosever == '99':
