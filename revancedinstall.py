@@ -6,7 +6,6 @@ from sys import exit
 from colorama import Fore, init
 init(autoreset=True)
 
-
 class Printer:
     @staticmethod
     def clr_print(color: str, text: str, end: str = Fore.WHITE):
@@ -26,7 +25,6 @@ printer = Printer()
 
 # Optimized Custom Integrations
 corn = []
-
 
 def linker(name, command):
     global corn
@@ -66,10 +64,23 @@ def is_connected():
 def main():
     printer.lprint("Testing Internet...")
     if not is_connected():
-        exit()
+        printer.red("You MUST Have internet connection to use this app!")
+        exit(sleep(6))
 
+    yourversion = '1.3'
+    
     system('cls')
     printer.lprint("Internet is connected")
+    urlretrieve('https://raw.githubusercontent.com/xemulat/ReVancedPacker/main/newestversion.txt', 'temp.txt')
+    with open('temp.txt', 'r') as line:
+        newver = line.read(3)
+    rm('temp.txt')
+    if newver == yourversion:
+        printer.lprint("Your version is up-to-date!")
+        print(" ")
+    elif newver > yourversion:
+        printer.lprint("Your version is outdated :(")
+        print(" ")
 
     print("Welcome, This small Python script will Download ReVanced for you!\n"
           "All credits to ReVanced\n"
@@ -81,27 +92,28 @@ def main():
 
     gosever = input("(1/99): ")
     if gosever == '1':
+        system('cls')
         print("Use All Integrations or EXCLUDE selected Integrations")
         printer.blue("1. Use All")
         printer.blue("2. EXCLUDE Selected")
         integrations = input("(1/2): ")
 
         if integrations == '2':
-            linker('Remove Ads', 'general-resource-ads -e general-ads -e video-ads')
-            linker('Seekbar Tapping', 'seekbar-tapping')
-            linker('Amoled Theme', 'amoled')
-            linker('Premium Heading', 'premium-heading')
-            linker('Custom Branding', 'custom-branding')
-            linker('Hide Cast Button', 'hide-cast-button')
-            linker('Disable Create Button', 'disable-create-button')
-            linker('Minimized Playback', 'minimized-playback')
-            linker('Old Quality Layout', 'old-quality-layout')
-            linker('Hide Reels', 'hide-reels')
-            linker('Disable Shorts Button', 'disable-shorts-button')
-            linker('Locale Config Fix (Recommended if compilation failed)', 'locale-config-fix')
-            linker('Include MicroG Support (Recommended on Non-Rooted Devices!)', 'microg-support')
-            linker('resource-id-mapping-provider-resource-patch-dependency',
-                   'Include Resource Provider For Resource Mapping (Unknown))')
+            system('cls')
+            linker('Remove Ads', '-e general-resource-ads -e general-ads -e video-ads ')
+            linker('Seekbar Tapping', '-e seekbar-tapping ')
+            linker('Amoled Theme', '-e amoled ')
+            linker('Premium Heading', '-e premium-heading ')
+            linker('Custom Branding', '-e custom-branding ')
+            linker('Hide Cast Button', '-e hide-cast-button ')
+            linker('Disable Create Button', '-e disable-create-button ')
+            linker('Minimized Playback', '-e minimized-playback ')
+            linker('Old Quality Layout', '-e old-quality-layout ')
+            linker('Hide Reels', '-e hide-reels ')
+            linker('Disable Shorts Button', '-e disable-shorts-button ')
+            linker('Locale Config Fix (Recommended if compilation failed)', '-e locale-config-fix ')
+            linker('Include MicroG Support (Recommended on Non-Rooted Devices!)', '-e microg-support ')
+            linker('Include Resource Provider For Resource Mapping (Unknown)', '-e resource-id-mapping-provider-resource-patch-dependency')
 
         printer.lprint("Downloading Required Files...")
         powpow('ReVanced CLI', 'RVCli.jar',
@@ -113,10 +125,10 @@ def main():
         powpow('YouTube', 'youtube.apk',
                'https://github.com/xemulat/MyFilesForDDL/releases/download/youtube/youtube.apk')
         printer.lprint("Required Files Downloaded!")
-        print(f"This Setup Script Will Be Used: java -jar rvcli.jar -a youtube.apk -c -o revanced.apk -b patches.jar -m integrations.apk {' -e '.join(corn)}")
+        print(f"This Setup Script Will Be Used: java -jar rvcli.jar -a youtube.apk -c -o revanced.apk -b patches.jar -m integrations.apk {''.join(corn)}")
         input("If You Accept Press ENTER")
         printer.lprint("Packing The Apk, Please Wait...")
-        system(f'java -jar rvcli.jar -a youtube.apk -c -o revanced.apk -b patches.jar -m integrations.apk {" -e ".join(corn)}')
+        system(f'java -jar rvcli.jar -a youtube.apk -c -o revanced.apk -b patches.jar -m integrations.apk {"".join(corn)}')
         printer.lprint("Apk Created, Done!")
         printer.lprint("Cleaning Temp Files...")
         rm('Patches.jar')
