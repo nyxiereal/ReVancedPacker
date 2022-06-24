@@ -1,46 +1,60 @@
-from os import system, path, remove as rm
+from json import load
+from os import system, path, remove
 from socket import create_connection, gethostbyname, gaierror
+from sys import exit
 from time import sleep
 from urllib.request import urlretrieve, urlopen
-from sys import exit
+
 from colorama import Fore, init
-from dataclasses import dataclass, field
 
 init(autoreset=True)
+
+VERSION = '1.3'
+
+with open('integrations.json') as pf:
+    INTEGRATIONS = load(pf)
+
+with open('files.json') as ff:
+    FILES = load(ff)
 
 
 class Printer:
     @staticmethod
-    def clr_print(color: str, text: str, end: str = Fore.WHITE):
+    def __clr_print(color: str, text: str, end: str = Fore.WHITE):
         print(color + text + end)
 
-    def blue(self, text: str):
-        self.clr_print(Fore.BLUE, text)
+    @classmethod
+    def blue(cls, text: str):
+        cls.__clr_print(Fore.BLUE, text)
 
-    def red(self, text: str):
-        self.clr_print(Fore.RED, text)
+    @classmethod
+    def red(cls, text: str):
+        cls.__clr_print(Fore.RED, text)
 
-    def lprint(self, text: str):
-        self.clr_print(Fore.RED, f'[S>] {text}')
+    @classmethod
+    def lprint(cls, text: str):
+        cls.__clr_print(Fore.RED, f'[S>] {text}')
 
 
-@dataclass
-class Linker:
-    corn: list[str] = field(init=False, default_factory=list)
+class CLI:
+    __BASE = 'java -jar rvcli.jar -a youtube.apk -c -o revanced.apk -b patches.jar -m integrations.apk {args}'
 
-    def add(self, name: str, command: str):
-        rads = input(f"Include {name} [Y/n]: ")
+    def __init__(self):
+        self.__corn = []
+
+    def add(self, integration_name: str, args: list[str]):
+        rads = input(f"Include {integration_name} [Y/n]: ")
         if rads == 'n':
-            self.corn.append(command)
+            self.__corn.extend(args)
 
     @property
-    def args(self):
-        return ''.join(self.corn)
+    def command(self):
+        return self.__BASE.format(args=' '.join(f'-e {arg}' for arg in self.__corn))
 
 
 class Downloader:
     @staticmethod
-    def reporter(block_num, block_size, total_size):
+    def __reporter(block_num, block_size, total_size):
         read_so_far = block_num * block_size
         if total_size > 0:
             percent = read_so_far * 1e2 / total_size
@@ -50,14 +64,15 @@ class Downloader:
         else:
             print(f"read {read_so_far}", end='')
 
-    def powpow(self, name, rep_name, rep_link):
+    @classmethod
+    def powpow(cls, name: str):
         printer.red(f"Downloading {name}...")
-        urlretrieve(rep_link, rep_name, self.reporter)
+        urlretrieve(FILES[name][1], FILES[name][0], cls.__reporter)
         printer.red(f'{name} Downloaded!')
 
 
 printer = Printer()
-linker = Linker()
+linker = CLI()
 downloader = Downloader()
 
 
@@ -68,27 +83,46 @@ def is_connected():
         return False
 
 
-# Main
+def check_updates():
+    with urlopen('https://raw.githubusercontent.com/xemulat/ReVancedPacker/main/newestversion.txt') as resp:
+        current_version = resp.read(3).decode()
+
+    if VERSION == current_version:
+        printer.lprint('You are up-to-date.')
+    else:
+        printer.lprint('Script is being updated.')
+        with urlopen('https://raw.githubusercontent.com/xemulat/ReVancedPacker/main/revancedinstall.py') as resp:
+            content = resp.read()
+        with open(__file__, 'wb') as f:
+            f.write(content)
+        printer.lprint('Script has been updated please restart the script.')
+        exit(sleep(6))
+
+
+def clear_temp():
+    temp_files = ['patches.jar', 'youtube.apk', 'rvcli.jar', 'integrations.apk',
+                  'revanced_signed.keystore', 'revanced.keystore', 'java.msi']
+    printer.lprint("Cleaning Temp Files...")
+    for file in temp_files:
+        if path.exists(file) and path.isfile(file):
+            remove(file)
+    printer.lprint("Temp Files Cleaned")
+
+
 def main():
     printer.lprint("Testing Internet...")
     if not is_connected():
         printer.red("You MUST Have internet connection to use this app!")
         exit(sleep(6))
 
-    yourversion = '1.3'
-
     system('cls')
     printer.lprint("Internet is connected")
-    with urlopen('https://raw.githubusercontent.com/xemulat/ReVancedPacker/main/newestversion.txt') as resp:
-        newver = resp.read(3).decode()
-    if newver == yourversion:
-        printer.lprint("Your version is up-to-date!\n")
-    else:
-        printer.lprint("Your version is outdated :(\n")
+
+    check_updates()
 
     print("Welcome, This small Python script will Download ReVanced for you!\n"
           "All credits to ReVanced\n"
-          "You MUST have java 17")
+          "You MUST have Java 17")
 
     printer.blue("1. Download And Pack The APK\n"
                  "2. Download java\n"
@@ -101,61 +135,33 @@ def main():
         printer.blue("1. Use All")
         printer.blue("2. EXCLUDE Selected")
         integrations = input("(1/2): ")
-
         if integrations == '2':
             system('cls')
-            linker.add('Remove Ads', '-e general-resource-ads -e general-ads -e video-ads ')
-            linker.add('Seekbar Tapping', '-e seekbar-tapping ')
-            linker.add('Amoled Theme', '-e amoled ')
-            linker.add('Premium Heading', '-e premium-heading ')
-            linker.add('Custom Branding', '-e custom-branding ')
-            linker.add('Hide Cast Button', '-e hide-cast-button ')
-            linker.add('Disable Create Button', '-e disable-create-button ')
-            linker.add('Minimized Playback', '-e minimized-playback ')
-            linker.add('Old Quality Layout', '-e old-quality-layout ')
-            linker.add('Hide Reels', '-e hide-reels ')
-            linker.add('Disable Shorts Button', '-e disable-shorts-button ')
-            linker.add('Locale Config Fix (Recommended if compilation failed)', '-e locale-config-fix ')
-            linker.add('Include MicroG Support (Recommended on Non-Rooted Devices!)', '-e microg-support ')
-            linker.add('Include Resource Provider For Resource Mapping (Unknown)',
-                   '-e resource-id-mapping-provider-resource-patch-dependency')
+            for integration, args in INTEGRATIONS.items():
+                linker.add(integration, args)
 
         printer.lprint("Downloading Required Files...")
-        downloader.powpow('ReVanced CLI', 'RVCli.jar',
-               'https://github.com/revanced/revanced-cli/releases/download/v1.11.0/revanced-cli-1.11.0-all.jar')
-        downloader.powpow('ReVanced Patches', 'Patches.jar',
-               'https://github.com/revanced/revanced-patches/releases/download/v1.10.1/revanced-patches-1.10.1.jar')
-        downloader.powpow('ReVanced Integrations', 'Integrations.apk',
-               'https://github.com/revanced/revanced-integrations/releases/download/v0.13.0/app-release-unsigned.apk')
-        downloader.powpow('YouTube', 'youtube.apk',
-               'https://github.com/xemulat/MyFilesForDDL/releases/download/youtube/youtube.apk')
+
+        for file in list(FILES)[:-1]:
+            downloader.powpow(file)
+
         printer.lprint("Required Files Downloaded!")
-        print(
-            f"This Setup Script Will Be Used: java -jar rvcli.jar -a youtube.apk -c -o revanced.apk -b patches.jar -m integrations.apk {linker.args}")
-        input("If You Accept Press ENTER")
+
+        input(f"This Setup Script Will Be Used: {linker.command}\nIf You Accept Press ENTER")
         printer.lprint("Packing The Apk, Please Wait...")
-        system(
-            f'java -jar rvcli.jar -a youtube.apk -c -o revanced.apk -b patches.jar -m integrations.apk {linker.args}')
+        system(linker.command)
+
         printer.lprint("Apk Created, Done!")
-        printer.lprint("Cleaning Temp Files...")
-        rm('Patches.jar')
-        rm('youtube.apk')
-        rm('RVCli.jar')
-        rm('Integrations.apk')
-        if path.exists('revanced_signed.keystore'):
-            rm('revanced_signed.keystore')
-        elif path.exists('revanced.keystore'):
-            rm('revanced.keystore')
-        printer.lprint("Temp Files Cleaned")
+        clear_temp()
         printer.red("Output File Saved As revanced.apk")
         printer.lprint("All Actions Are Done")
         exit(sleep(4))
 
     if gosever == '2':
-        downloader.powpow('Java 17', 'Java.msi', 'https://github.com/xemulat/MyFilesForDDL/releases/download/jdk/java.msi')
-        system('Java.msi /passive')
+        downloader.powpow('Java 17')
+        system('java.msi /passive')
         print("Installing Java 17...")
-        rm("Java.msi")
+        clear_temp()
         exit(sleep(4))
 
     if gosever == '99':
