@@ -1,3 +1,5 @@
+from atexit import register
+from contextlib import suppress
 from json import load
 from os import system, path, remove
 from socket import create_connection, gethostbyname, gaierror
@@ -11,10 +13,8 @@ init(autoreset=True)
 
 VERSION = '1.3'
 
-with open('integrations.json') as pf:
+with open('integrations.json') as pf, open('files.json') as ff:
     INTEGRATIONS = load(pf)
-
-with open('files.json') as ff:
     FILES = load(ff)
 
 
@@ -102,14 +102,14 @@ def check_updates():
 def clear_temp():
     temp_files = ['patches.jar', 'youtube.apk', 'rvcli.jar', 'integrations.apk',
                   'revanced_signed.keystore', 'revanced.keystore', 'java.msi']
-    printer.lprint("Cleaning Temp Files...")
     for file in temp_files:
         if path.exists(file) and path.isfile(file):
             remove(file)
-    printer.lprint("Temp Files Cleaned")
 
 
 def main():
+    register(clear_temp)
+
     printer.lprint("Testing Internet...")
     if not is_connected():
         printer.red("You MUST Have internet connection to use this app!")
@@ -152,7 +152,9 @@ def main():
         system(linker.command)
 
         printer.lprint("Apk Created, Done!")
+        printer.lprint("Cleaning Temp Files...")
         clear_temp()
+        printer.lprint("Temp Files Cleaned")
         printer.red("Output File Saved As revanced.apk")
         printer.lprint("All Actions Are Done")
         exit(sleep(4))
@@ -169,4 +171,5 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    with suppress(KeyboardInterrupt):
+        main()
