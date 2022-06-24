@@ -13,7 +13,7 @@ from colorama import Fore, init
 
 init(autoreset=True)
 
-VERSION = '1.2'
+VERSION = '1.6'
 
 with open('integrations.json') as pf, open('files.json') as ff:
     INTEGRATIONS = load(pf)
@@ -86,7 +86,7 @@ def is_connected():
 
 def clear_temp():
     temp_files = ['patches.jar', 'youtube.apk', 'rvcli.jar', 'integrations.apk', 'integrations.json'
-                  'java.msi', 'files.json']
+                  'java.msi', 'files.json', 'Youtube.apkm']
     for file in temp_files:
         if path.exists(file) and path.isfile(file):
             remove(file)
@@ -104,9 +104,6 @@ def check_updates():
         updt = input("(Y/n): ")
         if updt == 'y':
             urlretrieve('https://github.com/xemulat/ReVancedPacker/releases/download/' + newver + '/RV.Apk.Packer.' + newver + '.exe', 'RV.Apk.Packer.' + newver + '.exe')
-        else:
-            print("")
-    
 
 def main():
     register(clear_temp)
@@ -123,11 +120,30 @@ def main():
           "All credits to ReVanced\n"
           "You MUST have Java 17")
 
-    printer.blue("1. Download And Pack The APK\n"
+    printer.blue("What to do:\n"
+                 "1. Download And Pack The APK\n"
                  "2. Download java\n"
                  "99. Exit")
+    gosever = input("(1/2/99): ")
+    print(" ")
 
-    gosever = input("(1/99): ")
+
+    printer.blue("What Version to use: (Use Stable for better expreience)\n"
+                 "1. Use YT Stable\n"
+                 "2. Use YT Beta")
+    verss = input("(1/2): ")
+    print(" ")
+
+
+    printer.blue("Disable compatibility check: (Use if compilation failed)\n"
+                 "Y. Disable comp. check\n"
+                 "N. Enable comp. check")
+    experiment = input("(Y/n): ")
+    if experiment == 'y':
+        debug = ' --experimental'
+    print(" ")
+
+
     if gosever == '1':
         system('cls')
         printer.red("Use All Integrations or EXCLUDE selected Integrations")
@@ -141,15 +157,22 @@ def main():
 
         printer.lprint("Downloading Required Files...")
 
-        for file in list(FILES)[:-1]:
-            downloader.powpow(file)
+        if verss == '1':
+            downloader.powpow('ReVanced CLI')
+            downloader.powpow('ReVanced Patches')
+            downloader.powpow('ReVanced Integrations')
+            downloader.powpow('Youtube')
+        elif verss == '2':
+            downloader.powpow('ReVanced CLI')
+            downloader.powpow('ReVanced Patches')
+            downloader.powpow('ReVanced Integrations')
+            downloader.powpow('Youtube Beta')
 
         printer.lprint("Required Files Downloaded!")
-
-        input(f"This Setup Script Will Be Used: {linker.command}\nIf You Accept Press ENTER")
+        input(f"This Setup Script Will Be Used: {linker.command}" + debug + "\n"
+              "If You Accept Press ENTER")
         printer.lprint("Packing The Apk, Please Wait...")
-        system(linker.command)
-
+        system(linker.command + debug)
         printer.lprint("Apk Created, Done!")
         printer.lprint("Cleaning Temp Files...")
         remove('revanced.keystore' or 'revanced_signed.keystore')
@@ -169,7 +192,7 @@ def main():
         remove('integrations.json')
         clear_temp()
         exit(sleep(2))
-        
+
 
 check_updates()
 if __name__ == '__main__':
