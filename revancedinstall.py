@@ -39,7 +39,7 @@ class Printer:
 
 
 class CLI:
-    __BASE = 'java -jar rvcli.jar -a youtube.apk -c -o revanced.apk -b patches.jar -m integrations.apk {args}'
+    __BASE = '{args}'
 
     def __init__(self):
         self.__corn = []
@@ -86,8 +86,15 @@ def is_connected():
 
 def clear_temp():
     temp_files = ['patches.jar', 'youtube.apk', 'rvcli.jar', 'integrations.apk', 'integrations.json'
-                  'java.msi', 'files.json', 'Youtube.apkm']
+                  'java.msi', 'files.json', 'Youtube.apkm', 'revanced_signed.keystore', 'revanced.keystore']
     for file in temp_files:
+        if path.exists(file) and path.isfile(file):
+            remove(file)
+
+def clear_crap():
+    crap_files = ['patches.jar', 'youtube.apk', 'rvcli.jar', 'integrations.apk'
+                  'java.msi', 'Youtube.apkm', 'revanced_signed.keystore', 'revanced.keystore']
+    for file in crap_files:
         if path.exists(file) and path.isfile(file):
             remove(file)
 
@@ -99,6 +106,7 @@ def check_updates():
     if VERSION == newver:
         printer.lprint("Your Version is Up-To-Date!")
     else:
+        system('cls')
         printer.lprint("Your Version is Outdated!")
         print("Auto-Update?")
         updt = input("(Y/n): ")
@@ -106,7 +114,9 @@ def check_updates():
             urlretrieve('https://github.com/xemulat/ReVancedPacker/releases/download/' + newver + '/RV.Apk.Packer.' + newver + '.exe', 'RV.Apk.Packer.' + newver + '.exe')
 
 def main():
+    register(clear_crap)
     register(clear_temp)
+    clear_crap()
 
     printer.lprint("Testing Internet...")
     if not is_connected():
@@ -115,7 +125,8 @@ def main():
 
     system('cls')
     printer.lprint("Internet is connected")
-
+    clear_crap()
+    
     print("Welcome, This small Python script will Download ReVanced for you!\n"
           "All credits to ReVanced\n"
           "You MUST have Java 17")
@@ -132,6 +143,10 @@ def main():
                  "1. Use YT Stable\n"
                  "2. Use YT Beta")
     verss = input("(1/2): ")
+    if verss == '1':
+        ytver = 'youtube.apk'
+    if verss == '2':
+        ytver = 'youtube.apkm'
     print(" ")
 
 
@@ -167,15 +182,15 @@ def main():
             downloader.powpow('ReVanced Patches')
             downloader.powpow('ReVanced Integrations')
             downloader.powpow('Youtube Beta')
-
+            
+        cdmm = "java -jar rvcli.jar -a " + ytver + " -c -o revanced.apk -b patches.jar -m integrations.apk " + linker.command + debug
         printer.lprint("Required Files Downloaded!")
-        input(f"This Setup Script Will Be Used: {linker.command}" + debug + "\n"
+        input(f"This Setup Script Will Be Used: " + cdmm + "\n"
               "If You Accept Press ENTER")
         printer.lprint("Packing The Apk, Please Wait...")
-        system(linker.command + debug)
+        system(cdmm)
         printer.lprint("Apk Created, Done!")
         printer.lprint("Cleaning Temp Files...")
-        remove('revanced.keystore' or 'revanced_signed.keystore')
         clear_temp()
         printer.lprint("Temp Files Cleaned")
         printer.red("Output File Saved As revanced.apk")
