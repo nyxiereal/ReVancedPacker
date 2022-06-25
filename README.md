@@ -10,6 +10,16 @@ Coded using 100% Open-Source Software (VSCodium)
 
 Site: not working @ the moment
 
+Higher on the list = higher priority
+Lower on the list = lower priority
+# ToDo:
+- add MicroG downloader
+- update guide
+- test the program on win 7 and 8.1
+- fix the site
+- add Gnu/Linux support
+- as my dad says - "add a gui!" (Lowest priority lol)
+
 # Required Programs:
 - Java 17* (Any Sub-Version)
 - Python 3.10.5 (only if you downloaded from source)
