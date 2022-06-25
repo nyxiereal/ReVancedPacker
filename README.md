@@ -15,11 +15,13 @@ Site: not working @ the moment
 - Python 3.10.5 (only if you downloaded from source)
 - Phone or Emulator with Android 6+ (8+ are preffered)
 
-# Minumum Hardware:
+# Minimum Hardware:
 - Mostly Any Processor with 2 Cores and 2 Threads
 - At least 2/3GB of Ram
 - At least 300mb Disk Space
 - At least 200kbps internet
+- At least Windows 10 or 11 64bit (Should work fine on win 7 and 8/8.1)
+- At least CRT Monitor
 
 # Links:
 - [Download](https://github.com/xemulat/ReVancedPacker/releases)
