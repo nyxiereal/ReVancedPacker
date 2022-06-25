@@ -18,7 +18,7 @@ Site: not working @ the moment
 # Minumum Hardware:
 - Mostly Any Processor with 2 Cores and 2 Threads
 - At least 2/3GB of Ram
-- At least 350mb Disk Space
+- At least 300mb Disk Space
 - At least 200kbps internet
 
 # Links:
