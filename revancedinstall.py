@@ -13,7 +13,7 @@ from colorama import Fore, init
 
 init(autoreset=True)
 
-VERSION = '1.6'
+VERSION = '1.7'
 
 with open('integrations.json') as pf, open('files.json') as ff:
     INTEGRATIONS = load(pf)
@@ -151,14 +151,22 @@ def main():
 
 
     printer.blue("Disable compatibility check: (Use if compilation failed)\n"
-                 "Y. Disable comp. check\n"
-                 "N. Enable comp. check")
-    experiment = input("(Y/n): ")
-    if experiment == 'y':
+                 "1. Disable comp. check\n"
+                 "2. Enable comp. check")
+    experiment = input("(1/2): ")
+    if experiment == '1':
         debug = ' --experimental'
+    else:
+        debug = ''
     print(" ")
 
 
+    printer.blue("Download Vanced MicroG:\n"
+                 "1. Yes\n"
+                 "2. No")
+    vmg = input("(1/2): ")
+    
+    
     if gosever == '1':
         system('cls')
         printer.red("Use All Integrations or EXCLUDE selected Integrations")
@@ -177,13 +185,17 @@ def main():
             downloader.powpow('ReVanced Patches')
             downloader.powpow('ReVanced Integrations')
             downloader.powpow('Youtube')
+            if vmg == '1':
+                downloader.powpow('MicroG')
         elif verss == '2':
             downloader.powpow('ReVanced CLI')
             downloader.powpow('ReVanced Patches')
             downloader.powpow('ReVanced Integrations')
             downloader.powpow('Youtube Beta')
+            if vmg == '1':
+                downloader.powpow('MicroG')
             
-        cdmm = "java -jar rvcli.jar -a " + ytver + " -c -o revanced.apk -b patches.jar -m integrations.apk " + linker.command + debug
+        cdmm = "java -jar rvcli.jar -a " + ytver + " -c -o revanced.apk -b patches.jar -m integrations.apk " + linker.command + " -e background-play -e exclusive-audio-playback -e codecs-unlock -e upgrade-button-remover -e tasteBuilder-remover" + debug
         printer.lprint("Required Files Downloaded!")
         input(f"This Setup Script Will Be Used: " + cdmm + "\n"
               "If You Accept Press ENTER")
@@ -195,6 +207,7 @@ def main():
         printer.lprint("Temp Files Cleaned")
         printer.red("Output File Saved As revanced.apk")
         printer.lprint("All Actions Are Done")
+        clear_crap()
         exit(sleep(4))
 
     if gosever == '2':
