@@ -1,3 +1,5 @@
+form for next updates and features: https://forms.gle/kX5XscNrBpLvB7ZK7
+
 # ReVancedPacker
 ![image](https://forthebadge.com/images/badges/fuck-it-ship-it.svg)
 [![GitHub stars](https://img.shields.io/github/stars/xemulat/ReVancedPacker?style=for-the-badge)](https://github.com/xemulat/ReVancedPacker/stargazers)
