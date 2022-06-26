@@ -15,7 +15,6 @@ Site: not working @ the moment
 Higher on the list = higher priority
 Lower on the list = lower priority
 # ToDo:
-- update guide
 - test the program on win 7 and 8.1
 - fix the site
 - add Gnu/Linux support
