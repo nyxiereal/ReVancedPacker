@@ -17,7 +17,6 @@ Site: not working @ the moment
 Higher on the list = higher priority
 Lower on the list = lower priority
 # ToDo:
-- test the program on win 7 and 8.1
 - fix the site
 - add Gnu/Linux support
 - as my dad says - "add a gui!" (Lowest priority lol)
@@ -32,7 +31,7 @@ Lower on the list = lower priority
 - At least 2/3GB of Ram
 - At least 300mb Disk Space
 - At least 200kbps internet
-- At least Windows 10 or 11 64bit (Should work fine on win 7 and 8/8.1)
+- At least Windows 10 or 11 64bit , works fine on windows 8.1
 - At least CRT Monitor
 
 # Links:
