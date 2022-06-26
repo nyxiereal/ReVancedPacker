@@ -10,7 +10,7 @@ Coded using 100% Open-Source Software (VSCodium)
 
 Site: not working @ the moment
 
-![Reddit](https://i.redd.it/ns403td0et791.jpg)
+![Reddit](https://i.imgur.com/scFNROw.jpeg)
 
 Higher on the list = higher priority
 Lower on the list = lower priority
