@@ -22,5 +22,9 @@
     "Java 17": [
         "java.msi",
         "https://github.com/xemulat/MyFilesForDDL/releases/download/jdk/java.msi"
+    ],
+    "MicroG": [
+        "MicroG.apk",
+        "https://github.com/xemulat/MyFilesForDDL/releases/download/microg/microg.apk"
     ]
 }
