@@ -101,7 +101,7 @@ def clear_crap():
 def check_updates():
     urlretrieve('https://raw.githubusercontent.com/xemulat/ReVancedPacker/main/newestversion.txt', 'temp.txt')
     with open('temp.txt', 'r') as line:
-	    newver = line.read(3)
+       newver = line.read(3)
     remove('temp.txt')
     if VERSION == newver:
         printer.lprint("Your Version is Up-To-Date!")

@@ -36,6 +36,10 @@ Lower on the list = lower priority
 - At least Windows 10 or 11 64bit , works fine on windows 8.1
 - At least CRT Monitor
 
+# Build with docker:
+1. Make sure docker is installed
+2. In the project folder run `docker run --rm -it -v $(pwd):/src $(docker build -q .) python revancedinstall.py`
+
 # Links:
 - [Download](https://github.com/xemulat/ReVancedPacker/releases)
 - [Guide](https://github.com/xemulat/ReVancedPacker/wiki/How-to-use-this-program-(guide))
