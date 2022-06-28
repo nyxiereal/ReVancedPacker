@@ -20,7 +20,7 @@ Higher on the list = higher priority
 Lower on the list = lower priority
 # ToDo:
 - fix the site
-- add Gnu/Linux support
+- Add root-switch
 - as my dad says - "add a gui!" (Lowest priority lol)
 
 # Required Programs:
