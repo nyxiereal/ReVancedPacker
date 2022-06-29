@@ -19,6 +19,7 @@ Site: not working @ the moment
 Higher on the list = higher priority
 Lower on the list = lower priority
 # ToDo:
+- Compile Timer
 - fix the site
 - Add root-switch
 - as my dad says - "add a gui!" (Lowest priority lol)
