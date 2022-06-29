@@ -19,6 +19,9 @@
     "Hide Cast Button": [
         "hide-cast-button"
     ],
+    "Disable Fullscreen Panels": [
+        "disable-fullscreen-panels"
+    ],
     "Disable Create Button": [
         "disable-create-button"
     ],
