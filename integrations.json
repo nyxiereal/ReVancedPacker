@@ -49,9 +49,6 @@
     "Locale Config Fix (Recommended if compilation failed)": [
         "locale-config-fix"
     ],
-    "Include MicroG Support (Recommended on Non-Rooted Devices!)": [
-        "microg-support"
-    ],
     "Include Resource Provider For Resource Mapping (Unknown)": [
         "resource-id-mapping-provider-resource-patch-dependency"
     ]
