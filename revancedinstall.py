@@ -185,20 +185,15 @@ def main():
 
         printer.lprint("Downloading Required Files...")
 
+        downloader.powpow('ReVanced CLI')
+        downloader.powpow('ReVanced Patches')
+        downloader.powpow('ReVanced Integrations')
+        if vmg == '1':
+            downloader.powpow('MicroG')
         if verss == '1':
-            downloader.powpow('ReVanced CLI')
-            downloader.powpow('ReVanced Patches')
-            downloader.powpow('ReVanced Integrations')
             downloader.powpow('Youtube')
-            if vmg == '1':
-                downloader.powpow('MicroG')
         elif verss == '2':
-            downloader.powpow('ReVanced CLI')
-            downloader.powpow('ReVanced Patches')
-            downloader.powpow('ReVanced Integrations')
             downloader.powpow('Youtube Beta')
-            if vmg == '1':
-                downloader.powpow('MicroG')
 
         cdmm = "java -jar rvcli.jar -a " + ytver + " -c -o revanced.apk -b patches.jar -m integrations.apk " + linker.command + \
             " -e background-play -e exclusive-audio-playback -e codecs-unlock -e upgrade-button-remover -e tasteBuilder-remover" + debug
