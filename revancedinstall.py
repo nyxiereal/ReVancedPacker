@@ -1,15 +1,17 @@
+from colorama import Fore, init
+from time import sleep
+from sys import exit
+from socket import create_connection, gethostbyname, gaierror
+from json import load
+from contextlib import suppress
+from atexit import register
 from os import system, path, remove
 from urllib.request import urlretrieve, urlopen
 # Don't Remove pls
-urlretrieve('https://raw.githubusercontent.com/xemulat/ReVancedPacker/main/files.json', 'files.json')
-urlretrieve('https://raw.githubusercontent.com/xemulat/ReVancedPacker/main/integrations.json', 'integrations.json')
-from atexit import register
-from contextlib import suppress
-from json import load
-from socket import create_connection, gethostbyname, gaierror
-from sys import exit
-from time import sleep
-from colorama import Fore, init
+urlretrieve(
+    'https://raw.githubusercontent.com/xemulat/ReVancedPacker/main/files.json', 'files.json')
+urlretrieve('https://raw.githubusercontent.com/xemulat/ReVancedPacker/main/integrations.json',
+            'integrations.json')
 
 init(autoreset=True)
 
@@ -60,7 +62,8 @@ class Downloader:
         read_so_far = block_num * block_size
         if total_size > 0:
             percent = read_so_far * 1e2 / total_size
-            print(f"\r{percent:5.1f}% {read_so_far:{len(str(total_size))}} out of {total_size}", end='')
+            print(
+                f"\r{percent:5.1f}% {read_so_far:{len(str(total_size))}} out of {total_size}", end='')
             if read_so_far >= total_size:
                 print()
         else:
@@ -84,12 +87,14 @@ def is_connected():
     except gaierror:
         return False
 
+
 def clear_temp():
     temp_files = ['patches.jar', 'youtube.apk', 'rvcli.jar', 'integrations.apk', 'integrations.json'
                   'java.msi', 'files.json', 'Youtube.apkm', 'revanced_signed.keystore', 'revanced.keystore']
     for file in temp_files:
         if path.exists(file) and path.isfile(file):
             remove(file)
+
 
 def clear_crap():
     crap_files = ['patches.jar', 'youtube.apk', 'rvcli.jar', 'integrations.apk'
@@ -98,10 +103,12 @@ def clear_crap():
         if path.exists(file) and path.isfile(file):
             remove(file)
 
+
 def check_updates():
-    urlretrieve('https://raw.githubusercontent.com/xemulat/ReVancedPacker/main/newestversion.txt', 'temp.txt')
+    urlretrieve(
+        'https://raw.githubusercontent.com/xemulat/ReVancedPacker/main/newestversion.txt', 'temp.txt')
     with open('temp.txt', 'r') as line:
-	    newver = line.read(3)
+        newver = line.read(3)
     remove('temp.txt')
     if VERSION == newver:
         printer.lprint("Your Version is Up-To-Date!")
@@ -111,7 +118,9 @@ def check_updates():
         print("Auto-Update?")
         updt = input("(Y/n): ")
         if updt == 'y':
-            urlretrieve('https://github.com/xemulat/ReVancedPacker/releases/download/' + newver + '/RV.Apk.Packer.' + newver + '.exe', 'RV.Apk.Packer.' + newver + '.exe')
+            urlretrieve('https://github.com/xemulat/ReVancedPacker/releases/download/' +
+                        newver + '/RV.Apk.Packer.' + newver + '.exe', 'RV.Apk.Packer.' + newver + '.exe')
+
 
 def main():
     register(clear_crap)
@@ -126,7 +135,7 @@ def main():
     system('cls')
     printer.lprint("Internet is connected")
     clear_crap()
-    
+
     print("Welcome, This small Python script will Download ReVanced for you!\n"
           "All credits to ReVanced\n"
           "You MUST have Java 17")
@@ -138,7 +147,6 @@ def main():
     gosever = input("(1/2/99): ")
     print(" ")
 
-
     printer.blue("What Version to use: (Use Stable for better expreience)\n"
                  "1. Use YT Stable\n"
                  "2. Use YT Beta")
@@ -148,7 +156,6 @@ def main():
     if verss == '2':
         ytver = 'youtube.apkm'
     print(" ")
-
 
     printer.blue("Disable compatibility check: (Use if compilation failed)\n"
                  "1. Disable comp. check\n"
@@ -160,13 +167,11 @@ def main():
         debug = ''
     print(" ")
 
-
     printer.blue("Download Vanced MicroG:\n"
                  "1. Yes\n"
                  "2. No")
     vmg = input("(1/2): ")
-    
-    
+
     if gosever == '1':
         system('cls')
         printer.red("Use All Integrations or EXCLUDE selected Integrations")
@@ -194,8 +199,9 @@ def main():
             downloader.powpow('Youtube Beta')
             if vmg == '1':
                 downloader.powpow('MicroG')
-            
-        cdmm = "java -jar rvcli.jar -a " + ytver + " -c -o revanced.apk -b patches.jar -m integrations.apk " + linker.command + " -e background-play -e exclusive-audio-playback -e codecs-unlock -e upgrade-button-remover -e tasteBuilder-remover" + debug
+
+        cdmm = "java -jar rvcli.jar -a " + ytver + " -c -o revanced.apk -b patches.jar -m integrations.apk " + linker.command + \
+            " -e background-play -e exclusive-audio-playback -e codecs-unlock -e upgrade-button-remover -e tasteBuilder-remover" + debug
         printer.lprint("Required Files Downloaded!")
         input(f"This Setup Script Will Be Used: " + cdmm + "\n"
               "If You Accept Press ENTER")
