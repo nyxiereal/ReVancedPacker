@@ -13,7 +13,7 @@ from colorama import Fore, init
 
 init(autoreset=True)
 
-VERSION = '1.8'
+VERSION = '1.7'
 
 with open('integrations.json') as pf, open('files.json') as ff:
     INTEGRATIONS = load(pf)
@@ -161,16 +161,10 @@ def main():
     print(" ")
 
 
-    rooter = input("Is your Device Rooted:")
-    if rooter == 'y':
-        root = ' -e microg-support'
-        
-    if rooter == 'n':
-        root = ''
-        printer.blue("Download Vanced MicroG:\n"
-                     "1. Yes\n"
-                     "2. No")
-        vmg = input("(1/2): ")
+    printer.blue("Download Vanced MicroG:\n"
+                 "1. Yes\n"
+                 "2. No")
+    vmg = input("(1/2): ")
     
     
     if gosever == '1':
@@ -201,7 +195,7 @@ def main():
             if vmg == '1':
                 downloader.powpow('MicroG')
             
-        cdmm = "java -jar rvcli.jar -a " + ytver + " -c -o revanced.apk -b patches.jar -m integrations.apk " + linker.command + " -e background-play -e exclusive-audio-playback -e codecs-unlock -e upgrade-button-remover -e tasteBuilder-remover" + root + debug
+        cdmm = "java -jar rvcli.jar -a " + ytver + " -c -o revanced.apk -b patches.jar -m integrations.apk " + linker.command + " -e background-play -e exclusive-audio-playback -e codecs-unlock -e upgrade-button-remover -e tasteBuilder-remover" + debug
         printer.lprint("Required Files Downloaded!")
         input(f"This Setup Script Will Be Used: " + cdmm + "\n"
               "If You Accept Press ENTER")
