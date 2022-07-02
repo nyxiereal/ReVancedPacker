@@ -1,7 +1,7 @@
 form for next updates and features: https://forms.gle/kX5XscNrBpLvB7ZK7
 
-Info: i'm going on vacation, 27.06.2022 to 03.07.2022
-I will not be compiling new versions of the app. But updates to files.json will be shipped!
+Info: GUESS WHO'S BACK WORMS!
+
 # ReVancedPacker
 ![image](https://forthebadge.com/images/badges/fuck-it-ship-it.svg)
 [![GitHub stars](https://img.shields.io/github/stars/xemulat/ReVancedPacker?style=for-the-badge)](https://github.com/xemulat/ReVancedPacker/stargazers)
