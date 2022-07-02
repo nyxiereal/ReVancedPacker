@@ -43,6 +43,9 @@
     "Disable Shorts Button": [
         "disable-shorts-button"
     ],
+    "Hide Watermark": [
+        "hide-watermark"
+    ],
     "Locale Config Fix (Recommended if compilation failed)": [
         "locale-config-fix"
     ],
