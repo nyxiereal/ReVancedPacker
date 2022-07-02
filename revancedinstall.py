@@ -13,7 +13,7 @@ from colorama import Fore, init
 
 init(autoreset=True)
 
-VERSION = '1.7'
+VERSION = '1.8'
 
 with open('integrations.json') as pf, open('files.json') as ff:
     INTEGRATIONS = load(pf)
@@ -101,11 +101,11 @@ def clear_crap():
 def check_updates():
     urlretrieve('https://raw.githubusercontent.com/xemulat/ReVancedPacker/main/newestversion.txt', 'temp.txt')
     with open('temp.txt', 'r') as line:
-       newver = line.read(3)
+	    newver = line.read(3)
     remove('temp.txt')
     if VERSION == newver:
         printer.lprint("Your Version is Up-To-Date!")
-    else:
+    elif VERSION > newver:
         system('cls')
         printer.lprint("Your Version is Outdated!")
         print("Auto-Update?")
@@ -161,10 +161,16 @@ def main():
     print(" ")
 
 
-    printer.blue("Download Vanced MicroG:\n"
-                 "1. Yes\n"
-                 "2. No")
-    vmg = input("(1/2): ")
+    rooter = input("Is your Device Rooted:")
+    if rooter == 'y':
+        root = ' -e microg-support'
+        
+    if rooter == 'n':
+        root = ''
+        printer.blue("Download Vanced MicroG:\n"
+                     "1. Yes\n"
+                     "2. No")
+        vmg = input("(1/2): ")
     
     
     if gosever == '1':
@@ -195,7 +201,7 @@ def main():
             if vmg == '1':
                 downloader.powpow('MicroG')
             
-        cdmm = "java -jar rvcli.jar -a " + ytver + " -c -o revanced.apk -b patches.jar -m integrations.apk " + linker.command + " -e background-play -e exclusive-audio-playback -e codecs-unlock -e upgrade-button-remover -e tasteBuilder-remover" + debug
+        cdmm = "java -jar rvcli.jar -a " + ytver + " -c -o revanced.apk -b patches.jar -m integrations.apk " + linker.command + " -e background-play -e exclusive-audio-playback -e codecs-unlock -e upgrade-button-remover -e tasteBuilder-remover" + root + debug
         printer.lprint("Required Files Downloaded!")
         input(f"This Setup Script Will Be Used: " + cdmm + "\n"
               "If You Accept Press ENTER")
