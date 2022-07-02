@@ -13,7 +13,7 @@ from colorama import Fore, init
 
 init(autoreset=True)
 
-VERSION = '1.7'
+VERSION = '1.8'
 
 with open('integrations.json') as pf, open('files.json') as ff:
     INTEGRATIONS = load(pf)
@@ -168,8 +168,8 @@ def main():
     
     
     if gosever == '1':
-        system('cls')
-        printer.red("Use All Integrations or EXCLUDE selected Integrations")
+        print(" ")
+        printer.red("Use All Integrations or include selected Integrations")
         printer.blue("1. Use All")
         printer.blue("2. EXCLUDE Selected")
         integrations = input("(1/2): ")
@@ -178,6 +178,7 @@ def main():
             for integration, args in INTEGRATIONS.items():
                 linker.add(integration, args)
 
+        print(" ")
         printer.lprint("Downloading Required Files...")
 
         if verss == '1':
@@ -200,7 +201,9 @@ def main():
         input(f"This Setup Script Will Be Used: " + cdmm + "\n"
               "If You Accept Press ENTER")
         printer.lprint("Packing The Apk, Please Wait...")
+        print(" ")
         system(cdmm)
+        print(" ")
         printer.lprint("Apk Created, Done!")
         printer.lprint("Cleaning Temp Files...")
         clear_temp()
