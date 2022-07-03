@@ -2,6 +2,8 @@ form for next updates and features: https://forms.gle/kX5XscNrBpLvB7ZK7
 
 Info: GUESS WHO'S BACK WORMS!
 
+R.I.P. Technoblade 😫
+
 Icon Credit: moritz#6248
 
 # ReVancedPacker
