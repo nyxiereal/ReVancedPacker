@@ -52,6 +52,9 @@
     "Hide Watermark": [
         "hide-watermark"
     ],
+    "Enable Debugging": [
+        "enable-debugging"
+    ],
     "Locale Config Fix (Recommended if compilation failed)": [
         "locale-config-fix"
     ],
