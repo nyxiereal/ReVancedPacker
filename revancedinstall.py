@@ -5,7 +5,7 @@ urlretrieve('https://raw.githubusercontent.com/xemulat/ReVancedPacker/main/files
 urlretrieve('https://raw.githubusercontent.com/xemulat/ReVancedPacker/main/integrations.json', 'integrations.json')
 from atexit import register
 from contextlib import suppress
-from gc import collect as gcollect
+from gc import collect as ccollect, set_threshold
 from json import load
 from socket import create_connection, gethostbyname, gaierror
 from sys import exit
@@ -14,6 +14,13 @@ from colorama import Fore, init
 init(autoreset=True)
 
 VERSION = '1.8'
+set_threshold(900, 15, 15)
+
+def gcollect():
+    if path.exists('debug.ini'):
+        print('Garbage Collected: ', ccollect())
+    else:
+        ccollect()
 
 with open('integrations.json') as pf, open('files.json') as ff:
     INTEGRATIONS = load(pf)
@@ -64,13 +71,14 @@ class Downloader:
                 print()
         else:
             print(f"read {read_so_far}", end='')
+    gcollect()
 
     @classmethod
     def powpow(cls, name: str):
         printer.red(f"Downloading {name}...")
         urlretrieve(FILES[name][1], FILES[name][0], cls.__reporter)
         printer.red(f'{name} Downloaded!')
-
+        gcollect()
 
 printer = Printer()
 linker = CLI()
@@ -100,7 +108,6 @@ def clear_crap():
     gcollect()
 
 def check_updates():
-    gcollect()
     urlretrieve('https://raw.githubusercontent.com/xemulat/ReVancedPacker/main/newestversion.txt', 'temp.txt')
     with open('temp.txt', 'r') as line:
 	    newver = line.read(3)
@@ -114,6 +121,7 @@ def check_updates():
         updt = input("(Y/n): ")
         if updt == 'y':
             urlretrieve('https://github.com/xemulat/ReVancedPacker/releases/download/' + newver + '/RV.Apk.Packer.' + newver + '.exe', 'RV.Apk.Packer.' + newver + '.exe')
+    gcollect()
 
 
 # ==========< Main Function >========== #
@@ -138,6 +146,7 @@ print("Welcome, This small Python script will Download ReVanced for you!\n"
 printer.blue("What to do:\n"
              "1. Download And Pack The APK\n"
              "2. Download java\n"
+             "3. Enable GC Debug\n"
              "99. Exit")
 gosever = input("(1/2/99): ")
 print(" ")
@@ -223,6 +232,11 @@ if gosever == '2':
     system('java.msi /passive')
     print("Installing Java 17...")
     exit(sleep(4))
+
+if gosever == '3':
+    urlretrieve('https://raw.githubusercontent.com/xemulat/MyFilesForDDL/main/blank.txt', 'debug.ini')
+    print("NOW REBOOT THE PACKER!")
+    exit(sleep(5))
 
 if gosever == '99':
     gcollect()
