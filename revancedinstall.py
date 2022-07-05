@@ -5,12 +5,12 @@ urlretrieve('https://raw.githubusercontent.com/xemulat/ReVancedPacker/main/files
 urlretrieve('https://raw.githubusercontent.com/xemulat/ReVancedPacker/main/integrations.json', 'integrations.json')
 from atexit import register
 from contextlib import suppress
+from gc import collect as gcollect
 from json import load
 from socket import create_connection, gethostbyname, gaierror
 from sys import exit
 from time import sleep
 from colorama import Fore, init
-
 init(autoreset=True)
 
 VERSION = '1.8'
@@ -36,7 +36,6 @@ class Printer:
     @classmethod
     def lprint(cls, text: str):
         cls.__clr_print(Fore.RED, f'[S>] {text}')
-
 
 class CLI:
     __BASE = '{args}'
@@ -90,6 +89,7 @@ def clear_temp():
     for file in temp_files:
         if path.exists(file) and path.isfile(file):
             remove(file)
+    gcollect()
 
 def clear_crap():
     crap_files = ['patches.jar', 'youtube.apk', 'rvcli.jar', 'integrations.apk'
@@ -97,8 +97,10 @@ def clear_crap():
     for file in crap_files:
         if path.exists(file) and path.isfile(file):
             remove(file)
+    gcollect()
 
 def check_updates():
+    gcollect()
     urlretrieve('https://raw.githubusercontent.com/xemulat/ReVancedPacker/main/newestversion.txt', 'temp.txt')
     with open('temp.txt', 'r') as line:
 	    newver = line.read(3)
@@ -113,32 +115,34 @@ def check_updates():
         if updt == 'y':
             urlretrieve('https://github.com/xemulat/ReVancedPacker/releases/download/' + newver + '/RV.Apk.Packer.' + newver + '.exe', 'RV.Apk.Packer.' + newver + '.exe')
 
-def main():
-    register(clear_crap)
-    register(clear_temp)
-    clear_crap()
 
-    printer.lprint("Testing Internet...")
-    if not is_connected():
-        printer.red("You MUST Have internet connection to use this app!")
-        exit(sleep(6))
+# ==========< Main Function >========== #
+register(clear_crap)
+register(clear_temp)
+clear_crap()
+gcollect()
 
-    system('cls')
-    printer.lprint("Internet is connected")
-    clear_crap()
-    
-    print("Welcome, This small Python script will Download ReVanced for you!\n"
-          "All credits to ReVanced\n"
-          "You MUST have Java 17")
+printer.lprint("Testing Internet...")
+if not is_connected():
+    printer.red("You MUST Have internet connection to use this app!")
+    exit(sleep(6))
 
-    printer.blue("What to do:\n"
-                 "1. Download And Pack The APK\n"
-                 "2. Download java\n"
-                 "99. Exit")
-    gosever = input("(1/2/99): ")
-    print(" ")
+system('cls')
+printer.lprint("Internet is connected")
+check_updates()
+clear_crap()
 
+print("Welcome, This small Python script will Download ReVanced for you!\n"
+      "All credits to ReVanced\n"
+      "You MUST have Java 17")
+printer.blue("What to do:\n"
+             "1. Download And Pack The APK\n"
+             "2. Download java\n"
+             "99. Exit")
+gosever = input("(1/2/99): ")
+print(" ")
 
+if gosever == '1':
     printer.blue("What Version to use: (Use Stable for better expreience)\n"
                  "1. Use YT Stable\n"
                  "2. Use YT Beta")
@@ -165,67 +169,63 @@ def main():
                  "1. Yes\n"
                  "2. No")
     vmg = input("(1/2): ")
-    
-    
-    if gosever == '1':
-        print(" ")
-        printer.red("Use All Integrations or include selected Integrations")
-        printer.blue("1. Use All")
-        printer.blue("2. EXCLUDE Selected")
-        integrations = input("(1/2): ")
-        if integrations == '2':
-            system('cls')
-            for integration, args in INTEGRATIONS.items():
-                linker.add(integration, args)
 
-        print(" ")
-        printer.lprint("Downloading Required Files...")
+    print(" ")
+    printer.red("Use All Integrations or include selected Integrations")
+    printer.blue("1. Use All")
+    printer.blue("2. EXCLUDE Selected")
+    integrations = input("(1/2): ")
+    if integrations == '2':
+        system('cls')
+        for integration, args in INTEGRATIONS.items():
+            linker.add(integration, args)
 
-        if verss == '1':
-            downloader.powpow('ReVanced CLI')
-            downloader.powpow('ReVanced Patches')
-            downloader.powpow('ReVanced Integrations')
-            downloader.powpow('Youtube')
-            if vmg == '1':
-                downloader.powpow('MicroG')
-        elif verss == '2':
-            downloader.powpow('ReVanced CLI')
-            downloader.powpow('ReVanced Patches')
-            downloader.powpow('ReVanced Integrations')
-            downloader.powpow('Youtube Beta')
-            if vmg == '1':
-                downloader.powpow('MicroG')
-            
-        cdmm = "java -jar rvcli.jar -a " + ytver + " -c -o revanced.apk -b patches.jar -m integrations.apk " + linker.command + " -e background-play -e exclusive-audio-playback -e codecs-unlock -e upgrade-button-remover -e tasteBuilder-remover" + debug
-        printer.lprint("Required Files Downloaded!")
-        input(f"This Setup Script Will Be Used: " + cdmm + "\n"
-              "If You Accept Press ENTER")
-        printer.lprint("Packing The Apk, Please Wait...")
-        print(" ")
-        system(cdmm)
-        print(" ")
-        printer.lprint("Apk Created, Done!")
-        printer.lprint("Cleaning Temp Files...")
-        clear_temp()
-        printer.lprint("Temp Files Cleaned")
-        printer.red("Output File Saved As revanced.apk")
-        printer.lprint("All Actions Are Done")
-        clear_crap()
-        exit(sleep(4))
+    print(" ")
+    gcollect()
+    printer.lprint("Downloading Required Files...")
 
-    if gosever == '2':
-        downloader.powpow('Java 17')
-        system('java.msi /passive')
-        print("Installing Java 17...")
-        exit(sleep(4))
+    if verss == '1':
+        downloader.powpow('ReVanced CLI')
+        downloader.powpow('ReVanced Patches')
+        downloader.powpow('ReVanced Integrations')
+        downloader.powpow('Youtube')
+        if vmg == '1':
+            downloader.powpow('MicroG')
+    elif verss == '2':
+        downloader.powpow('ReVanced CLI')
+        downloader.powpow('ReVanced Patches')
+        downloader.powpow('ReVanced Integrations')
+        downloader.powpow('Youtube Beta')
+        if vmg == '1':
+            downloader.powpow('MicroG')
+        
+    cdmm = "java -jar rvcli.jar -a " + ytver + " -c -o revanced.apk -b patches.jar -m integrations.apk " + linker.command + " -e background-play -e exclusive-audio-playback -e codecs-unlock -e upgrade-button-remover -e tasteBuilder-remover" + debug
+    printer.lprint("Required Files Downloaded!")
+    input(f"This Setup Script Will Be Used: " + cdmm + "\n"
+          "If You Accept Press ENTER")
+    printer.lprint("Packing The Apk, Please Wait...")
+    print(" ")
+    gcollect()
+    system(cdmm)
+    print(" ")
+    printer.lprint("Apk Created, Done!")
+    printer.lprint("Cleaning Temp Files...")
+    clear_temp()
+    printer.lprint("Temp Files Cleaned")
+    printer.red("Output File Saved As revanced.apk")
+    printer.lprint("All Actions Are Done")
+    clear_crap()
+    exit(sleep(4))
 
-    if gosever == '99':
-        remove('integrations.json')
-        clear_temp()
-        exit(sleep(2))
+if gosever == '2':
+    gcollect()
+    downloader.powpow('Java 17')
+    system('java.msi /passive')
+    print("Installing Java 17...")
+    exit(sleep(4))
 
-
-check_updates()
-if __name__ == '__main__':
-    with suppress(KeyboardInterrupt):
-        main()
+if gosever == '99':
+    gcollect()
+    remove('integrations.json')
+    clear_temp()
+    exit(sleep(2))
