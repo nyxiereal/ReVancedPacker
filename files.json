@@ -1,15 +1,15 @@
 {
     "ReVanced CLI": [
         "rvcli.jar",
-        "https://github.com/revanced/revanced-cli/releases/download/v2.3.1/revanced-cli-2.3.1-all.jar"
+        "https://github.com/revanced/revanced-cli/releases/download/v2.3.2/revanced-cli-2.3.2-all.jar"
     ],
     "ReVanced Patches": [
         "patches.jar",
-        "https://github.com/revanced/revanced-patches/releases/download/v2.8.0/revanced-patches-2.8.0.jar"
+        "https://github.com/revanced/revanced-patches/releases/download/v2.9.1/revanced-patches-2.9.1.jar"
     ],
     "ReVanced Integrations": [
         "integrations.apk",
-        "https://github.com/revanced/revanced-integrations/releases/download/v0.20.1/app-release-unsigned.apk"
+        "https://github.com/revanced/revanced-integrations/releases/download/v0.21.1/app-release-unsigned.apk"
     ],
     "Youtube": [
         "youtube.apk",
