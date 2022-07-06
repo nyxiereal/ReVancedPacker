@@ -1,67 +1,67 @@
 {
-    "Remove Ads": [
+    "ADS - Remove Ads": [
         "general-resource-ads",
         "general-ads",
         "video-ads"
     ],
-    "Seekbar Tapping": [
-        "seekbar-tapping"
-    ],
-    "Amoled Theme": [
+    "APR - Amoled Theme": [
         "amoled"
     ],
-    "Premium Heading": [
+    "APR - Premium Heading": [
         "premium-heading"
     ],
-    "Custom Branding": [
+    "APR - Custom Branding": [
         "custom-branding"
     ],
-    "Hide Cast Button": [
-        "hide-cast-button"
+    "APR - Seekbar Tapping": [
+        "seekbar-tapping"
     ],
-    "Disable Fullscreen Panels": [
-        "disable-fullscreen-panels"
-    ],
-    "Disable Create Button": [
-        "disable-create-button"
-    ],
-    "Minimized Playback": [
+    "APR - Minimized Playback": [
         "minimized-playback"
     ],
-    "Hdr Max Brightness": [
+    "APR - Hdr Max Brightness": [
         "hdr-max-brightness"
     ],
-    "Hide Infocard Suggestions": [
-        "hide-infocard-suggestions"
-    ],
-    "Old Quality Layout": [
-        "old-quality-layout"
-    ],
-    "Hide Reels": [
-        "hide-reels"
-    ],
-    "Custom Playback Speed": [
-        "custom-playback-speed"
-    ],
-    "Disable Autoplay Button": [
-        "disable-autoplay-button"
-    ],
-    "Disable Shorts Button": [
-        "disable-shorts-button"
-    ],
-    "Hide Watermark": [
+    "APR - Hide Watermark": [
         "hide-watermark"
     ],
-    "Enable Debugging": [
+    "QOL - Custom Playback Speed": [
+        "custom-playback-speed"
+    ],
+    "QOL - Old Quality Layout": [
+        "old-quality-layout"
+    ],
+    "QOL - Disable Fullscreen Panels": [
+        "disable-fullscreen-panels"
+    ],
+    "QOL - Disable Shorts Button": [
+        "disable-shorts-button"
+    ],
+    "QOL - Disable Create Button": [
+        "disable-create-button"
+    ],
+    "QOL - Disable Autoplay Button": [
+        "disable-autoplay-button"
+    ],
+    "QOL - Hide Cast Button": [
+        "hide-cast-button"
+    ],
+    "QOL - Hide Infocard Suggestions": [
+        "hide-infocard-suggestions"
+    ],
+    "QOL - Hide Reels": [
+        "hide-reels"
+    ],
+    "MSC - Enable Debugging": [
         "enable-debugging"
     ],
-    "Locale Config Fix (Recommended if compilation failed)": [
+    "MSC - Locale Config Fix (Recommended if compilation failed)": [
         "locale-config-fix"
     ],
-    "Microg Support (FOR NON-ROOTED DEVICES ONLY!)": [
-        "microg-support"
-    ],
-    "Include Resource Provider For Resource Mapping (Unknown)": [
+    "MSC - Include Resource Provider For Resource Mapping (Unknown)": [
         "resource-id-mapping-provider-resource-patch-dependency"
+    ],
+    "MIG - Microg Support (FOR NON-ROOTED DEVICES ONLY!)": [
+        "microg-support"
     ]
 }
