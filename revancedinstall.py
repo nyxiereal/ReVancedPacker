@@ -101,7 +101,7 @@ def clear_temp():
 
 def clear_crap():
     crap_files = ['patches.jar', 'youtube.apk', 'rvcli.jar', 'integrations.apk'
-                  'java.msi', 'Youtube.apkm', 'revanced_signed.keystore', 'revanced.keystore']
+                  'java.msi']
     for file in crap_files:
         if path.exists(file) and path.isfile(file):
             remove(file)
@@ -220,6 +220,11 @@ if gosever == '1':
     printer.lprint("Apk Created, Done!")
     printer.lprint("Cleaning Temp Files...")
     clear_temp()
+    keystor - input("Delete Keystore file?")
+    if keystor == 'y':
+        clear_temp()
+    else:
+        clear_crap()
     printer.lprint("Temp Files Cleaned")
     printer.red("Output File Saved As revanced.apk")
     printer.lprint("All Actions Are Done")
