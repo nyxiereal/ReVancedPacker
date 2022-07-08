@@ -11,6 +11,7 @@ from socket import create_connection, gethostbyname, gaierror
 from sys import exit
 from time import sleep
 from colorama import Fore, init
+import platform
 init(autoreset=True)
 
 VERSION = '1.8'
@@ -84,6 +85,11 @@ printer = Printer()
 linker = CLI()
 downloader = Downloader()
 
+def cls():
+    if platform.system() == 'Windows':
+        system('cls')
+    else:
+        system('clear')
 
 def is_connected():
     try:
@@ -115,7 +121,7 @@ def check_updates():
     if VERSION == newver:
         printer.lprint("Your Version is Up-To-Date!")
     elif VERSION > newver:
-        system('cls')
+        cls()
         printer.lprint("Your Version is Outdated!")
         print("Auto-Update?")
         updt = input("(Y/n): ")
@@ -135,7 +141,7 @@ if not is_connected():
     printer.red("You MUST Have internet connection to use this app!")
     exit(sleep(6))
 
-system('cls')
+cls()
 printer.lprint("Internet is connected")
 check_updates()
 clear_crap()
@@ -185,7 +191,7 @@ if gosever == '1':
     printer.blue("2. EXCLUDE Selected")
     integrations = input("(1/2): ")
     if integrations == '2':
-        system('cls')
+        cls()
         for integration, args in INTEGRATIONS.items():
             linker.add(integration, args)
 
