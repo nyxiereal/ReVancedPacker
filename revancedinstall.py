@@ -1,27 +1,31 @@
+import platform
+from colorama import Fore, init
+from time import sleep
+from sys import exit
+from socket import create_connection, gethostbyname, gaierror
+from json import load
+from gc import collect as ccollect, set_threshold
+from contextlib import suppress
+from atexit import register
 from os import system, path, remove
 from urllib.request import urlretrieve, urlopen
 # Don't Remove pls
-urlretrieve('https://raw.githubusercontent.com/xemulat/ReVancedPacker/main/files.json', 'files.json')
-urlretrieve('https://raw.githubusercontent.com/xemulat/ReVancedPacker/main/integrations.json', 'integrations.json')
-from atexit import register
-from contextlib import suppress
-from gc import collect as ccollect, set_threshold
-from json import load
-from socket import create_connection, gethostbyname, gaierror
-from sys import exit
-from time import sleep
-from colorama import Fore, init
-import platform
+urlretrieve(
+    'https://raw.githubusercontent.com/xemulat/ReVancedPacker/main/files.json', 'files.json')
+urlretrieve('https://raw.githubusercontent.com/xemulat/ReVancedPacker/main/integrations.json',
+            'integrations.json')
 init(autoreset=True)
 
 VERSION = '1.8'
 set_threshold(900, 15, 15)
+
 
 def gcollect():
     if path.exists('debug.ini'):
         print('Garbage Collected: ', ccollect())
     else:
         ccollect()
+
 
 with open('integrations.json') as pf, open('files.json') as ff:
     INTEGRATIONS = load(pf)
@@ -45,6 +49,7 @@ class Printer:
     def lprint(cls, text: str):
         cls.__clr_print(Fore.RED, f'[S>] {text}')
 
+
 class CLI:
     __BASE = '{args}'
 
@@ -67,7 +72,8 @@ class Downloader:
         read_so_far = block_num * block_size
         if total_size > 0:
             percent = read_so_far * 1e2 / total_size
-            print(f"\r{percent:5.1f}% {read_so_far:{len(str(total_size))}} out of {total_size}", end='')
+            print(
+                f"\r{percent:5.1f}% {read_so_far:{len(str(total_size))}} out of {total_size}", end='')
             if read_so_far >= total_size:
                 print()
         else:
@@ -81,9 +87,11 @@ class Downloader:
         printer.red(f'{name} Downloaded!')
         gcollect()
 
+
 printer = Printer()
 linker = CLI()
 downloader = Downloader()
+
 
 def cls():
     if platform.system() == 'Windows':
@@ -91,11 +99,13 @@ def cls():
     else:
         system('clear')
 
+
 def is_connected():
     try:
         return create_connection((gethostbyname('github.com'), 80), 2)
     except gaierror:
         return False
+
 
 def clear_temp():
     temp_files = ['patches.jar', 'youtube.apk', 'rvcli.jar', 'integrations.apk', 'integrations.json'
@@ -105,6 +115,7 @@ def clear_temp():
             remove(file)
     gcollect()
 
+
 def clear_crap():
     crap_files = ['patches.jar', 'youtube.apk', 'rvcli.jar', 'integrations.apk'
                   'java.msi']
@@ -113,10 +124,12 @@ def clear_crap():
             remove(file)
     gcollect()
 
+
 def check_updates():
-    urlretrieve('https://raw.githubusercontent.com/xemulat/ReVancedPacker/main/newestversion.txt', 'temp.txt')
+    urlretrieve(
+        'https://raw.githubusercontent.com/xemulat/ReVancedPacker/main/newestversion.txt', 'temp.txt')
     with open('temp.txt', 'r') as line:
-	    newver = line.read(3)
+        newver = line.read(3)
     remove('temp.txt')
     if VERSION == newver:
         printer.lprint("Your Version is Up-To-Date!")
@@ -126,7 +139,8 @@ def check_updates():
         print("Auto-Update?")
         updt = input("(Y/n): ")
         if updt == 'y':
-            urlretrieve('https://github.com/xemulat/ReVancedPacker/releases/download/' + newver + '/RV.Apk.Packer.' + newver + '.exe', 'RV.Apk.Packer.' + newver + '.exe')
+            urlretrieve('https://github.com/xemulat/ReVancedPacker/releases/download/' +
+                        newver + '/RV.Apk.Packer.' + newver + '.exe', 'RV.Apk.Packer.' + newver + '.exe')
     gcollect()
 
 
@@ -168,7 +182,6 @@ if gosever == '1':
         ytver = 'youtube.apkm'
     print(" ")
 
-
     printer.blue("Disable compatibility check: (Use if compilation failed)\n"
                  "1. Disable comp. check\n"
                  "2. Enable comp. check")
@@ -178,7 +191,6 @@ if gosever == '1':
     else:
         debug = ''
     print(" ")
-
 
     printer.blue("Download Vanced MicroG:\n"
                  "1. Yes\n"
@@ -213,8 +225,9 @@ if gosever == '1':
         downloader.powpow('Youtube Beta')
         if vmg == '1':
             downloader.powpow('MicroG')
-        
-    cdmm = "java -jar rvcli.jar -a " + ytver + " -c -o revanced.apk -b patches.jar -m integrations.apk " + linker.command + " -e background-play -e exclusive-audio-playback -e codecs-unlock -e upgrade-button-remover -e tasteBuilder-remover" + debug
+
+    cdmm = "java -jar rvcli.jar -a " + ytver + " -c -o revanced.apk -b patches.jar -m integrations.apk " + linker.command + \
+        " -e background-play -e exclusive-audio-playback -e codecs-unlock -e upgrade-button-remover -e tasteBuilder-remover" + debug
     printer.lprint("Required Files Downloaded!")
     input(f"This Setup Script Will Be Used: " + cdmm + "\n"
           "If You Accept Press ENTER")
@@ -245,7 +258,8 @@ if gosever == '2':
     exit(sleep(4))
 
 if gosever == '3':
-    urlretrieve('https://raw.githubusercontent.com/xemulat/MyFilesForDDL/main/blank.txt', 'debug.ini')
+    urlretrieve(
+        'https://raw.githubusercontent.com/xemulat/MyFilesForDDL/main/blank.txt', 'debug.ini')
     print("NOW REBOOT THE PACKER!")
     exit(sleep(5))
 
