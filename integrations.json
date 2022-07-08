@@ -25,6 +25,9 @@
     "APR - Hide Watermark": [
         "hide-watermark"
     ],
+    "APR - Wide Search Bar": [
+        "wide-search-bar"
+    ],
     "QOL - Custom Playback Speed": [
         "custom-playback-speed"
     ],
@@ -51,6 +54,9 @@
     ],
     "QOL - Hide Reels": [
         "hide-reels"
+    ],
+    "QOL - Swipe Controls": [
+        "swipe-controls"
     ],
     "MSC - Enable Debugging": [
         "enable-debugging"
