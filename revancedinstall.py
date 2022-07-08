@@ -220,7 +220,7 @@ if gosever == '1':
     printer.lprint("Apk Created, Done!")
     printer.lprint("Cleaning Temp Files...")
     clear_temp()
-    keystor - input("Delete Keystore file?")
+    keystor = input("Delete Keystore file?")
     if keystor == 'y':
         clear_temp()
     else:
