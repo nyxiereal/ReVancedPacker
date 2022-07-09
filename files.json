@@ -1,11 +1,11 @@
 {
     "ReVanced CLI": [
         "rvcli.jar",
-        "https://github.com/revanced/revanced-cli/releases/download/v2.3.2/revanced-cli-2.3.2-all.jar"
+        "https://github.com/revanced/revanced-cli/releases/download/v2.3.3/revanced-cli-2.3.3-all.jar"
     ],
     "ReVanced Patches": [
         "patches.jar",
-        "https://github.com/revanced/revanced-patches/releases/download/v2.10.2/revanced-patches-2.10.2.jar"
+        "https://github.com/revanced/revanced-patches/releases/download/v2.11.0/revanced-patches-2.11.0.jar"
     ],
     "ReVanced Integrations": [
         "integrations.apk",
