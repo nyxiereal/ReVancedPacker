@@ -5,11 +5,11 @@
     ],
     "ReVanced Patches": [
         "patches.jar",
-        "https://github.com/revanced/revanced-patches/releases/download/v2.10.1/revanced-patches-2.10.1.jar"
+        "https://github.com/revanced/revanced-patches/releases/download/v2.10.2/revanced-patches-2.10.2.jar"
     ],
     "ReVanced Integrations": [
         "integrations.apk",
-        "https://github.com/revanced/revanced-integrations/releases/download/v0.21.8/app-release-unsigned.apk"
+        "https://github.com/revanced/revanced-integrations/releases/download/v0.21.9/app-release-unsigned.apk"
     ],
     "Youtube": [
         "youtube.apk",
