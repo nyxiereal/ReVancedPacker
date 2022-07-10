@@ -31,6 +31,9 @@
     "QOL - Custom Playback Speed": [
         "custom-playback-speed"
     ],
+    "QOL - Fenster Swipe Controls": [
+        "fenster-swipe-controls"
+    ],
     "QOL - Autorepeat By Default": [
         "autorepeat-by-default"
     ],
@@ -57,9 +60,6 @@
     ],
     "QOL - Hide Reels": [
         "hide-reels"
-    ],
-    "QOL - Swipe Controls": [
-        "swipe-controls"
     ],
     "MSC - Enable Debugging": [
         "enable-debugging"
