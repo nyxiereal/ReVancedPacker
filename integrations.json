@@ -19,8 +19,11 @@
     "APR - Minimized Playback": [
         "minimized-playback"
     ],
-    "APR - Hdr Max Brightness": [
+    "APR - HDR Max Brightness": [
         "hdr-max-brightness"
+    ],
+    "APR - HDR Auto Brightness": [
+        "hrd-auto-brightness"
     ],
     "APR - Hide Watermark": [
         "hide-watermark"
@@ -30,6 +33,9 @@
     ],
     "QOL - Custom Playback Speed": [
         "custom-playback-speed"
+    ],
+    "QOL - Exclusive Audio Playback": [
+        "exclusive-audio-playback"
     ],
     "QOL - Fenster Swipe Controls": [
         "fenster-swipe-controls"
