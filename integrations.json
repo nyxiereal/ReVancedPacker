@@ -64,6 +64,9 @@
     "MSC - Enable Debugging": [
         "enable-debugging"
     ],
+    "MSC - Force VP9 Codec": [
+        "force-vp9-codec"
+    ],
     "MSC - Locale Config Fix (Recommended if compilation failed)": [
         "locale-config-fix"
     ],
