@@ -23,14 +23,14 @@
         "hdr-max-brightness"
     ],
     "APR - HDR Auto Brightness": [
-        "hrd-auto-brightness"
+        "hdr-auto-brightness"
     ],
     "APR - Hide Watermark": [
         "hide-watermark"
     ],
-    "APR - Wide Search Bar": [
-        "wide-search-bar"
-    ],
+    "APR - Enable Wide Search Bar": [
+        "enable-wide-searchbar"
+    ]
     "QOL - Custom Playback Speed": [
         "custom-playback-speed"
     ],
@@ -67,11 +67,11 @@
     "QOL - Hide Reels": [
         "hide-reels"
     ],
-    "MSC - Enable Debugging": [
-        "enable-debugging"
-    ],
     "MSC - Force VP9 Codec": [
         "force-vp9-codec"
+    ],
+    "MSC - Enable Debugging": [
+        "enable-debugging"
     ],
     "MSC - Locale Config Fix (Recommended if compilation failed)": [
         "locale-config-fix"
