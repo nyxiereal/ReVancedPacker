@@ -28,6 +28,9 @@
     "APR - Hide Watermark": [
         "hide-watermark"
     ],
+    "APR - Hide Get Premium": [
+        "hide-get-premium"
+    ],
     "APR - Enable Wide Search Bar": [
         "enable-wide-searchbar"
     ],
@@ -45,6 +48,15 @@
     ],
     "QOL - Old Quality Layout": [
         "old-quality-layout"
+    ],
+    "QOL - SponsorBlock": [
+        "sponsorblock"
+    ],
+    "QOL - Channel Guidelines": [
+        "channel-guidelines"
+    ],
+    "QOL - Return YouTube Dislike": [
+        "return-youtube-dislike"
     ],
     "QOL - Disable Fullscreen Panels": [
         "disable-fullscreen-panels"
