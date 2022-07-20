@@ -172,13 +172,8 @@ if gosever == '1':
                  "1 | Use YT Stable\n"
                  "2 | Use YT Beta")
     verss = input("(1/2): ")
-    if verss == '1':
-        ytver = 'youtube.apk'
-    if verss == '2':
-        ytver = 'youtube.apk'
-    else:
+    if not verss == '2':
         verss = '1'
-        ytver = 'youtube.apk'
     print(" ")
 
     printer.blue("Disable compatibility check: (Use if compilation failed)\n"
@@ -205,8 +200,6 @@ if gosever == '1':
         cls()
         for integration, args in INTEGRATIONS.items():
             linker.add(integration, args)
-    else:
-        integrations = '2'
 
     print(" ")
     printer.lprint("Updating Repos...")
@@ -215,20 +208,15 @@ if gosever == '1':
     integrationsver = latest(repo='revanced/revanced-integrations', output_format='version')
     printer.lprint("Repos Updated!")
     printer.lprint("Downloading Required Files...")
-    if verss == '1':
-        porpor("ReVanced Patches", 'patches.jar', 'https://github.com/revanced/revanced-patches/releases/download/v' + str(patchver) + '/revanced-patches-' + str(patchver) + '.jar')
-        porpor("ReVanced Integrations", 'integrations.apk', 'https://github.com/revanced/revanced-integrations/releases/download/v' + str(integrationsver) + '/app-release-unsigned.apk')
-        porpor("ReVanced CLI", 'rvcli.jar', 'https://github.com/revanced/revanced-cli/releases/download/v' + str(cliver) + '/revanced-cli-' + str(cliver) + '-all.jar')
-        downloader.powpow('Youtube')
-        if vmg == '1':
-            downloader.powpow('MicroG')
-    elif verss == '2':
-        porpor("ReVanced Patches", 'patches.jar', 'https://github.com/revanced/revanced-patches/releases/download/v' + str(patchver) + '/revanced-patches-' + str(patchver) + '.jar')
-        porpor("ReVanced Integrations", 'integrations.apk', 'https://github.com/revanced/revanced-integrations/releases/download/v' + str(integrationsver) + '/app-release-unsigned.apk')
-        porpor("ReVanced CLI", 'rvcli.jar', 'https://github.com/revanced/revanced-cli/releases/download/v' + str(cliver) + '/revanced-cli-' + str(cliver) + '-all.jar')
+    porpor("ReVanced Patches", 'patches.jar', 'https://github.com/revanced/revanced-patches/releases/download/v' + str(patchver) + '/revanced-patches-' + str(patchver) + '.jar')
+    porpor("ReVanced Integrations", 'integrations.apk', 'https://github.com/revanced/revanced-integrations/releases/download/v' + str(integrationsver) + '/app-release-unsigned.apk')
+    porpor("ReVanced CLI", 'rvcli.jar', 'https://github.com/revanced/revanced-cli/releases/download/v' + str(cliver) + '/revanced-cli-' + str(cliver) + '-all.jar')
+    if verss == '2':
         downloader.powpow('Youtube Beta')
-        if vmg == '1':
-            downloader.powpow('MicroG')
+    else
+        downloader.powpow('Youtube')
+    if vmg == '1':
+        downloader.powpow('MicroG')
 
     cdmm = "java -jar rvcli.jar -a youtube.apk -c -o revanced.apk -b patches.jar -m integrations.apk " + linker.command + \
         " -e background-play -e exclusive-audio-playback -e codecs-unlock -e upgrade-button-remover -e tasteBuilder-remover -e upgrade-button-remover" + debug
