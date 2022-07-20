@@ -223,9 +223,9 @@ if gosever == '1':
         if vmg == '1':
             downloader.powpow('MicroG')
     elif verss == '2':
-        porpor("ReVanced Patches", 'patches.jar', 'https://github.com/revanced/revanced-patches/releases/download/' + str(patchver) + '/revanced-patches-' + str(patchver) + '.jar')
-        porpor("ReVanced Integrations", 'integrations.apk', 'https://github.com/revanced/revanced-integrations/releases/download/' + str(integrationsver) + '/app-release-unsigned.apk')
-        porpor("ReVanced CLI", 'rvcli.jar', 'https://github.com/revanced/revanced-cli/releases/download/' + str(cliver) + '/revanced-cli-' + str(cliver) + '-all.jar')
+        porpor("ReVanced Patches", 'patches.jar', 'https://github.com/revanced/revanced-patches/releases/download/v' + str(patchver) + '/revanced-patches-' + str(patchver) + '.jar')
+        porpor("ReVanced Integrations", 'integrations.apk', 'https://github.com/revanced/revanced-integrations/releases/download/v' + str(integrationsver) + '/app-release-unsigned.apk')
+        porpor("ReVanced CLI", 'rvcli.jar', 'https://github.com/revanced/revanced-cli/releases/download/v' + str(cliver) + '/revanced-cli-' + str(cliver) + '-all.jar')
         downloader.powpow('Youtube Beta')
         if vmg == '1':
             downloader.powpow('MicroG')
