@@ -1,97 +1,109 @@
 {
-    "ADS - Remove Ads": [
+    "YT - ADS - Remove Ads": [
         "general-resource-ads",
         "general-ads",
         "video-ads"
     ],
-    "APR - Amoled Theme": [
+    "RD - ADS - General Reddit Ads": [
+        "general-reddit-ads"
+    ],
+    "TW - ADS - Timeline Ads": [
+        "timeline-ads"
+    ],    
+    "YT - APR - Amoled Theme": [
         "amoled"
     ],
-    "APR - Premium Heading": [
+    "YT - APR - Premium Heading": [
         "premium-heading"
     ],
-    "APR - Custom Branding": [
+    "YT - APR - Custom Branding": [
         "custom-branding"
     ],
-    "APR - Seekbar Tapping": [
+    "YT - APR - Seekbar Tapping": [
         "seekbar-tapping"
     ],
-    "APR - Minimized Playback": [
+    "YT - APR - Minimized Playback": [
         "minimized-playback"
     ],
-    "APR - HDR Max Brightness": [
+    "YT - APR - Compact Header": [
+        "compact-header"
+    ],
+    "YT - APR - HDR Max Brightness": [
         "hdr-max-brightness"
     ],
-    "APR - HDR Auto Brightness": [
+    "YT - APR - HDR Auto Brightness": [
         "hdr-auto-brightness"
     ],
-    "APR - Hide Watermark": [
+    "YT - APR - Hide Watermark": [
         "hide-watermark"
     ],
-    "APR - Hide Get Premium": [
+    "YT - APR - Hide Get Premium": [
         "hide-get-premium"
     ],
-    "APR - Enable Wide Search Bar": [
+    "YT - APR - Enable Wide Search Bar": [
         "enable-wide-searchbar"
     ],
-    "QOL - Custom Playback Speed": [
+    "YT - QOL - Custom Playback Speed": [
         "custom-playback-speed"
     ],
-    "QOL - Exclusive Audio Playback": [
+    "YT - QOL - Exclusive Audio Playback": [
         "exclusive-audio-playback"
     ],
-    "QOL - Swipe Controls": [
+    "YT - QOL - Swipe Controls": [
         "swipe-controls"
     ],
-    "QOL - Autorepeat By Default": [
+    "YT - QOL - Autorepeat By Default": [
         "autorepeat-by-default"
     ],
-    "QOL - Old Quality Layout": [
+    "YT - QOL - Old Quality Layout": [
         "old-quality-layout"
     ],
-    "QOL - SponsorBlock": [
+    "YT - QOL - Remember Video Quality": [
+        "remember-video-quality"
+    ],
+    "YT - QOL - SponsorBlock": [
         "sponsorblock"
     ],
-    "QOL - Channel Guidelines": [
+    "YT - QOL - Channel Guidelines": [
         "channel-guidelines"
     ],
-    "QOL - Return YouTube Dislike": [
+    "YT - QOL - Return YouTube Dislike": [
         "return-youtube-dislike"
     ],
-    "QOL - Disable Fullscreen Panels": [
+    "YT - QOL - Disable Fullscreen Panels": [
         "disable-fullscreen-panels"
     ],
-    "QOL - Disable Shorts Button": [
+    "YT - QOL - Disable Shorts Button": [
         "disable-shorts-button"
     ],
-    "QOL - Disable Create Button": [
+    "YT - QOL - Disable Create Button": [
         "disable-create-button"
     ],
-    "QOL - Disable Autoplay Button": [
+    "YT - QOL - Disable Autoplay Button": [
         "disable-autoplay-button"
     ],
-    "QOL - Hide Cast Button": [
+    "YT - QOL - Hide Cast Button": [
         "hide-cast-button"
     ],
-    "QOL - Hide Infocard Suggestions": [
+    "YT - QOL - Hide Infocard Suggestions": [
         "hide-infocard-suggestions"
     ],
-    "QOL - Hide Reels": [
+    "YT - QOL - Hide Reels": [
         "hide-reels"
     ],
-    "MSC - Force VP9 Codec": [
+    "YT - MSC - Force VP9 Codec": [
         "force-vp9-codec"
     ],
-    "MSC - Enable Debugging": [
+    "YT - MSC - Enable Debugging": [
         "enable-debugging"
     ],
-    "MSC - Locale Config Fix (Recommended if compilation failed)": [
+    "ALL - MSC - Locale Config Fix (Recommended if compilation failed)": [
         "locale-config-fix"
     ],
-    "MSC - Include Resource Provider For Resource Mapping (Unknown)": [
+    "ALL - MSC - Include Resource Provider For Resource Mapping (Unknown)": [
         "resource-id-mapping-provider-resource-patch-dependency"
     ],
-    "MIG - Microg Support (FOR NON-ROOTED DEVICES ONLY!)": [
+    "YT - MIG - Microg Support (FOR NON-ROOTED DEVICES ONLY!)": [
         "microg-support"
     ]
 }
