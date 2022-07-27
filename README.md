@@ -52,4 +52,4 @@ Lower on the list = lower priority
 - [RepoTracker](https://repo-tracker.com/r/gh/xemulat/ReVancedPacker)
 
 # Donate?
-Monero XMR Network - 83kAah6ztn6h1oKQxmFAcS86p1uzX3RKXcqptr75cCU4ca4ETmn78ceD2ad8tv6zjr516aVpgiwHi8NamiBwY3RE2Xx3R5G
+- https://rentry.co/HowToSupportXem
