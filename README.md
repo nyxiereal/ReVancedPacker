@@ -1,10 +1,4 @@
-form for next updates and features: https://forms.gle/kX5XscNrBpLvB7ZK7
-
-Info: GUESS WHO'S BACK WORMS!
-
-R.I.P. Technoblade 😫
-
-Icon Credit: moritz#6248
+Old Icon Credit: moritz#6248
 
 # ReVancedPacker
 ![image](https://forthebadge.com/images/badges/fuck-it-ship-it.svg)
@@ -38,7 +32,7 @@ Lower on the list = lower priority
 - At least 2/3GB of Ram
 - At least 300mb Disk Space
 - At least 200kbps internet
-- At least Windows 10 or 11 64bit , works fine on windows 8.1
+- At least Windows 8.1 64bit or Semi-Latest Linux (Rexum are you happy?)
 - At least CRT Monitor
 
 # Build with docker:
