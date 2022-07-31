@@ -13,6 +13,9 @@
     "YT - APR - Amoled Theme": [
         "amoled"
     ],
+    "YT - APR - Better Settings": [
+        "settings"
+    ],
     "YT - APR - Premium Heading": [
         "premium-heading"
     ],
@@ -45,6 +48,9 @@
     ],
     "YT - QOL - Custom Playback Speed": [
         "custom-playback-speed"
+    ],
+    "YT - QOL - Custom Video Buffer": [
+        "custom-video-buffer"
     ],
     "YT - QOL - Exclusive Audio Playback": [
         "exclusive-audio-playback"
