@@ -213,7 +213,7 @@ if gosever == '1':
     porpor("ReVanced CLI", 'rvcli.jar', 'https://github.com/revanced/revanced-cli/releases/download/v' + str(cliver) + '/revanced-cli-' + str(cliver) + '-all.jar')
     if verss == '2':
         downloader.powpow('Youtube Beta')
-    else
+    else:
         downloader.powpow('Youtube')
     if vmg == '1':
         downloader.powpow('MicroG')
