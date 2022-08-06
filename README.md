@@ -1,5 +1,8 @@
 Old Icon Credit: moritz#6248
 
+FOR ANYONE WORRIED, THIS PROJECT IS __NOT__ ABANDONED!!!
+
+
 # ReVancedPacker
 ![image](https://forthebadge.com/images/badges/fuck-it-ship-it.svg)
 [![GitHub stars](https://img.shields.io/github/stars/xemulat/ReVancedPacker?style=for-the-badge)](https://github.com/xemulat/ReVancedPacker/stargazers)
