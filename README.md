@@ -1,8 +1,6 @@
 Old Icon Credit: moritz#6248
 
-FOR ANYONE WORRIED, THIS PROJECT IS __NOT__ ABANDONED!!!
-
-For all the cheesebags copying 1-to-1 my guide, f$ck off from my work you scummy bastards.
+Abandoned, use ReVanced Builder
 
 # ReVancedPacker
 ![image](https://forthebadge.com/images/badges/fuck-it-ship-it.svg)
