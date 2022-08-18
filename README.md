@@ -1,6 +1,6 @@
 Old Icon Credit: moritz#6248
 
-Some new stuff, expect about 2 last updates that allows this program to "live by its own"
+No
 
 # ReVancedPacker
 ![image](https://forthebadge.com/images/badges/fuck-it-ship-it.svg)
