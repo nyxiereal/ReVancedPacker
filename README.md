@@ -12,6 +12,8 @@ revancedinstall.py
 * SamadiPour
 * jlvcm
 
+OLD DOWNLOADS: [here](https://web.archive.org/web/20220905192725/https://github.com/xemulat/ReVancedPacker/releases)
+
 # ReVancedPacker
 ![image](https://forthebadge.com/images/badges/fuck-it-ship-it.svg)
 [![GitHub stars](https://img.shields.io/github/stars/xemulat/ReVancedPacker?style=for-the-badge)](https://github.com/xemulat/ReVancedPacker/stargazers)
