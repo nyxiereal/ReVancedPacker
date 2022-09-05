@@ -1,6 +1,4 @@
-Old Icon Credit: moritz#6248
-
-No
+Okey, so we are back WORMS!
 
 # ReVancedPacker
 ![image](https://forthebadge.com/images/badges/fuck-it-ship-it.svg)
@@ -8,38 +6,26 @@ No
 [![GitHub license](https://img.shields.io/github/license/xemulat/ReVancedPacker?style=for-the-badge)](https://github.com/xemulat/ReVancedPacker/blob/main/LICENSE)
 ![forthebadge](https://i.imgur.com/RPasORd.png)
 
-FOSS ReVanced to Apk Packer written in Python
-
-Coded using 100% Open-Source Software (VSCodium)
-
-Site: not working @ the moment
+FOSS ReVanced Apk Packer written in Python
 
 ![Reddit](https://i.imgur.com/scFNROw.jpeg)
 
 Higher on the list = higher priority
 Lower on the list = lower priority
 # ToDo:
-- Compile Timer
-- fix the site
-- Add root-switch
-- as my dad says - "add a gui!" (Lowest priority lol)
+- Fix EVERYTHING
 
 # Required Programs:
-- Java 17* (Any Sub-Version)
-- Python 3.10.5 (only if you downloaded from source)
-- Phone or Emulator with Android 6+ (8+ are preffered)
+- Java 17 (i will fix it soon)
+- Python 3.10.6 (only if you downloaded from source)
+- Phone or Emulator with Android 7+ (8+ are preffered)
 
 # Minimum Hardware:
-- Mostly Any Processor with 2 Cores and 2 Threads
-- At least 2/3GB of Ram
-- At least 300mb Disk Space
-- At least 200kbps internet
-- At least Windows 8.1 64bit or Semi-Latest Linux (Rexum are you happy?)
-- At least CRT Monitor
-
-# Build with docker:
-1. Make sure docker is installed
-2. In the project folder run `docker run --rm -it -v $(pwd):/src $(docker build -q .) python revancedinstall.py`
+- 2c/2t Processor
+- 2/3GB of Ram
+- 300mb Disk Space
+- 200kbps internet
+- Windows 8.1 64bit
 
 # Links:
 - [Download](https://github.com/xemulat/ReVancedPacker/releases)
