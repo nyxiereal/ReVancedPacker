@@ -1,17 +1,5 @@
 Okey, so we are back WORMS!
 
-Contributors:
-
-Dockerfile:
-boumanb
-
-revancedinstall.py
-aliharslan0
-Oreeeee
-Caio99BR
-SamadiPour
-jlvcm
-
 # ReVancedPacker
 ![image](https://forthebadge.com/images/badges/fuck-it-ship-it.svg)
 [![GitHub stars](https://img.shields.io/github/stars/xemulat/ReVancedPacker?style=for-the-badge)](https://github.com/xemulat/ReVancedPacker/stargazers)
