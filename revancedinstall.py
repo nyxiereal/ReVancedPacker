@@ -1,3 +1,4 @@
+# Archived for science
 from platform import system as zyzdem
 from colorama import Fore, init
 from time import sleep
