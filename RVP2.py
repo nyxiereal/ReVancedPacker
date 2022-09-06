@@ -4,14 +4,39 @@ from sys import exit
 from ping3 import ping
 from json import load
 from os import system
-from os.path import isfile
+from zipfile import ZipFile
+from os.path import isfile, isdir
 from urllib.request import urlretrieve
 from lastversion import latest, has_update
 # QuickInstall - pip install ping3 lastversion PySimpleGUI
 
+# ===============< Downloader >===============
+def reporter(block_num, block_size, total_size):
+    read_so_far = block_num * block_size
+    if total_size > 0:
+        percent = read_so_far * 1e2 / total_size
+        print(
+            f"\r{percent:5.1f}% {read_so_far:{len(str(total_size))}} out of {total_size}", end='')
+        if read_so_far >= total_size:
+            print()
+    else:
+        print(f"read {read_so_far}", end='')
+
+def download(name, repname, link):
+    print("Downloading " + name + " ...")
+    print(link)
+    urlretrieve(link, repname, reporter)
+    print(name + ' Downloaded!')
+
 # ===============< Prep Phase >===============
 sg.theme("DarkGray15")
 sg.set_options(font=("Consolas", 9), text_color='#FFFFFF')
+if isdir("Java") == False:
+    if isfile("Java.zip") == False:
+        download("Java 17 GraalVM", 'java.zip', 'https://github.com/graalvm/graalvm-ce-builds/releases/download/vm-22.2.0/graalvm-ce-java11-windows-amd64-22.2.0.zip')
+    print("Unzipping Java...")
+    with ZipFile("Java.zip","r") as fe:
+        fe.extractall("Java")
 if isfile("settings.RVP") == False:
     urlretrieve('https://raw.githubusercontent.com/xemulat/ReVancedPacker/main/settings.RVP', 'settings.RVP')
 with open('settings.RVP') as f:
@@ -20,7 +45,7 @@ with open('settings.RVP') as f:
         if str(d["IsDev"]) == "True":
             newver = "dev"
         else:
-            newver = latest('xemulat/VirusVideoMaker')
+            newver = latest('xemulat/ReVancedPacker')
         if "1.2" == str(newver):
             vers = "Up-To-Date"
             hcve = "#00FF00"
@@ -36,7 +61,8 @@ with open('settings.RVP') as f:
         print("Build: " + str(newver))
 
 # ===============< Packer / Injector >===============
-def injects(file):
+"""def injects(file):
+    if isfile('')"""
 
 def main():
     # ===============< Internet Chacker >===============
