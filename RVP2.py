@@ -3,7 +3,8 @@ from time import sleep
 from sys import exit
 from ping3 import ping
 from json import load
-from os import system
+from webbrowser import open as webopen
+from os import system, rename, remove
 from zipfile import ZipFile
 from os.path import isfile, isdir
 from urllib.request import urlretrieve
@@ -31,38 +32,102 @@ def download(name, repname, link):
 # ===============< Prep Phase >===============
 sg.theme("DarkGray15")
 sg.set_options(font=("Consolas", 9), text_color='#FFFFFF')
-if isdir("Java") == False:
+if isdir("jv17") == False:
     if isfile("Java.zip") == False:
-        download("Java 17 GraalVM", 'java.zip', 'https://github.com/graalvm/graalvm-ce-builds/releases/download/vm-22.2.0/graalvm-ce-java11-windows-amd64-22.2.0.zip')
+        download("Java 17", 'java.zip', 'https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.4.1%2B1/OpenJDK17U-jdk_x64_windows_hotspot_17.0.4.1_1.zip')
     print("Unzipping Java...")
     with ZipFile("Java.zip","r") as fe:
-        fe.extractall("Java")
-if isfile("settings.RVP") == False:
-    urlretrieve('https://raw.githubusercontent.com/xemulat/ReVancedPacker/main/settings.RVP', 'settings.RVP')
-with open('settings.RVP') as f:
-        d = load(f)
-        print(str(d["KeepFiles"]))
-        if str(d["IsDev"]) == "True":
-            newver = "dev"
-        else:
-            newver = latest('xemulat/ReVancedPacker')
-        if "1.2" == str(newver):
-            vers = "Up-To-Date"
-            hcve = "#00FF00"
-        elif str(newver) == "dev":
-            vers = "Dev build, not checking for updates"
-            hcve = "#74D962"
-        elif str(newver) > "1.2":
-            vers = "Outdated, download it from my github"
-            hcve = "#FF0000"
-        else:
-            vers = "error checking updates :("
-            hcve = "#FFFF00"
-        print("Build: " + str(newver))
+        fe.extractall("")
+    if isdir("jdk-17.0.4.1+1") == True:
+        rename("jdk-17.0.4.1+1", "jv17")
+javadir = "start jv17/bin/java.exe"
+if isfile("patches.jar") == True:
+    remove("patches.jar")
+if isfile("integrations.apk") == True:
+    remove("integrations.apk")
+if isfile("rvcli.jar") == True:
+    remove("rvcli.jar")
+if isfile("settings.RVP.json") == False:
+    urlretrieve('https://raw.githubusercontent.com/xemulat/ReVancedPacker/main/settings.RVP', 'settings.RVP.json')
+
+with open('settings.RVP.json') as f:
+    d = load(f)
+    print(str(d["KeepFiles"]))
+    if str(d["IsDev"]) == "True":
+        newver = "dev"
+    else:
+        newver = latest('xemulat/ReVancedPacker')
+    if "1.2" == str(newver):
+        vers = "Up-To-Date"
+        hcve = "#00FF00"
+    elif str(newver) == "dev":
+        vers = "Dev build, not checking for updates"
+        hcve = "#74D962"
+    elif str(newver) > "1.2":
+        vers = "Outdated, download it from my github"
+        hcve = "#FF0000"
+    else:
+        vers = "error checking updates :("
+        hcve = "#FFFF00"
+    print("Build: " + str(newver))
 
 # ===============< Packer / Injector >===============
-"""def injects(file):
-    if isfile('')"""
+def injects(file):
+    custom = [[sg.Text('Enter integrations to add')],
+              [sg.Text('*Press Enter to confirm*')],
+              [sg.Text('for example "swipe-controls seekbar-tapping"')],
+              [sg.Input('', enable_events=True, key='-INTEGRATIONS-')],
+              [sg.Button('Exit'), sg.Button('Help')],
+              [sg.Text('')],
+              [sg.Text('Coded by Xemulated')]]
+
+    custoz = [[sg.Text('Add Flags:')],
+              [sg.Button('Experimental', button_color=('white', 'green')), sg.Button('Experiment', button_color=('white', 'green'))],
+              [sg.Button('Help')],
+              [sg.Button('Build!')],
+              [sg.Text('')]]
+
+    layout = [[sg.Column(custom),
+               sg.Column(custoz)]]
+    
+    window = sg.Window('RVP2', layout)
+    down = False
+
+    while True:
+        event, values = window.read()
+        if event == "Exit" or event == sg.WIN_CLOSED:
+            exit()
+
+        if event == "Help" or event == sg.WIN_CLOSED:
+            webopen('url')
+        
+        if event == 'Experimental':
+            down = not down
+            window.Element('Experimental').Update(('Experimental','Experimental')[down], button_color=(('white', ('red', 'green')[down])))
+
+        if event == 'Experiment':
+            down = not down
+            window.Element('Experiment').Update(('Experiment','Experiment')[down], button_color=(('white', ('red', 'green')[down])))
+
+        if event == "Build!":
+            if window['-INTEGRATIONS-'].get() == "":
+                integrations = ""
+            else:
+                integrations = window['-INTEGRATIONS-'].get().replace(" ", " -i ")
+                integrations = "-i " + integrations
+            print("Updating Repos...")
+            patchver = latest(repo='revanced/revanced-patches', output_format='version')
+            cliver = latest(repo='revanced/revanced-cli', output_format='version')
+            integrationsver = latest(repo='revanced/revanced-integrations', output_format='version')
+            print("Repos Updated!")
+            print("Downloading Required Files...")
+            download("Patches", 'patches.jar', 'https://github.com/revanced/revanced-patches/releases/download/v' + str(patchver) + '/revanced-patches-' + str(patchver) + '.jar')
+            download("Integrations", 'integrations.apk', 'https://github.com/revanced/revanced-integrations/releases/download/v' + str(integrationsver) + '/app-release-unsigned.apk')
+            download("CLI", 'rvcli.jar', 'https://github.com/revanced/revanced-cli/releases/download/v' + str(cliver) + '/revanced-cli-' + str(cliver) + '-all.jar')
+            print("Packing ReVanced...")
+            system(javadir + " -jar rvcli.jar -a " + file + " -c -o revanced.apk -b patches.jar -m integrations.apk --exclusive " + integrations)
+            print("Done!")
+            exit
 
 def main():
     # ===============< Internet Chacker >===============
@@ -75,7 +140,7 @@ def main():
         hcin = "#00FF00"
 
     # ===============< Main Window >===============
-    custom = [[sg.Text("Version - " + vers, text_color=hcve)],
+    custon = [[sg.Text("Version - " + vers, text_color=hcve)],
               [sg.Text("Network - " + internetac, text_color=hcin)],
               [sg.Text("")],
               [sg.Text('Enter your APK name')],
@@ -85,7 +150,7 @@ def main():
               [sg.Text('')],
               [sg.Text('Coded by Xemulated')]]
 
-    window = sg.Window('RVP2', custom)
+    window = sg.Window('RVP2', custon)
 
     while True:
         event, values = window.read()
@@ -98,6 +163,9 @@ def main():
             elif isfile(window['-INPUT-'].get()) == False:
                 pass
             else:
-                window.close()
-                injects(window['-INPUT-'].get())
+                if ".apk" in window['-INPUT-'].get():
+                    window.close()
+                    injects(window['-INPUT-'].get())
+                else:
+                    pass
 main()
