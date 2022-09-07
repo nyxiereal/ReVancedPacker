@@ -82,7 +82,7 @@ def injects(file):
               [sg.Text('Coded by Xemulated')]]
 
     custoz = [[sg.Text('Add Flags:')],
-              [sg.Button('Experimental', button_color=('white', 'green')), sg.Button('Experiment', button_color=('white', 'green'))],
+              [sg.Button('Experimental', button_color=('white', 'green')), sg.Button('MicroG', button_color=('white', 'green'))],
               [sg.Button('Help')],
               [sg.Button('Build!')],
               [sg.Text('')]]
@@ -101,13 +101,22 @@ def injects(file):
         if event == "Help" or event == sg.WIN_CLOSED:
             webopen('url')
         
+        # it was 2AM 404Oops stop harassing me please
         if event == 'Experimental':
             down = not down
             window.Element('Experimental').Update(('Experimental','Experimental')[down], button_color=(('white', ('red', 'green')[down])))
+            if isexperimental == 0:
+                isexperimental = 1
+            elif isexperimental == 1:
+                isexperimental = 1
 
-        if event == 'Experiment':
+        if event == 'MicroG':
             down = not down
-            window.Element('Experiment').Update(('Experiment','Experiment')[down], button_color=(('white', ('red', 'green')[down])))
+            window.Element('MicroG').Update(('MicroG','MicroG')[down], button_color=(('white', ('red', 'green')[down])))
+            if ismicrog == 0:
+                ismicrog = 1
+            elif ismicrog == 1:
+                ismicrog = 1
 
         if event == "Build!":
             if window['-INTEGRATIONS-'].get() == "":
@@ -125,6 +134,11 @@ def injects(file):
             download("Integrations", 'integrations.apk', 'https://github.com/revanced/revanced-integrations/releases/download/v' + str(integrationsver) + '/app-release-unsigned.apk')
             download("CLI", 'rvcli.jar', 'https://github.com/revanced/revanced-cli/releases/download/v' + str(cliver) + '/revanced-cli-' + str(cliver) + '-all.jar')
             print("Packing ReVanced...")
+            addon = ""
+            if isexperimental == 1:
+                addon = addon + " --experimental"
+            if ismicrog == 1:
+                integrations = integrations + " -i microg-support"
             system(javadir + " -jar rvcli.jar -a " + file + " -c -o revanced.apk -b patches.jar -m integrations.apk --exclusive " + integrations)
             print("Done!")
             exit
@@ -146,7 +160,7 @@ def main():
               [sg.Text('Enter your APK name')],
               [sg.Text('*Press Enter to confirm*')],
               [sg.Input('', enable_events=True, key='-INPUT-', ), sg.Button('Enter', visible=True, bind_return_key=True)],
-              [sg.Button('Exit'), sg.Button('Enter')],
+              [sg.Button('Exit'), sg.Button('Help')],
               [sg.Text('')],
               [sg.Text('Coded by Xemulated')]]
 
