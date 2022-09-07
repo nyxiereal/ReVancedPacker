@@ -7,6 +7,7 @@ Okey, so we are back WORMS!
 ![forthebadge](https://i.imgur.com/RPasORd.png)
 
 [Apk files QuickLinks](https://rentry.co/RVPApks)
+You can watch me code RVP2 LIVE [here](https://discord.gg/ntts)
 
 FOSS ReVanced Apk Packer written in Python
 
