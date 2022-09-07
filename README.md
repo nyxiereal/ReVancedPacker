@@ -1,10 +1,10 @@
 Okey, so we are back WORMS!
 
 # ReVancedPacker
-[!image](https://forthebadge.com/images/badges/fuck-it-ship-it.svg)
+![image](https://forthebadge.com/images/badges/fuck-it-ship-it.svg)
 [![GitHub stars](https://img.shields.io/github/stars/xemulat/ReVancedPacker?style=for-the-badge)](https://github.com/xemulat/ReVancedPacker/stargazers)
 [![GitHub license](https://img.shields.io/github/license/xemulat/ReVancedPacker?style=for-the-badge)](https://github.com/xemulat/ReVancedPacker/blob/main/LICENSE)
-[!forthebadge](https://i.imgur.com/RPasORd.png)
+![forthebadge](https://i.imgur.com/RPasORd.png)
 [Apk files QuickLinks](https://rentry.co/RVPApks)
 
 FOSS ReVanced Apk Packer written in Python
