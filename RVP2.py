@@ -74,13 +74,13 @@ with open('settings.RVP.json') as f:
         newver = "dev"
     else:
         newver = latest('xemulat/ReVancedPacker')
-    if "2.1" == str(newver):
+    if "2.2" == str(newver):
         vers = "Up-To-Date"
         hcve = "#00FF00"
     elif str(newver) == "dev":
         vers = "Dev build, not checking for updates"
         hcve = "#74D962"
-    elif str(newver) > "2.1":
+    elif str(newver) > "2.2":
         vers = "Outdated, download it from my github"
         hcve = "#FF0000"
     else:
@@ -94,7 +94,7 @@ def injects(file):
     custom = [[sg.Text('Enter integrations to add')],
               [sg.Text('*Press Enter to confirm*')],
               [sg.Text('for example "swipe-controls seekbar-tapping"\n'
-                       'DON' + "'" + 'T ADD "microg-support", \nit' + "'" + 's added when you click the button(s) =>')],
+                       'For non-rooted users, add "microg-support" to the window below')],
               [sg.Input('', enable_events=True, key='-INTEGRATIONS-')],
               [sg.Text('')], 
               [sg.Text('')],
