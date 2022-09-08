@@ -17,7 +17,7 @@ FOSS ReVanced Apk Packer written in Python
 Higher on the list = higher priority
 Lower on the list = lower priority
 # ToDo:
-- Fix EVERYTHING
+- Waiting for bugs / issues
 
 # Required Programs:
 - Python 3.10.6 (only if you downloaded from source)
