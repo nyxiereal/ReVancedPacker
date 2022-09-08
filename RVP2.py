@@ -11,7 +11,7 @@ from urllib.request import urlretrieve
 from lastversion import latest, has_update
 # QuickInstall - pip install ping3 lastversion PySimpleGUI
 
-# ===============< Downloader >===============
+# =====================< Downloader >=====================
 def reporter(block_num, block_size, total_size):
     read_so_far = block_num * block_size
     if total_size > 0:
@@ -29,30 +29,47 @@ def download(name, repname, link):
     urlretrieve(link, repname, reporter)
     print(name + ' Downloaded!')
 
-# ===============< Prep Phase >===============
+def cleantemp():
+    if KeepFiles == "False":
+        if isfile("patches.jar") == True:
+            remove("patches.jar")
+
+        if isfile("integrations.apk") == True:
+            remove("integrations.apk")
+
+        if isfile("rvcli.jar") == True:
+            remove("rvcli.jar")
+
+        if isfile("revanced.keystore") == True:
+            remove("revanced.keystore")
+
+# =====================< Prep Phase >=====================
+
 sg.theme("DarkGray15")
 sg.set_options(font=("Consolas", 9), text_color='#FFFFFF')
+if isfile("settings.RVP.json") == False:
+    urlretrieve('https://raw.githubusercontent.com/xemulat/ReVancedPacker/main/settings.RVP', 'settings.RVP.json')
+with open('settings.RVP.json') as c:
+    v = load(c)
+    KeepFiles = str(v["KeepFiles"])
+if isfile("java.zip") == True and isdir("jv17" or "jdk-17.0.4.1+1") == False:
+    if KeepFiles == "False":
+        remove("java.zip")
 if isdir("jv17") == False:
     if isfile("Java.zip") == False:
         download("Java 17", 'java.zip', 'https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.4.1%2B1/OpenJDK17U-jdk_x64_windows_hotspot_17.0.4.1_1.zip')
     print("Unzipping Java...")
-    with ZipFile("Java.zip","r") as fe:
+    with ZipFile("Java.zip", "r") as fe:
         fe.extractall("")
-    if isdir("jdk-17.0.4.1+1") == True:
-        rename("jdk-17.0.4.1+1", "jv17")
+    rename("jdk-17.0.4.1+1", "jv17")
+    if KeepFiles == "False":
+        remove("java.zip")
+cleantemp()
 javadir = "start jv17/bin/java.exe"
-if isfile("patches.jar") == True:
-    remove("patches.jar")
-if isfile("integrations.apk") == True:
-    remove("integrations.apk")
-if isfile("rvcli.jar") == True:
-    remove("rvcli.jar")
-if isfile("settings.RVP.json") == False:
-    urlretrieve('https://raw.githubusercontent.com/xemulat/ReVancedPacker/main/settings.RVP', 'settings.RVP.json')
 
 with open('settings.RVP.json') as f:
     d = load(f)
-    print(str(d["KeepFiles"]))
+    KeepFiles = str(d["KeepFiles"])
     if str(d["IsDev"]) == "True":
         newver = "dev"
     else:
@@ -71,27 +88,47 @@ with open('settings.RVP.json') as f:
         hcve = "#FFFF00"
     print("Build: " + str(newver))
 
-# ===============< Packer / Injector >===============
+# =====================< Packer / Injector >=====================
 def injects(file):
+    isexperimental = 0
     custom = [[sg.Text('Enter integrations to add')],
               [sg.Text('*Press Enter to confirm*')],
-              [sg.Text('for example "swipe-controls seekbar-tapping"')],
+              [sg.Text('for example "swipe-controls seekbar-tapping"\n'
+                       'DON' + "'" + 'T ADD "microg-support", \nit' + "'" + 's added when you click the button(s) =>')],
               [sg.Input('', enable_events=True, key='-INTEGRATIONS-')],
-              [sg.Button('Exit'), sg.Button('Help')],
+              [sg.Text('')], 
               [sg.Text('')],
               [sg.Text('Coded by Xemulated')]]
 
+    # it's really past my breaking point
+    itsreallypastmybreakingpoint = [[sg.Text('Buttonz')],
+                                    [sg.Text('click once')],
+                                    [sg.Button('Help')],
+                                    [sg.Button('Build!')],
+                                    [sg.Button('Exit')],
+                                    [sg.Text('')],
+                                    [sg.Text('')],
+                                    [sg.Text('')],
+                                    [sg.Text('')]]
+
     custoz = [[sg.Text('Add Flags:')],
-              [sg.Button('Experimental', button_color=('white', 'green')), sg.Button('MicroG', button_color=('white', 'green'))],
-              [sg.Button('Help')],
-              [sg.Button('Build!')],
+              [sg.Text('You can only click them once')],
+              [sg.Button('Experimental'), sg.Button('MicroG')],
+              [sg.Text('')],
+              [sg.Text('')],
+              [sg.Text('')],
+              [sg.Text('')],
+              [sg.Text('')],
               [sg.Text('')]]
 
     layout = [[sg.Column(custom),
+               sg.VSeperator(),
+               sg.Column(itsreallypastmybreakingpoint),
+               sg.VSeperator(),
                sg.Column(custoz)]]
-    
+
     window = sg.Window('RVP2', layout)
-    down = False
+    down = True
 
     while True:
         event, values = window.read()
@@ -99,52 +136,43 @@ def injects(file):
             exit()
 
         if event == "Help" or event == sg.WIN_CLOSED:
-            webopen('url')
-        
+            webopen('https://github.com/revanced/revanced-patches#-patches')
+
         # it was 2AM 404Oops stop harassing me please
         if event == 'Experimental':
-            down = not down
-            window.Element('Experimental').Update(('Experimental','Experimental')[down], button_color=(('white', ('red', 'green')[down])))
-            if isexperimental == 0:
-                isexperimental = 1
-            elif isexperimental == 1:
-                isexperimental = 1
-
-        if event == 'MicroG':
-            down = not down
-            window.Element('MicroG').Update(('MicroG','MicroG')[down], button_color=(('white', ('red', 'green')[down])))
-            if ismicrog == 0:
-                ismicrog = 1
-            elif ismicrog == 1:
-                ismicrog = 1
+            isexperimental = 1
 
         if event == "Build!":
             if window['-INTEGRATIONS-'].get() == "":
                 integrations = ""
+
             else:
                 integrations = window['-INTEGRATIONS-'].get().replace(" ", " -i ")
                 integrations = "-i " + integrations
             print("Updating Repos...")
+
             patchver = latest(repo='revanced/revanced-patches', output_format='version')
             cliver = latest(repo='revanced/revanced-cli', output_format='version')
             integrationsver = latest(repo='revanced/revanced-integrations', output_format='version')
+
             print("Repos Updated!")
             print("Downloading Required Files...")
+
             download("Patches", 'patches.jar', 'https://github.com/revanced/revanced-patches/releases/download/v' + str(patchver) + '/revanced-patches-' + str(patchver) + '.jar')
             download("Integrations", 'integrations.apk', 'https://github.com/revanced/revanced-integrations/releases/download/v' + str(integrationsver) + '/app-release-unsigned.apk')
             download("CLI", 'rvcli.jar', 'https://github.com/revanced/revanced-cli/releases/download/v' + str(cliver) + '/revanced-cli-' + str(cliver) + '-all.jar')
+
             print("Packing ReVanced...")
             addon = ""
             if isexperimental == 1:
                 addon = addon + " --experimental"
-            if ismicrog == 1:
-                integrations = integrations + " -i microg-support"
+            print(javadir + " -jar rvcli.jar -a " + file + " -c -o revanced.apk -b patches.jar -m integrations.apk --exclusive " + integrations)
             system(javadir + " -jar rvcli.jar -a " + file + " -c -o revanced.apk -b patches.jar -m integrations.apk --exclusive " + integrations)
             print("Done!")
             exit
 
 def main():
-    # ===============< Internet Chacker >===============
+    # =====================< Internet Chacker >=====================
     internet = ping("https://www.github.com/")
     if internet is None or False:
         internetac = "Unreachable"
@@ -153,7 +181,7 @@ def main():
         internetac = "Reachable"
         hcin = "#00FF00"
 
-    # ===============< Main Window >===============
+    # =====================< Main Window >=====================
     custon = [[sg.Text("Version - " + vers, text_color=hcve)],
               [sg.Text("Network - " + internetac, text_color=hcin)],
               [sg.Text("")],
@@ -172,14 +200,19 @@ def main():
             exit()
 
         elif event == 'Enter':
-            if window['-INPUT-'].get() == '':
-                pass
-            elif isfile(window['-INPUT-'].get()) == False:
-                pass
+            if newver == "dev":
+                window.close()
+                injects("youtube.apk")
             else:
-                if ".apk" in window['-INPUT-'].get():
-                    window.close()
-                    injects(window['-INPUT-'].get())
-                else:
+                if window['-INPUT-'].get() == '':
                     pass
+                elif isfile(window['-INPUT-'].get()) == False:
+                    pass
+                else:
+                    if ".apk" in window['-INPUT-'].get():
+                        window.close()
+                        injects(window['-INPUT-'].get())
+                    else:
+                        pass
+
 main()
