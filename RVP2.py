@@ -199,6 +199,9 @@ def main():
         if event == "Exit" or event == sg.WIN_CLOSED:
             exit()
 
+        elif event == "Help":
+            webopen("https://rentry.org/RVPApks")
+
         elif event == 'Enter':
             if newver == "dev":
                 window.close()
