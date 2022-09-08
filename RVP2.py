@@ -113,7 +113,7 @@ def injects(file):
 
     custoz = [[sg.Text('Add Flags:')],
               [sg.Text('You can only click them once')],
-              [sg.Button('Experimental'), sg.Button('MicroG')],
+              [sg.Button('Experimental')],
               [sg.Text('')],
               [sg.Text('')],
               [sg.Text('')],
@@ -169,7 +169,7 @@ def injects(file):
             print(javadir + " -jar rvcli.jar -a " + file + " -c -o revanced.apk -b patches.jar -m integrations.apk --exclusive " + integrations)
             system(javadir + " -jar rvcli.jar -a " + file + " -c -o revanced.apk -b patches.jar -m integrations.apk --exclusive " + integrations)
             print("Done!")
-            exit
+            exit()
 
 def main():
     # =====================< Internet Chacker >=====================
