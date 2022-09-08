@@ -74,13 +74,13 @@ with open('settings.RVP.json') as f:
         newver = "dev"
     else:
         newver = latest('xemulat/ReVancedPacker')
-    if "1.2" == str(newver):
+    if "2.1" == str(newver):
         vers = "Up-To-Date"
         hcve = "#00FF00"
     elif str(newver) == "dev":
         vers = "Dev build, not checking for updates"
         hcve = "#74D962"
-    elif str(newver) > "1.2":
+    elif str(newver) > "2.1":
         vers = "Outdated, download it from my github"
         hcve = "#FF0000"
     else:
@@ -97,6 +97,7 @@ def injects(file):
                        'DON' + "'" + 'T ADD "microg-support", \nit' + "'" + 's added when you click the button(s) =>')],
               [sg.Input('', enable_events=True, key='-INTEGRATIONS-')],
               [sg.Text('')], 
+              [sg.Text('')],
               [sg.Text('')],
               [sg.Text('Coded by Xemulated')]]
 
