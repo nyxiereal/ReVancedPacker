@@ -1,4 +1,4 @@
-Okey, so we are back WORMS!
+Quick poll here: https://forms.gle/nvV6KjZgTu7NGdQRA
 
 # ReVancedPacker
 ![image](https://forthebadge.com/images/badges/fuck-it-ship-it.svg)
