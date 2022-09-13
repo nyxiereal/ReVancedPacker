@@ -1,5 +1,4 @@
-Quick poll here: https://forms.gle/nvV6KjZgTu7NGdQRA
-
+Because of the feedback I received the GUI will be removed in 2.3
 # ReVancedPacker
 ![image](https://forthebadge.com/images/badges/fuck-it-ship-it.svg)
 [![GitHub stars](https://img.shields.io/github/stars/xemulat/ReVancedPacker?style=for-the-badge)](https://github.com/xemulat/ReVancedPacker/stargazers)
