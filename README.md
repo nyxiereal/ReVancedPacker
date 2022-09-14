@@ -1,4 +1,7 @@
 Because of the feedback I received the GUI will be removed in 2.3
+
+Because of the pressure and my other projects 2.3 will be the last update, I don't have the time to maintain this, use ReVanced Builder.
+
 # ReVancedPacker
 ![image](https://forthebadge.com/images/badges/fuck-it-ship-it.svg)
 [![GitHub stars](https://img.shields.io/github/stars/xemulat/ReVancedPacker?style=for-the-badge)](https://github.com/xemulat/ReVancedPacker/stargazers)
