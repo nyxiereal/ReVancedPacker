@@ -1,5 +1,7 @@
 Because of the feedback I received the GUI will be removed in 2.3
 
+Don't use this tool, use ReVanced Builder
+
 Because of the pressure and my other projects 2.3 will be the last update, I don't have the time to maintain this, use ReVanced Builder.
 
 # ReVancedPacker
