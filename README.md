@@ -15,7 +15,9 @@ FOSS ReVanced Apk Packer written in Python
 Higher on the list = higher priority
 Lower on the list = lower priority
 # ToDo:
-- Waiting for bugs / issues
+- [ ] make it better
+- [x] REMOVE THE GUI
+- [x] MAKE IT A CLI TOOL
 
 # Required Programs:
 - Python 3.10.9 (Rewrite)
