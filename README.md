@@ -1,18 +1,12 @@
-Because of the feedback I received the GUI will be removed in 2.3
+WE ARE BACK BABE!!!!
 
-Don't use this tool, use ReVanced Builder
-
-Because of the pressure and my other projects 2.3 will be the last update, I don't have the time to maintain this, use ReVanced Builder.
+fixing shit rn
 
 # ReVancedPacker
-![image](https://forthebadge.com/images/badges/fuck-it-ship-it.svg)
 [![GitHub stars](https://img.shields.io/github/stars/xemulat/ReVancedPacker?style=for-the-badge)](https://github.com/xemulat/ReVancedPacker/stargazers)
 [![GitHub license](https://img.shields.io/github/license/xemulat/ReVancedPacker?style=for-the-badge)](https://github.com/xemulat/ReVancedPacker/blob/main/LICENSE)
-![forthebadge](https://i.imgur.com/RPasORd.png)
 
 [Apk files QuickLinks](https://rentry.co/RVPApks)
-
-You can watch me code RVP2 LIVE [here](https://discord.gg/ntts)
 
 FOSS ReVanced Apk Packer written in Python
 
@@ -24,7 +18,7 @@ Lower on the list = lower priority
 - Waiting for bugs / issues
 
 # Required Programs:
-- Python 3.10.6 (only if you downloaded from source)
+- Python 3.10.9 (Rewrite)
 - Phone or Emulator with Android 7+ (8+ are preffered)
 
 # Minimum Hardware:
@@ -32,7 +26,7 @@ Lower on the list = lower priority
 - 2/3GB of Ram
 - 300mb Disk Space
 - 200kbps internet
-- Windows 8.1 64bit
+- Windows 10 64bit
 
 # Links:
 - [Download](https://github.com/xemulat/ReVancedPacker/releases)
