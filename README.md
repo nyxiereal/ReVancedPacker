@@ -6,6 +6,8 @@ fixing shit rn
 [![GitHub stars](https://img.shields.io/github/stars/xemulat/ReVancedPacker?style=for-the-badge)](https://github.com/xemulat/ReVancedPacker/stargazers)
 [![GitHub license](https://img.shields.io/github/license/xemulat/ReVancedPacker?style=for-the-badge)](https://github.com/xemulat/ReVancedPacker/blob/main/LICENSE)
 
+[Discord](https://discord.gg/egSdNn6wUw)
+
 [Apk files QuickLinks](https://rentry.co/RVPApks)
 
 FOSS ReVanced Apk Packer written in Python
