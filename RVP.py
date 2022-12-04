@@ -5,6 +5,7 @@ from zipfile import ZipFile
 from os.path import isfile, isdir
 from sys import exit
 from time import sleep
+from wget import download as dl
 try:
     from XeLib import cls, printer
     from lastversion import latest
@@ -18,6 +19,13 @@ init(autoreset=True)
 
 def achooser(choose, option):
     if option == choose or option.upper() == choose or option.capitalize() == choose or option.title() == choose or option.lower() == choose: return True
+
+def dls(link, fnam, name):
+    if not "https://" in link:
+        link = "https://" + link
+    print(Fore.RED + "[>] " + "Downloading " + name + "...")
+    dl(link, fnam)
+    print("\n"+Fore.RED + "[>] " + name + ' Downloaded!')
 
 def download(link, fnam, name):
     if isfile(fnam) == False:
@@ -42,7 +50,7 @@ def update():
     elif achooser(doupdate, "y"):
         printer.lprint("Updating...")
         try:
-            download("https://github.com/xemulat/ReVancedPacker/releases/latest/download/RVP.exe", "RVP."+str(latest("xemulat/ReVancedPacker"))+".exe", "RVP "+str(latest("xemulat/ReVancedPacker")))
+            dl("https://github.com/xemulat/ReVancedPacker/releases/latest/download/RVP.exe", "RVP."+str(latest("xemulat/ReVancedPacker"))+".exe")
             startfile("RVP."+str(latest("xemulat/ReVancedPacker"))+".exe")
             exit()
         except:
@@ -56,13 +64,13 @@ printer.lprint("Setting up...")
 VancedMicroG_link     = (((resp['tools'])[0])['browser_download_url'])
 
 if isfile("Integrations.apk") == False:
-    download("https://github.com/revanced/revanced-integrations/releases/latest/download/app-release-unsigned.apk", "Integrations.apk", "ReVanced Integrations")
+    dls("https://github.com/revanced/revanced-integrations/releases/latest/download/app-release-unsigned.apk", "Integrations.apk", "ReVanced Integrations")
 
 if isfile("Patches.jar") == False:
-    download("https://github.com/revanced/revanced-patches/releases/latest/download/revanced-patches-"+str(latest('revanced/revanced-patches'))+".jar", "Patches.jar", "ReVanced Patches")
+    dls("https://github.com/revanced/revanced-patches/releases/latest/download/revanced-patches-"+str(latest('revanced/revanced-patches'))+".jar", "Patches.jar", "ReVanced Patches")
 
 if isfile("cli.jar") == False:
-    download("https://github.com/revanced/revanced-cli/releases/latest/download/revanced-cli-"+str(latest('revanced/revanced-cli'))+"-all.jar", "cli.jar", "ReVanced CLI")
+    dls("https://github.com/revanced/revanced-cli/releases/latest/download/revanced-cli-"+str(latest('revanced/revanced-cli'))+"-all.jar", "cli.jar", "ReVanced CLI")
 
 # Get patches
 api_url = 'https://releases.revanced.app/patches'
@@ -187,7 +195,7 @@ def main():
             print("\nGo Back")
             choose = input("> ")
             main()
-    elif choose == "3": download("https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.5%2B8/OpenJDK17U-jdk_x64_windows_hotspot_17.0.5_8.msi", "java17.msi", "Java 17") ; startfile("java17.msi")
+    elif choose == "3": dls("https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.5%2B8/OpenJDK17U-jdk_x64_windows_hotspot_17.0.5_8.msi", "java17.msi", "Java 17") ; startfile("java17.msi")
     elif choose == '99': exit()
     else: print(f"No item named {choose}...") ; sleep(6) ; main()
 
