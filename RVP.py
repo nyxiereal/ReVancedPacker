@@ -1,222 +1,171 @@
-import PySimpleGUI as sg
-from time import sleep
-from sys import exit
-from ping3 import ping
-from json import load
-from webbrowser import open as webopen
-from os import system, rename, remove
+from os import system, startfile, rename
+from requests import get
+from platform import system as platform
 from zipfile import ZipFile
 from os.path import isfile, isdir
-from urllib.request import urlretrieve
-from lastversion import latest, has_update
-# QuickInstall - pip install ping3 lastversion PySimpleGUI
+from sys import exit
+try:
+    from XeLib import cls, printer
+    from lastversion import latest
+    from ping3 import ping
+    from colorama import init, Fore
+except:
+    print("Installing packages...")
+    system("python -m pip install XeLib lastversion ping3")
 
-# =====================< Downloader >=====================
-def reporter(block_num, block_size, total_size):
-    read_so_far = block_num * block_size
-    if total_size > 0:
-        percent = read_so_far * 1e2 / total_size
-        print(
-            f"\r{percent:5.1f}% {read_so_far:{len(str(total_size))}} out of {total_size}", end='')
-        if read_so_far >= total_size:
-            print()
+init(autoreset=True)
+
+def achooser(choose, option):
+    if option == choose or option.upper() == choose or option.capitalize() == choose or option.title() == choose or option.lower() == choose: return True
+
+def download(link, fnam, name):
+    if isfile(fnam) == False:
+        if not "https://" in link:
+            link = "https://" + link
+        print(Fore.RED + "[>] " + "Downloading " + name + "...")
+        r = get(link, allow_redirects=True, headers={'User-Agent': 'Mozilla/5.0'})
+        with open(fnam, 'wb') as f:
+            for chunk in r.iter_content(1024):
+                f.write(chunk)
+        print("\n"+Fore.RED + "[>] " + name + ' Downloaded!')
     else:
-        print(f"read {read_so_far}", end='')
+        print("Already downloaded...")
+# Get links
+cls()
+api_url = 'https://releases.revanced.app/tools'
+resp = get(api_url).json()
+printer.lprint("Setting up...")
+VancedMicroG_link     = (((resp['tools'])[0])['browser_download_url'])
 
-def download(name, repname, link):
-    print("Downloading " + name + " ...")
-    print(link)
-    urlretrieve(link, repname, reporter)
-    print(name + ' Downloaded!')
+if isfile("Integrations.apk") == False:
+    download("https://github.com/revanced/revanced-integrations/releases/latest/download/app-release-unsigned.apk", "Integrations.apk", "ReVanced Integrations")
 
-def cleantemp():
-    if KeepFiles == "False":
-        if isfile("patches.jar") == True:
-            remove("patches.jar")
+if isfile("Patches.jar") == False:
+    download("https://github.com/revanced/revanced-patches/releases/latest/download/revanced-patches-"+str(latest('revanced/revanced-patches'))+".jar", "Patches.jar", "ReVanced Patches")
 
-        if isfile("integrations.apk") == True:
-            remove("integrations.apk")
+if isfile("cli.jar") == False:
+    download("https://github.com/revanced/revanced-cli/releases/latest/download/revanced-cli-"+str(latest('revanced/revanced-cli'))+"-all.jar", "cli.jar", "ReVanced CLI")
 
-        if isfile("rvcli.jar") == True:
-            remove("rvcli.jar")
-
-        if isfile("revanced.keystore") == True:
-            remove("revanced.keystore")
-
-# =====================< Prep Phase >=====================
-
-sg.theme("DarkGray15")
-sg.set_options(font=("Consolas", 9), text_color='#FFFFFF')
-if isfile("settings.RVP.json") == False:
-    urlretrieve('https://raw.githubusercontent.com/xemulat/ReVancedPacker/main/settings.RVP', 'settings.RVP.json')
-with open('settings.RVP.json') as c:
-    v = load(c)
-    KeepFiles = str(v["KeepFiles"])
-if isfile("java.zip") == True and isdir("jv17" or "jdk-17.0.4.1+1") == False:
-    if KeepFiles == "False":
-        remove("java.zip")
-if isdir("jv17") == False:
-    if isfile("Java.zip") == False:
-        download("Java 17", 'java.zip', 'https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.4.1%2B1/OpenJDK17U-jdk_x64_windows_hotspot_17.0.4.1_1.zip')
-    print("Unzipping Java...")
-    with ZipFile("Java.zip", "r") as fe:
-        fe.extractall("")
-    rename("jdk-17.0.4.1+1", "jv17")
-    if KeepFiles == "False":
-        remove("java.zip")
-cleantemp()
-javadir = "start jv17/bin/java.exe"
-
-with open('settings.RVP.json') as f:
-    d = load(f)
-    KeepFiles = str(d["KeepFiles"])
-    if str(d["IsDev"]) == "True":
-        newver = "dev"
-    else:
-        newver = latest('xemulat/ReVancedPacker')
-    if "2.2" == str(newver):
-        vers = "Up-To-Date"
-        hcve = "#00FF00"
-    elif str(newver) == "dev":
-        vers = "Dev build, not checking for updates"
-        hcve = "#74D962"
-    elif str(newver) > "2.2":
-        vers = "Outdated, download it from my github"
-        hcve = "#FF0000"
-    else:
-        vers = "error checking updates :("
-        hcve = "#FFFF00"
-    print("Build: " + str(newver))
-
-# =====================< Packer / Injector >=====================
-def injects(file):
-    isexperimental = 0
-    custom = [[sg.Text('Enter integrations to add')],
-              [sg.Text('*Press Enter to confirm*')],
-              [sg.Text('for example "swipe-controls seekbar-tapping"\n'
-                       'For non-rooted users, add "microg-support" to the window below')],
-              [sg.Input('', enable_events=True, key='-INTEGRATIONS-')],
-              [sg.Text('')], 
-              [sg.Text('')],
-              [sg.Text('')],
-              [sg.Text('Coded by Xemulated')]]
-
-    # it's really past my breaking point
-    itsreallypastmybreakingpoint = [[sg.Text('Buttonz')],
-                                    [sg.Text('click once')],
-                                    [sg.Button('Help')],
-                                    [sg.Button('Build!')],
-                                    [sg.Button('Exit')],
-                                    [sg.Text('')],
-                                    [sg.Text('')],
-                                    [sg.Text('')],
-                                    [sg.Text('')]]
-
-    custoz = [[sg.Text('Add Flags:')],
-              [sg.Text('You can only click them once')],
-              [sg.Button('Experimental')],
-              [sg.Text('')],
-              [sg.Text('')],
-              [sg.Text('')],
-              [sg.Text('')],
-              [sg.Text('')],
-              [sg.Text('')]]
-
-    layout = [[sg.Column(custom),
-               sg.VSeperator(),
-               sg.Column(itsreallypastmybreakingpoint),
-               sg.VSeperator(),
-               sg.Column(custoz)]]
-
-    window = sg.Window('RVP2', layout)
-    down = True
-
-    while True:
-        event, values = window.read()
-        if event == "Exit" or event == sg.WIN_CLOSED:
-            exit()
-
-        if event == "Help" or event == sg.WIN_CLOSED:
-            webopen('https://github.com/revanced/revanced-patches#-patches')
-
-        # it was 2AM 404Oops stop harassing me please
-        if event == 'Experimental':
-            isexperimental = 1
-
-        if event == "Build!":
-            if window['-INTEGRATIONS-'].get() == "":
-                integrations = ""
-
-            else:
-                integrations = window['-INTEGRATIONS-'].get().replace(" ", " -i ")
-                integrations = "-i " + integrations
-            print("Updating Repos...")
-
-            patchver = latest(repo='revanced/revanced-patches', output_format='version')
-            cliver = latest(repo='revanced/revanced-cli', output_format='version')
-            integrationsver = latest(repo='revanced/revanced-integrations', output_format='version')
-
-            print("Repos Updated!")
-            print("Downloading Required Files...")
-
-            download("Patches", 'patches.jar', 'https://github.com/revanced/revanced-patches/releases/download/v' + str(patchver) + '/revanced-patches-' + str(patchver) + '.jar')
-            download("Integrations", 'integrations.apk', 'https://github.com/revanced/revanced-integrations/releases/download/v' + str(integrationsver) + '/app-release-unsigned.apk')
-            download("CLI", 'rvcli.jar', 'https://github.com/revanced/revanced-cli/releases/download/v' + str(cliver) + '/revanced-cli-' + str(cliver) + '-all.jar')
-
-            print("Packing ReVanced...")
-            addon = ""
-            if isexperimental == 1:
-                addon = addon + " --experimental"
-            print(javadir + " -jar rvcli.jar -a " + file + " -c -o revanced.apk -b patches.jar -m integrations.apk --exclusive " + integrations)
-            system(javadir + " -jar rvcli.jar -a " + file + " -c -o revanced.apk -b patches.jar -m integrations.apk --exclusive " + integrations)
-            print("Done!")
-            exit()
+# Get patches
+api_url = 'https://releases.revanced.app/patches'
+resp = get(api_url).json()
+version = 'v2.3'
+init(autoreset=True)
 
 def main():
-    # =====================< Internet Chacker >=====================
-    internet = ping("https://www.github.com/")
-    if internet is None or False:
-        internetac = "Unreachable"
-        hcin = "#FF0000"
-    else:
-        internetac = "Reachable"
-        hcin = "#00FF00"
+    cls()
+    javapath = 'java'
+    print(f"Welcome to RVP {version}!\n"
+        f"Internet: {str(round(ping('github.com', unit='ms'), 2))}ms\n"
+        f"")
 
-    # =====================< Main Window >=====================
-    custon = [[sg.Text("Version - " + vers, text_color=hcve)],
-              [sg.Text("Network - " + internetac, text_color=hcin)],
-              [sg.Text("")],
-              [sg.Text('Enter your APK name')],
-              [sg.Text('*Press Enter to confirm*')],
-              [sg.Input('', enable_events=True, key='-INPUT-', ), sg.Button('Enter', visible=True, bind_return_key=True)],
-              [sg.Button('Exit'), sg.Button('Help')],
-              [sg.Text('')],
-              [sg.Text('Coded by Xemulated')]]
+    print("[1] Pack ReVanced\n"
+          "[2] Show Integrations\n"
+          "[3] Download Java\n"
+          "[99] Exit")
+    choose = input("> ")
 
-    window = sg.Window('RVP2', custon)
+    if choose == "1":
+        cls()
+        print("Choose what app to pack:")
+        print("[1] YouTube\n"
+              "[2] YouTube Music\n"
+              "[3] TikTok\n"
+              "[4] Reddit\n"
+              "[5] Spotify\n"
+              "[6] Twitter\n"
+              "[7] Crunchyroll\n"
+              "[8] Twitch")
 
-    while True:
-        event, values = window.read()
-        if event == "Exit" or event == sg.WIN_CLOSED:
-            exit()
+        choosee = input("> ")
+        if   choosee == "1": integration = 'com.google.android.youtube'
+        elif choosee == "2": integration = 'com.google.android.apps.youtube.music'
+        elif choosee == "3": integration = 'com.ss.android.ugc.trill'
+        elif choosee == "4": integration = 'com.reddit.frontpage'
+        elif choosee == "5": integration = 'com.spotify.music'
+        elif choosee == "6": integration = 'com.twitter.android'
+        elif choosee == "7": integration = 'com.crunchyroll.crunchyroid'
+        elif choosee == "8": integration = 'tv.twitch.android.app'
+        z = True
+        x = 0
+        patches = ""
+        print("Select patches to add to your app:")
+        
+        while z == True:
+            if integration == 'com.ss.android.ugc.trill':
+                try:
+                    if (((resp[x])['compatiblePackages'])[0])['name'] == integration:
+                        choose = input(str((resp[x])['name']) + " > ")
+                        if achooser(choose, 'y'):
+                            patches = patches + " -i " + str((resp[x])['name'])
+                    x = x + 1
+                except: z = False
 
-        elif event == "Help":
-            webopen("https://rentry.org/RVPApks")
-
-        elif event == 'Enter':
-            if newver == "dev":
-                window.close()
-                injects("youtube.apk")
             else:
-                if window['-INPUT-'].get() == '':
-                    pass
-                elif isfile(window['-INPUT-'].get()) == False:
-                    pass
-                else:
-                    if ".apk" in window['-INPUT-'].get():
-                        window.close()
-                        injects(window['-INPUT-'].get())
-                    else:
-                        pass
+                try:
+                    if (((resp[x])['compatiblePackages'])[0])['name'] == integration:
+                        choose = input(str((resp[x])['name']) + " > ")
+                        if achooser(choose, 'y'):
+                            patches = patches + " -i " + str((resp[x])['name'])
+                    x = x + 1
+                except: z = False
+        if   choosee == "1": download("https://d.apkpure.com/b/APK/com.google.android.youtube?version=latest", "YouTube.apk", "youtube") ; inputapk = "YouTube.apk"
+        elif choosee == "2": download("https://d.apkpure.com/b/APK/com.google.android.apps.youtube.music?version=latest", "YouTubeMusic.apk", "YouTubeMusic") ; inputapk = "YouTubeMusic.apk"
+        elif choosee == "3": download("https://d.apkpure.com/b/APK/com.zhiliaoapp.musically?version=latest", "TikTok.apk", "TikTok") ; inputapk = "TikTok.apk"
+        elif choosee == "4": download("https://d.apkpure.com/b/APK/com.reddit.frontpage?version=latest", "Reddit.apk", "Reddit") ; inputapk = "Reddit.apk"
+        elif choosee == "5": download("https://d.apkpure.com/b/APK/com.spotify.music?versionCode=94112650", "Spotify.apk", "Spotify") ; inputapk = "Spotify.apk"
+        elif choosee == "6": download("https://d.apkpure.com/b/APK/com.twitter.android?version=latest", "Twitter.apk", "Twitter") ; inputapk = "Twitter.apk"
+        elif choosee == "7": download("https://d.apkpure.com/b/APK/com.crunchyroll.crunchyroid?version=latest", "Crunchyroll.apk", "Crunchyroll") ; inputapk = "Crunchyroll.apk"
+        elif choosee == "8": download("https://d.apkpure.com/b/APK/tv.twitch.android.app?version=latest", "Twitch.apk", "Twitch") ; inputapk = "Twitch.apk"
 
+        system(javapath + f" -jar cli.jar -a {inputapk} -b Patches.jar -m Integrations.apk --experimental --exclusive --clean -o revanced.apk" + patches)
+
+    elif choose == "2":
+        cls()
+        while True:
+            print("Show Integrations from:\n"
+                "[1] YouTube\n"
+                "[2] YouTube Music\n"
+                "[3] TikTok\n"
+                "[4] Reddit\n"
+                "[5] Spotify\n"
+                "[6] Twitter\n"
+                "[7] Crunchyroll\n"
+                "[8] Twitch")
+
+            choose = input("> ")
+            if   choose == "1": integration = 'com.google.android.youtube'
+            elif choose == "2": integration = 'com.google.android.apps.youtube.music'
+            elif choose == "3": integration = 'com.ss.android.ugc.trill'
+            elif choose == "4": integration = 'com.reddit.frontpage'
+            elif choose == "5": integration = 'com.spotify.music'
+            elif choose == "6": integration = 'com.twitter.android'
+            elif choose == "7": integration = 'com.crunchyroll.crunchyroid'
+            elif choose == "8": integration = 'tv.twitch.android.app'
+            x = 0
+            z = True
+
+            while z == True:
+                if integration == 'com.ss.android.ugc.trill':
+                    try:
+                        if (((resp[x])['compatiblePackages'])[0])['name'] == integration:
+                            printer.red("┌────────────────────────────────────────────────────")
+                            print(Fore.RED+"│ "+Fore.RESET + str((resp[x])['name']))
+                            print(Fore.RED+"│ "+Fore.RESET + str((resp[x])['description']))
+                        x = x + 1
+                    except: z = False
+
+                else:
+                    try:
+                        if (((resp[x])['compatiblePackages'])[0])['name'] == integration:
+                            printer.red("┌────────────────────────────────────────────────────")
+                            print(Fore.RED+"│ "+Fore.RESET + str((resp[x])['name']))
+                            print(Fore.RED+"│ "+Fore.RESET + str((resp[x])['description']))
+                        x = x + 1
+                    except: z = False
+            print("\nGo Back")
+            choose = input("> ")
+            main()
+    elif choose == "3": download("https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.5%2B8/OpenJDK17U-jdk_x64_windows_hotspot_17.0.5_8.msi", "java17.msi", "Java 17") ; startfile("java17.msi")
+    elif choose == '99': exit()
 main()
