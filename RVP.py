@@ -4,6 +4,7 @@ from platform import system as platform
 from zipfile import ZipFile
 from os.path import isfile, isdir
 from sys import exit
+from time import sleep
 try:
     from XeLib import cls, printer
     from lastversion import latest
@@ -30,6 +31,23 @@ def download(link, fnam, name):
         print("\n"+Fore.RED + "[>] " + name + ' Downloaded!')
     else:
         print("Already downloaded...")
+
+def update():
+    print('Update?')
+    doupdate = input("("+Fore.GREEN+"Y"+Fore.WHITE+"/"+Fore.RED+"n"+Fore.WHITE + "): ")
+    if achooser(doupdate, "n"):
+        print("Okey.")
+        sleep(2)
+        pass
+    elif achooser(doupdate, "y"):
+        printer.lprint("Updating...")
+        try:
+            download("https://github.com/xemulat/ReVancedPacker/releases/latest/download/RVP.exe", "RVP."+str(latest("xemulat/ReVancedPacker"))+".exe", "RVP "+str(latest("xemulat/ReVancedPacker")))
+            startfile("RVP."+str(latest("xemulat/ReVancedPacker"))+".exe")
+            exit()
+        except:
+            printer.lprint("Can't complete updates, aborting...") ; sleep(4) ; exit()
+
 # Get links
 cls()
 api_url = 'https://releases.revanced.app/tools'
@@ -49,13 +67,13 @@ if isfile("cli.jar") == False:
 # Get patches
 api_url = 'https://releases.revanced.app/patches'
 resp = get(api_url).json()
-version = 'v2.3'
+version = 2.3
 init(autoreset=True)
 
 def main():
     cls()
     javapath = 'java'
-    print(f"Welcome to RVP {version}!\n"
+    print(f"Welcome to RVP v{version}!\n"
         f"Internet: {str(round(ping('github.com', unit='ms'), 2))}ms\n"
         f"")
 
@@ -86,6 +104,7 @@ def main():
         elif choosee == "6": integration = 'com.twitter.android'
         elif choosee == "7": integration = 'com.crunchyroll.crunchyroid'
         elif choosee == "8": integration = 'tv.twitch.android.app'
+        else: print(f"No item named {choose}...") ; sleep(6) ; main()
         z = True
         x = 0
         patches = ""
@@ -117,6 +136,7 @@ def main():
         elif choosee == "6": download("https://d.apkpure.com/b/APK/com.twitter.android?version=latest", "Twitter.apk", "Twitter") ; inputapk = "Twitter.apk"
         elif choosee == "7": download("https://d.apkpure.com/b/APK/com.crunchyroll.crunchyroid?version=latest", "Crunchyroll.apk", "Crunchyroll") ; inputapk = "Crunchyroll.apk"
         elif choosee == "8": download("https://d.apkpure.com/b/APK/tv.twitch.android.app?version=latest", "Twitch.apk", "Twitch") ; inputapk = "Twitch.apk"
+        else: print(f"No item named {choose}...") ; sleep(6) ; main()
 
         system(javapath + f" -jar cli.jar -a {inputapk} -b Patches.jar -m Integrations.apk --experimental --exclusive --clean -o revanced.apk" + patches)
 
@@ -142,6 +162,7 @@ def main():
             elif choose == "6": integration = 'com.twitter.android'
             elif choose == "7": integration = 'com.crunchyroll.crunchyroid'
             elif choose == "8": integration = 'tv.twitch.android.app'
+            else: print(f"No item named {choose}...") ; sleep(6) ; main()
             x = 0
             z = True
 
@@ -168,4 +189,7 @@ def main():
             main()
     elif choose == "3": download("https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.5%2B8/OpenJDK17U-jdk_x64_windows_hotspot_17.0.5_8.msi", "java17.msi", "Java 17") ; startfile("java17.msi")
     elif choose == '99': exit()
+    else: print(f"No item named {choose}...") ; sleep(6) ; main()
+
+if str(latest("xemulat/ReVancedPacker")) > str(version): update()
 main()
