@@ -1,6 +1,6 @@
-WE ARE BACK BABE!!!!
+DOWNLOADING PATCHES WON'T WORK NOW!!!
 
-fixing shit rn
+DOWNLOAD THIS BACKUP I HAD SAVED: [here](https://gofile.io/d/2p164P), [here](https://www.mediafire.com/file/9gtzc5den4vglu3/Patches.jar/file) or [here](https://mega.nz/file/1oEDjQKD#q-kx57-qyAB40b50UZYRL1YEUxLEmhtt7beRF7E9KUM)
 
 # ReVancedPacker
 [![GitHub stars](https://img.shields.io/github/stars/xemulat/ReVancedPacker?style=for-the-badge)](https://github.com/xemulat/ReVancedPacker/stargazers)
