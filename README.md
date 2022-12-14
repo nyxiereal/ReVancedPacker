@@ -1,7 +1,4 @@
-DOWNLOADING PATCHES WON'T WORK NOW!!!
-
-DOWNLOAD THIS BACKUP I HAD SAVED: [here](https://gofile.io/d/2p164P), [here](https://www.mediafire.com/file/9gtzc5den4vglu3/Patches.jar/file) or [here](https://mega.nz/file/1oEDjQKD#q-kx57-qyAB40b50UZYRL1YEUxLEmhtt7beRF7E9KUM)
-
+Patches are working now
 # ReVancedPacker
 [![GitHub stars](https://img.shields.io/github/stars/xemulat/ReVancedPacker?style=for-the-badge)](https://github.com/xemulat/ReVancedPacker/stargazers)
 [![GitHub license](https://img.shields.io/github/license/xemulat/ReVancedPacker?style=for-the-badge)](https://github.com/xemulat/ReVancedPacker/blob/main/LICENSE)
@@ -18,8 +15,8 @@ Higher on the list = higher priority
 Lower on the list = lower priority
 # ToDo:
 - [ ] make it better
-- [x] REMOVE THE GUI
-- [x] MAKE IT A CLI TOOL
+- [x] Add better downloader from XeLib v1
+- [ ] Optimize code using ChatGPT
 
 # Required Programs:
 - Python 3.10.9 (Rewrite)
@@ -34,8 +31,7 @@ Lower on the list = lower priority
 
 # Links:
 - [Download](https://github.com/xemulat/ReVancedPacker/releases)
-- [Guide](https://github.com/xemulat/ReVancedPacker/wiki/How-to-use-this-program-(guide))
-- [How can you support me](https://github.com/xemulat/ReVancedPacker/wiki/How-can-you-support-me)
+- [How can you support me](https://rentry.co/HowToSupportXem)
 - [RepoTracker](https://repo-tracker.com/r/gh/xemulat/ReVancedPacker)
 
 # Donate?
