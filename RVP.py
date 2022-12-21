@@ -5,15 +5,15 @@ from zipfile import ZipFile
 from os.path import isfile, isdir
 from sys import exit
 from time import sleep
-from wget import download as dl
 try:
-    from XeLib import cls, printer
+    from tqdm import tqdm
+    from XeLib import cls, printer, download
     from lastversion import latest
     from ping3 import ping
     from colorama import init, Fore
 except:
     print("Installing packages...")
-    system("python -m pip install XeLib lastversion ping3")
+    system("python -m pip install XeLib lastversion ping3 tqdm wget")
 
 init(autoreset=True)
 
@@ -21,24 +21,7 @@ def achooser(choose, option):
     if option == choose or option.upper() == choose or option.capitalize() == choose or option.title() == choose or option.lower() == choose: return True
 
 def dls(link, fnam, name):
-    if not "https://" in link:
-        link = "https://" + link
-    print(Fore.RED + "[>] " + "Downloading " + name + "...")
-    dl(link, fnam)
-    print("\n"+Fore.RED + "[>] " + name + ' Downloaded!')
-
-def download(link, fnam, name):
-    if isfile(fnam) == False:
-        if not "https://" in link:
-            link = "https://" + link
-        print(Fore.RED + "[>] " + "Downloading " + name + "...")
-        r = get(link, allow_redirects=True, headers={'User-Agent': 'Mozilla/5.0'})
-        with open(fnam, 'wb') as f:
-            for chunk in r.iter_content(1024):
-                f.write(chunk)
-        print("\n"+Fore.RED + "[>] " + name + ' Downloaded!')
-    else:
-        print("Already downloaded...")
+    download(link, fnam, name)
 
 def update():
     print('Update?')
@@ -75,7 +58,7 @@ if isfile("cli.jar") == False:
 # Get patches
 api_url = 'https://releases.revanced.app/patches'
 resp = get(api_url).json()
-version = 2.3
+version = 2.4
 init(autoreset=True)
 
 def main():
@@ -148,6 +131,8 @@ def main():
 
         system(javapath + f" -jar cli.jar -a {inputapk} -b Patches.jar -m Integrations.apk --experimental --exclusive --clean -o revanced.apk" + patches)
 
+        input("> ")
+        exit()
     elif choose == "2":
         cls()
         while True:
