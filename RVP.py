@@ -99,26 +99,48 @@ def main():
         z = True
         x = 0
         patches = ""
-        print("Select patches to add to your app:")
-        
-        while z == True:
-            if integration == 'com.ss.android.ugc.trill':
-                try:
-                    if (((resp[x])['compatiblePackages'])[0])['name'] == integration:
-                        choose = input(str((resp[x])['name']) + " > ")
-                        if achooser(choose, 'y'):
-                            patches = patches + " -i " + str((resp[x])['name'])
-                    x = x + 1
-                except: z = False
+        print("Select patches to add to your app:\n"
+              "[1] All Integrations\n"
+              "[2] Only Selected Integration")
+        pacches = input("> ")
 
-            else:
-                try:
-                    if (((resp[x])['compatiblePackages'])[0])['name'] == integration:
-                        choose = input(str((resp[x])['name']) + " > ")
-                        if achooser(choose, 'y'):
+        if pacches == '1':
+            exclusive = ''
+            while z == True:
+                if integration == 'com.ss.android.ugc.trill':
+                    try:
+                        if (((resp[x])['compatiblePackages'])[0])['name'] == integration:
                             patches = patches + " -i " + str((resp[x])['name'])
-                    x = x + 1
-                except: z = False
+                        x = x + 1
+                    except: z = False
+
+                else:
+                    try:
+                        if (((resp[x])['compatiblePackages'])[0])['name'] == integration:
+                            patches = patches + " -i " + str((resp[x])['name'])
+                        x = x + 1
+                    except: z = False
+
+        elif pacches == '2':
+            exclusive = ' --exclusive'
+            while z == True:
+                if integration == 'com.ss.android.ugc.trill':
+                    try:
+                        if (((resp[x])['compatiblePackages'])[0])['name'] == integration:
+                            choose = input(str((resp[x])['name']) + " > ")
+                            if achooser(choose, 'y'):
+                                patches = patches + " -i " + str((resp[x])['name'])
+                        x = x + 1
+                    except: z = False
+
+                else:
+                    try:
+                        if (((resp[x])['compatiblePackages'])[0])['name'] == integration:
+                            choose = input(str((resp[x])['name']) + " > ")
+                            if achooser(choose, 'y'):
+                                patches = patches + " -i " + str((resp[x])['name'])
+                        x = x + 1
+                    except: z = False
         if   choosee == "1": download("https://d.apkpure.com/b/APK/com.google.android.youtube?version=latest", "YouTube.apk", "youtube") ; inputapk = "YouTube.apk"
         elif choosee == "2": download("https://d.apkpure.com/b/APK/com.google.android.apps.youtube.music?version=latest", "YouTubeMusic.apk", "YouTubeMusic") ; inputapk = "YouTubeMusic.apk"
         elif choosee == "3": download("https://d.apkpure.com/b/APK/com.zhiliaoapp.musically?version=latest", "TikTok.apk", "TikTok") ; inputapk = "TikTok.apk"
@@ -129,7 +151,7 @@ def main():
         elif choosee == "8": download("https://d.apkpure.com/b/APK/tv.twitch.android.app?version=latest", "Twitch.apk", "Twitch") ; inputapk = "Twitch.apk"
         else: print(f"No item named {choose}...") ; sleep(6) ; main()
 
-        system(javapath + f" -jar cli.jar -a {inputapk} -b Patches.jar -m Integrations.apk --experimental --exclusive --clean -o revanced.apk" + patches)
+        system(javapath + f" -jar cli.jar -a {inputapk} -b Patches.jar -m Integrations.apk --experimental{exclusive} --clean -o revanced.apk" + patches)
 
         input("> ")
         exit()
