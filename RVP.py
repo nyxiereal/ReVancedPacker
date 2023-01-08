@@ -271,5 +271,4 @@ def main():
     elif choose == '99': exit()
     else: print(f"No item named {choose}...") ; sleep(6) ; main()
 
-if str(latest("xemulat/ReVancedPacker")) > str(version): update()
 main()
