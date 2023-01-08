@@ -1,7 +1,6 @@
-from os import system, startfile, rename
+from os import system, startfile, remove
 from requests import get
 from platform import system as platform
-from zipfile import ZipFile
 from os.path import isfile, isdir
 from sys import exit
 from time import sleep
@@ -20,8 +19,15 @@ init(autoreset=True)
 def achooser(choose, option):
     if option == choose or option.upper() == choose or option.capitalize() == choose or option.title() == choose or option.lower() == choose: return True
 
-def dls(link, fnam, name):
-    download(link, fnam, name)
+def rm(file):
+    if not isfile('norm.cnf'):
+        if isfile(file) == True:
+            remove(file)
+
+def removetmp():
+    rm('cli.jar')
+    rm('patches.jar')
+    rm('integrations.apk')
 
 def update():
     print('Update?')
@@ -33,40 +39,58 @@ def update():
     elif achooser(doupdate, "y"):
         printer.lprint("Updating...")
         try:
-            dl("https://github.com/xemulat/ReVancedPacker/releases/latest/download/RVP.exe", "RVP."+str(latest("xemulat/ReVancedPacker"))+".exe")
+            download("https://github.com/xemulat/ReVancedPacker/releases/latest/download/RVP.exe", "RVP."+str(latest("xemulat/ReVancedPacker"))+".exe", 'RVP Update')
             startfile("RVP."+str(latest("xemulat/ReVancedPacker"))+".exe")
             exit()
         except:
             printer.lprint("Can't complete updates, aborting...") ; sleep(4) ; exit()
 
-# Get links
+# Prep
 cls()
+printer.lprint('Removing TEMP files...')
+removetmp()
+
+# Get links
 api_url = 'https://releases.revanced.app/tools'
 resp = get(api_url).json()
 printer.lprint("Setting up...")
-VancedMicroG_link     = (((resp['tools'])[0])['browser_download_url'])
+
+h = (((resp['tools'])[0])['browser_download_url'])
 
 if isfile("Integrations.apk") == False:
-    dls("https://github.com/revanced/revanced-integrations/releases/latest/download/app-release-unsigned.apk", "Integrations.apk", "ReVanced Integrations")
+    download((((resp['tools'])[4])['browser_download_url']), "integrations.apk", "ReVanced Integrations")
 
 if isfile("Patches.jar") == False:
-    dls("https://github.com/revanced/revanced-patches/releases/latest/download/revanced-patches-"+str(latest('revanced/revanced-patches'))+".jar", "Patches.jar", "ReVanced Patches")
+    download((((resp['tools'])[3])['browser_download_url']), "patches.jar", "ReVanced Patches")
 
 if isfile("cli.jar") == False:
-    dls("https://github.com/revanced/revanced-cli/releases/latest/download/revanced-cli-"+str(latest('revanced/revanced-cli'))+"-all.jar", "cli.jar", "ReVanced CLI")
+    download((((resp['tools'])[6])['browser_download_url']), "cli.jar", "ReVanced CLI")
 
 # Get patches
 api_url = 'https://releases.revanced.app/patches'
 resp = get(api_url).json()
-version = 2.4
+version = 2.5
 init(autoreset=True)
+
+newver = latest("xemulat/ReVancedPacker")
+if str(version) == str(newver):
+    state = 'Up-To-Date'
+
+elif str(newver) > str(version):
+    # Triggers the update after outdated version is detected
+    state = 'Outdated'
+    update()
+
+else:
+    state = 'cant'
 
 def main():
     cls()
     javapath = 'java'
     print(f"Welcome to RVP v{version}!\n"
-        f"Internet: {str(round(ping('github.com', unit='ms'), 2))}ms\n"
-        f"")
+          f"RVP is {state}\n"
+          f"Internet: {str(round(ping('github.com', unit='ms'), 2))}ms\n"
+          f"")
 
     print("[1] Pack ReVanced\n"
           "[2] Show Integrations\n"
@@ -96,16 +120,22 @@ def main():
         elif choosee == "7": integration = 'com.crunchyroll.crunchyroid'
         elif choosee == "8": integration = 'tv.twitch.android.app'
         else: print(f"No item named {choose}...") ; sleep(6) ; main()
+
+        print('Disable patch version compatibility?')
+        chooosee = input('(Y/n): ')
+        if chooosee == achooser(chooosee, 'y'):
+            patches = '--experimental'
+        else:
+            patches = ""
+
         z = True
         x = 0
-        patches = ""
         print("Select patches to add to your app:\n"
               "[1] All Integrations\n"
               "[2] Only Selected Integration")
         pacches = input("> ")
 
         if pacches == '1':
-            exclusive = ''
             while z == True:
                 if integration == 'com.ss.android.ugc.trill':
                     try:
@@ -122,7 +152,6 @@ def main():
                     except: z = False
 
         elif pacches == '2':
-            exclusive = ' --exclusive'
             while z == True:
                 if integration == 'com.ss.android.ugc.trill':
                     try:
@@ -130,6 +159,8 @@ def main():
                             choose = input(str((resp[x])['name']) + " > ")
                             if achooser(choose, 'y'):
                                 patches = patches + " -i " + str((resp[x])['name'])
+                            else:
+                                patches = patches + " -e " + str((resp[x])['name'])
                         x = x + 1
                     except: z = False
 
@@ -139,22 +170,56 @@ def main():
                             choose = input(str((resp[x])['name']) + " > ")
                             if achooser(choose, 'y'):
                                 patches = patches + " -i " + str((resp[x])['name'])
+                            else:
+                                patches = patches + " -e " + str((resp[x])['name'])
                         x = x + 1
                     except: z = False
-        if   choosee == "1": download("https://d.apkpure.com/b/APK/com.google.android.youtube?version=latest", "YouTube.apk", "youtube") ; inputapk = "YouTube.apk"
-        elif choosee == "2": download("https://d.apkpure.com/b/APK/com.google.android.apps.youtube.music?version=latest", "YouTubeMusic.apk", "YouTubeMusic") ; inputapk = "YouTubeMusic.apk"
-        elif choosee == "3": download("https://d.apkpure.com/b/APK/com.zhiliaoapp.musically?version=latest", "TikTok.apk", "TikTok") ; inputapk = "TikTok.apk"
-        elif choosee == "4": download("https://d.apkpure.com/b/APK/com.reddit.frontpage?version=latest", "Reddit.apk", "Reddit") ; inputapk = "Reddit.apk"
-        elif choosee == "5": download("https://d.apkpure.com/b/APK/com.spotify.music?versionCode=94112650", "Spotify.apk", "Spotify") ; inputapk = "Spotify.apk"
-        elif choosee == "6": download("https://d.apkpure.com/b/APK/com.twitter.android?version=latest", "Twitter.apk", "Twitter") ; inputapk = "Twitter.apk"
-        elif choosee == "7": download("https://d.apkpure.com/b/APK/com.crunchyroll.crunchyroid?version=latest", "Crunchyroll.apk", "Crunchyroll") ; inputapk = "Crunchyroll.apk"
-        elif choosee == "8": download("https://d.apkpure.com/b/APK/tv.twitch.android.app?version=latest", "Twitch.apk", "Twitch") ; inputapk = "Twitch.apk"
+
+        c = True
+
+        if achooser(choosee, '1' or '2'):
+            print("Do you want to download MicroG? It's required for YouTube ReVanced and YouTube Music ReVanced.")
+            choosemicrog = input('(Y/n): ')
+            if achooser(choosemicrog, 'y'):
+                while c:
+                    print('What MicroG to download?\n'
+                        '[1] Vanced MicroG (oldest)\n'
+                        "[2] Inotia's MicroG (latest)")
+
+                    secondmicrogchoose = input('> ')
+                    if achooser(secondmicrogchoose, '1'):
+                        download(str(h), 'MicroG.apk', 'Vanced MicroG')
+                        c = False
+
+                    elif achooser(secondmicrogchoose, '2'):
+                        download('https://github.com/inotia00/VancedMicroG/releases/latest/download/microg.apk', 'InoMicroG.apk', "Inotia's MicroG")
+                        c = False
+
+                    else: print(f"No item named {choose}...") ; sleep(2)
+        
+        if   achooser(choosee, "1"): download("https://d.apkpure.com/b/APK/com.google.android.youtube?version=latest", "YouTube.apk", "youtube") ; inputapk = "YouTube.apk" ; patches = patches + ' -i settings'
+        elif achooser(choosee, "2"): download("https://d.apkpure.com/b/APK/com.google.android.apps.youtube.music?version=latest", "YouTubeMusic.apk", "YouTubeMusic") ; inputapk = "YouTubeMusic.apk" ; patches = patches + ' -i settings'
+        elif achooser(choosee, "3"): download("https://d.apkpure.com/b/APK/com.zhiliaoapp.musically?version=latest", "TikTok.apk", "TikTok") ; inputapk = "TikTok.apk"
+        elif achooser(choosee, "4"): download("https://d.apkpure.com/b/APK/com.reddit.frontpage?version=latest", "Reddit.apk", "Reddit") ; inputapk = "Reddit.apk"
+        elif achooser(choosee, "5"): download("https://d.apkpure.com/b/APK/com.spotify.music?versionCode=94112650", "Spotify.apk", "Spotify") ; inputapk = "Spotify.apk"
+        elif achooser(choosee, "6"): download("https://d.apkpure.com/b/APK/com.twitter.android?version=latest", "Twitter.apk", "Twitter") ; inputapk = "Twitter.apk"
+        elif achooser(choosee, "7"): download("https://d.apkpure.com/b/APK/com.crunchyroll.crunchyroid?version=latest", "Crunchyroll.apk", "Crunchyroll") ; inputapk = "Crunchyroll.apk"
+        elif achooser(choosee, "8"): download("https://d.apkpure.com/b/APK/tv.twitch.android.app?version=latest", "Twitch.apk", "Twitch") ; inputapk = "Twitch.apk"
         else: print(f"No item named {choose}...") ; sleep(6) ; main()
 
-        system(javapath + f" -jar cli.jar -a {inputapk} -b Patches.jar -m Integrations.apk --experimental{exclusive} --clean -o revanced.apk" + patches)
+        cli = javapath + f" -jar cli.jar -a {inputapk} -b patches.jar -m integrations.apk --experimental --clean -o revanced.apk" + patches
 
-        input("> ")
+        print(f'Are you sure you want to run:\n{cli}')
+        finalchoose = input('(Y/n): ')
+        if not achooser(finalchoose, 'y'):
+            print('Exiting...')
+            exit(sleep(3))
+
+        system(cli)
+        print('Cleaning TEMP files...')
+        removetmp()
         exit()
+
     elif choose == "2":
         cls()
         while True:
@@ -202,7 +267,7 @@ def main():
             print("\nGo Back")
             choose = input("> ")
             main()
-    elif choose == "3": dls("https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.5%2B8/OpenJDK17U-jdk_x64_windows_hotspot_17.0.5_8.msi", "java17.msi", "Java 17") ; startfile("java17.msi")
+    elif choose == "3": download("https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.5%2B8/OpenJDK17U-jdk_x64_windows_hotspot_17.0.5_8.msi", "java17.msi", "Java 17") ; startfile("java17.msi")
     elif choose == '99': exit()
     else: print(f"No item named {choose}...") ; sleep(6) ; main()
 
