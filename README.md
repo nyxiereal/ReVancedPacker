@@ -5,6 +5,8 @@
 
 [Discord](https://discord.gg/egSdNn6wUw)
 
+TAKING FEATURE REQUESTS!!! Create an issue and add `[FR] <your title>` as it's title!
+
 FOSS ReVanced Apk Packer written in Python
 
 ![Reddit](https://i.imgur.com/scFNROw.jpeg)
@@ -13,8 +15,7 @@ Higher on the list = higher priority
 Lower on the list = lower priority
 # ToDo:
 - [ ] make it better
-- [x] Add better downloader from XeLib v1
-- [ ] Optimize code using ChatGPT
+- [ ] Waiting for issues / requests
 
 # Required Programs:
 - Python 3.10.9 (Rewrite)
