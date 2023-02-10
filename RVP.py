@@ -13,7 +13,7 @@ try:
     from colorama import init, Fore
 except:
     print("Installing packages...")
-    system("python -m pip install XeLib lastversion ping3 tqdm wget")
+    system("python -m pip install XeLib lastversion ping3 tqdm")
 
 init(autoreset=True)
 
@@ -69,15 +69,15 @@ init(autoreset=True)
 
 newver = latest("xemulat/ReVancedPacker")
 if str(version) == str(newver):
-    state = 'Up-To-Date'
+    state = f'{Fore.GREEN}Up-To-Date{Fore.RESET}'
 
 elif str(newver) > str(version):
     # Triggers the update after outdated version is detected
-    state = 'Outdated'
+    state = f'{Fore.RED}Outdated{Fore.RESET}'
     update()
 
 else:
-    state = 'cant'
+    state = f'{Fore.YELLOW}Unable to update{Fore.RESET}'
 
 def checkintegrations(choose):
     if achooser(choose, "1"): return('com.google.android.youtube')
@@ -89,7 +89,8 @@ def checkintegrations(choose):
     elif achooser(choose, "7"): return('com.crunchyroll.crunchyroid')
     elif achooser(choose, "8"): return('tv.twitch.android.app')
     else: return(None)
-    
+
+
 def main():
     cls()
     javapath = 'java'
@@ -194,6 +195,11 @@ def main():
 
                     else: print(f"No item named {choose}...") ; sleep(2)
         
+        printer.lprint('Downloading ReVanced Tools...')
+        download(((res_json['tools'])[2])['browser_download_url'], 'patches.jar', 'ReVanced Patches')
+        download(((res_json['tools'])[3])['browser_download_url'], 'integrations.apk', 'ReVanced Integrations')
+        download(((res_json['tools'])[5])['browser_download_url'], 'cli.jar', 'ReVanced CLI')
+
         if   achooser(choosee, "1"): download("https://d.apkpure.com/b/APK/com.google.android.youtube?version=latest", "YouTube.apk", "youtube") ; inputapk = "YouTube.apk" ; patches = patches + ' -i settings'
         elif achooser(choosee, "2"): download("https://d.apkpure.com/b/APK/com.google.android.apps.youtube.music?version=latest", "YouTubeMusic.apk", "YouTubeMusic") ; inputapk = "YouTubeMusic.apk" ; patches = patches + ' -i settings'
         elif achooser(choosee, "3"): download("https://d.apkpure.com/b/APK/com.zhiliaoapp.musically?version=latest", "TikTok.apk", "TikTok") ; inputapk = "TikTok.apk"
