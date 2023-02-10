@@ -4,6 +4,7 @@ from platform import system as platform
 from os.path import isfile, isdir
 from sys import exit
 from time import sleep
+from json import load
 try:
     from tqdm import tqdm
     from XeLib import cls, printer, download
@@ -20,14 +21,25 @@ def achooser(choose, option):
     if option == choose or option.upper() == choose or option.capitalize() == choose or option.title() == choose or option.lower() == choose: return True
 
 def rm(file):
-    if not isfile('norm.cnf'):
+    with open('settings.RVP.json') as c:
+        v = load(c)
+        nodelete = str(v["NoDelete"])
+
+    if nodelete == 'False':
         if isfile(file) == True:
             remove(file)
 
 def removetmp():
-    rm('cli.jar')
-    rm('patches.jar')
-    rm('integrations.apk')
+    with open('settings.RVP.json') as c:
+        v = load(c)
+        nodelete = str(v["NoDelete"])
+    if nodelete == 'False':
+        printer.lprint('Removing TEMP files...')
+        rm('cli.jar')
+        rm('patches.jar')
+        rm('integrations.apk')
+    else:
+        printer.lprint("Not removing TEMP files due to user's settings.")
 
 def update():
     print('Update?')
@@ -47,29 +59,12 @@ def update():
 
 # Prep
 cls()
-printer.lprint('Removing TEMP files...')
 removetmp()
-
-# Get links
-api_url = 'https://releases.revanced.app/tools'
-resp = get(api_url).json()
-printer.lprint("Setting up...")
-
-h = (((resp['tools'])[0])['browser_download_url'])
-
-if isfile("Integrations.apk") == False:
-    download((((resp['tools'])[4])['browser_download_url']), "integrations.apk", "ReVanced Integrations")
-
-if isfile("Patches.jar") == False:
-    download((((resp['tools'])[3])['browser_download_url']), "patches.jar", "ReVanced Patches")
-
-if isfile("cli.jar") == False:
-    download((((resp['tools'])[6])['browser_download_url']), "cli.jar", "ReVanced CLI")
 
 # Get patches
 api_url = 'https://releases.revanced.app/patches'
 resp = get(api_url).json()
-version = 2.5
+version = 2.6
 init(autoreset=True)
 
 newver = latest("xemulat/ReVancedPacker")
@@ -84,24 +79,33 @@ elif str(newver) > str(version):
 else:
     state = 'cant'
 
+def checkintegrations(choose):
+    if achooser(choose, "1"): return('com.google.android.youtube')
+    elif achooser(choose, "2"): return('com.google.android.apps.youtube.music')
+    elif achooser(choose, "3"): return('com.ss.android.ugc.trill')
+    elif achooser(choose, "4"): return('com.reddit.frontpage')
+    elif achooser(choose, "5"): return('com.spotify.music')
+    elif achooser(choose, "6"): return('com.twitter.android')
+    elif achooser(choose, "7"): return('com.crunchyroll.crunchyroid')
+    elif achooser(choose, "8"): return('tv.twitch.android.app')
+    else: return(None)
+    
 def main():
     cls()
     javapath = 'java'
     print(f"Welcome to RVP v{version}!\n"
           f"RVP is {state}\n"
-          f"Internet: {str(round(ping('github.com', unit='ms'), 2))}ms\n"
-          f"")
-
-    print("[1] Pack ReVanced\n"
-          "[2] Show Integrations\n"
-          "[3] Download Java\n"
-          "[99] Exit")
+          f"Internet: {str(round(ping('github.com', unit='ms'), 2))}ms\n\n"
+           "[1] Pack ReVanced\n"
+           "[2] Show Integrations\n"
+           "[3] Download Java\n"
+           "[99] Exit")
     choose = input("> ")
 
     if choose == "1":
         cls()
-        print("Choose what app to pack:")
-        print("[1] YouTube\n"
+        print("Choose what app to pack:\n"
+              "[1] YouTube\n"
               "[2] YouTube Music\n"
               "[3] TikTok\n"
               "[4] Reddit\n"
@@ -111,15 +115,8 @@ def main():
               "[8] Twitch")
 
         choosee = input("> ")
-        if   choosee == "1": integration = 'com.google.android.youtube'
-        elif choosee == "2": integration = 'com.google.android.apps.youtube.music'
-        elif choosee == "3": integration = 'com.ss.android.ugc.trill'
-        elif choosee == "4": integration = 'com.reddit.frontpage'
-        elif choosee == "5": integration = 'com.spotify.music'
-        elif choosee == "6": integration = 'com.twitter.android'
-        elif choosee == "7": integration = 'com.crunchyroll.crunchyroid'
-        elif choosee == "8": integration = 'tv.twitch.android.app'
-        else: print(f"No item named {choose}...") ; sleep(6) ; main()
+        integration = checkintegrations(choose)
+        if integration == None: print(f"No item named {choose}...") ; sleep(6) ; main()
 
         print('Disable patch version compatibility?')
         chooosee = input('(Y/n): ')
@@ -188,7 +185,7 @@ def main():
 
                     secondmicrogchoose = input('> ')
                     if achooser(secondmicrogchoose, '1'):
-                        download(str(h), 'MicroG.apk', 'Vanced MicroG')
+                        download('https://github.com/TeamVanced/VancedMicroG/releases/latest/download/microg.apk', 'MicroG.apk', 'Vanced MicroG')
                         c = False
 
                     elif achooser(secondmicrogchoose, '2'):
@@ -207,18 +204,14 @@ def main():
         elif achooser(choosee, "8"): download("https://d.apkpure.com/b/APK/tv.twitch.android.app?version=latest", "Twitch.apk", "Twitch") ; inputapk = "Twitch.apk"
         else: print(f"No item named {choose}...") ; sleep(6) ; main()
 
-        cli = javapath + f" -jar cli.jar -a {inputapk} -b patches.jar -m integrations.apk --experimental --clean -o revanced.apk" + patches
+        cli = javapath + f" -jar cli.jar -a {inputapk} -b patches.jar -m integrations.apk --experimental --options=options.toml --clean -o revanced.apk" + patches
 
-        print(f'Are you sure you want to run:\n{cli}')
-        finalchoose = input('(Y/n): ')
-        if not achooser(finalchoose, 'y'):
-            print('Exiting...')
-            exit(sleep(3))
+        print(f'Running:\n{cli}\n')
 
         system(cli)
-        print('Cleaning TEMP files...')
         removetmp()
-        exit()
+        printer.lprint('Thanks for using my tool, give me a star on GitHub as a token of appreciation!')
+        exit(sleep(6))
 
     elif choose == "2":
         cls()
@@ -234,15 +227,8 @@ def main():
                 "[8] Twitch")
 
             choose = input("> ")
-            if   choose == "1": integration = 'com.google.android.youtube'
-            elif choose == "2": integration = 'com.google.android.apps.youtube.music'
-            elif choose == "3": integration = 'com.ss.android.ugc.trill'
-            elif choose == "4": integration = 'com.reddit.frontpage'
-            elif choose == "5": integration = 'com.spotify.music'
-            elif choose == "6": integration = 'com.twitter.android'
-            elif choose == "7": integration = 'com.crunchyroll.crunchyroid'
-            elif choose == "8": integration = 'tv.twitch.android.app'
-            else: print(f"No item named {choose}...") ; sleep(6) ; main()
+            integration = checkintegrations(choose)
+            if integration == None: print(f"No item named {choose}...") ; sleep(6) ; main()
             x = 0
             z = True
 
