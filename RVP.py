@@ -21,25 +21,14 @@ def achooser(choose, option):
     if option == choose or option.upper() == choose or option.capitalize() == choose or option.title() == choose or option.lower() == choose: return True
 
 def rm(file):
-    with open('settings.RVP.json') as c:
-        v = load(c)
-        nodelete = str(v["NoDelete"])
-
-    if nodelete == 'False':
-        if isfile(file) == True:
-            remove(file)
+    if isfile(file) == True:
+        remove(file)
 
 def removetmp():
-    with open('settings.RVP.json') as c:
-        v = load(c)
-        nodelete = str(v["NoDelete"])
-    if nodelete == 'False':
-        printer.lprint('Removing TEMP files...')
-        rm('cli.jar')
-        rm('patches.jar')
-        rm('integrations.apk')
-    else:
-        printer.lprint("Not removing TEMP files due to user's settings.")
+    printer.lprint('Removing TEMP files...')
+    rm('cli.jar')
+    rm('patches.jar')
+    rm('integrations.apk')
 
 def update():
     print('Update?')
@@ -64,18 +53,16 @@ removetmp()
 # Get patches
 api_url = 'https://releases.revanced.app/patches'
 resp = get(api_url).json()
-version = 2.6
+version = 2.8
 init(autoreset=True)
 
 newver = latest("xemulat/ReVancedPacker")
 if str(version) == str(newver):
     state = f'{Fore.GREEN}Up-To-Date{Fore.RESET}'
-
 elif str(newver) > str(version):
     # Triggers the update after outdated version is detected
     state = f'{Fore.RED}Outdated{Fore.RESET}'
     update()
-
 else:
     state = f'{Fore.YELLOW}Unable to update{Fore.RESET}'
 
@@ -89,7 +76,6 @@ def checkintegrations(choose):
     elif achooser(choose, "7"): return('com.crunchyroll.crunchyroid')
     elif achooser(choose, "8"): return('tv.twitch.android.app')
     else: return(None)
-
 
 def main():
     cls()
@@ -196,6 +182,9 @@ def main():
                     else: print(f"No item named {choose}...") ; sleep(2)
         
         printer.lprint('Downloading ReVanced Tools...')
+        printer.lprint("RVP is doing all the hard work for you, relax while it does it's thing!")
+        res = get('https://releases.revanced.app/tools')
+        res_json = res.json()
         download(((res_json['tools'])[2])['browser_download_url'], 'patches.jar', 'ReVanced Patches')
         download(((res_json['tools'])[3])['browser_download_url'], 'integrations.apk', 'ReVanced Integrations')
         download(((res_json['tools'])[5])['browser_download_url'], 'cli.jar', 'ReVanced CLI')
@@ -259,7 +248,7 @@ def main():
             print("\nGo Back")
             choose = input("> ")
             main()
-    elif choose == "3": download("https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.5%2B8/OpenJDK17U-jdk_x64_windows_hotspot_17.0.5_8.msi", "java17.msi", "Java 17") ; startfile("java17.msi")
+    elif choose == "3": download("https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.6%2B10/OpenJDK17U-jdk_x64_windows_hotspot_17.0.6_10.msi", "java17.msi", "Java 17") ; startfile("java17.msi")
     elif choose == '99': exit()
     else: print(f"No item named {choose}...") ; sleep(6) ; main()
 
