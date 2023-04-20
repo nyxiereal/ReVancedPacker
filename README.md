@@ -1,4 +1,8 @@
 
+ABANDONED, USE REVANCEDBUILDER
+
+FOR MORE INFO ASK ME ON THE [DISCORD SERVER](https://discord.gg/egSdNn6wUw)
+
 # ReVancedPacker
 [![GitHub stars](https://img.shields.io/github/stars/xemulat/ReVancedPacker?style=for-the-badge)](https://github.com/xemulat/ReVancedPacker/stargazers)
 [![GitHub license](https://img.shields.io/github/license/xemulat/ReVancedPacker?style=for-the-badge)](https://github.com/xemulat/ReVancedPacker/blob/main/LICENSE)
