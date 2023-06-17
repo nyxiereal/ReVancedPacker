@@ -1,41 +1,24 @@
-
-ABANDONED, USE REVANCEDBUILDER
-
-FOR MORE INFO ASK ME ON THE [DISCORD SERVER](https://discord.gg/egSdNn6wUw)
-
 # ReVancedPacker
-[![GitHub stars](https://img.shields.io/github/stars/xemulat/ReVancedPacker?style=for-the-badge)](https://github.com/xemulat/ReVancedPacker/stargazers)
-[![GitHub license](https://img.shields.io/github/license/xemulat/ReVancedPacker?style=for-the-badge)](https://github.com/xemulat/ReVancedPacker/blob/main/LICENSE)
-
 [Discord](https://discord.gg/egSdNn6wUw)
 
 TAKING FEATURE REQUESTS!!! Create an issue and add `[FR] <your title>` as it's title!
 
-FOSS ReVanced Apk Packer written in Python
-
-![Reddit](https://i.imgur.com/scFNROw.jpeg)
+FOSS ReVanced Apk Packer written in Python 3
 
 Higher on the list = higher priority
 Lower on the list = lower priority
-# ToDo:
+# TODO:
 - [ ] make it better
 - [ ] Waiting for issues / requests
 
 # Required Programs:
-- Python 3.10.9 (Rewrite)
+- Python 3.11.4 (for compiling)
 - Phone or Emulator with Android 7+ (8+ are preffered)
 
 # Minimum Hardware:
-- 2c/2t Processor
-- 2/3GB of Ram
-- 300mb Disk Space
-- 200kbps internet
-- Windows 10 64bit
+- Windows 64x
+- At least runs java 17.
 
 # Links:
 - [Download](https://github.com/xemulat/ReVancedPacker/releases)
-- [How can you support me](https://rentry.co/HowToSupportXem)
-- [RepoTracker](https://repo-tracker.com/r/gh/xemulat/ReVancedPacker)
-
-# Donate?
-- https://rentry.co/HowToSupportXem
+- [Liberapay](https://liberapay.com/xemulated)
