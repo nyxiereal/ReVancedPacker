@@ -1,33 +1,24 @@
 # Imported (PyQt5)
-from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QListWidget, QCheckBox, QLineEdit, QPushButton, QListWidgetItem, QProgressDialog, QInputDialog
+from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QListWidget, QCheckBox, QPushButton, QListWidgetItem, QProgressDialog, QInputDialog
 from PyQt5.QtCore import Qt, QCoreApplication
-from PyQt5.QtGui import QPalette, QColor
 
 # Imported (site-packages)
 from glob import glob
 from json import loads, dump
 from zipfile import ZipFile
 from sys import argv, exit
-from os import remove, rmdir
+from os import remove, system
 from os.path import isdir, isfile
 from subprocess import check_output, CREATE_NO_WINDOW, Popen, CREATE_NEW_CONSOLE
 from re import findall, MULTILINE
-from shutil import move
-from time import sleep
-
-# Imported (Selenium WebDriver)
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.common.by import By
-from selenium.webdriver.chrome.options import Options
 
 # Imported (PYPI)
-from psutil import process_iter
-from requests import Session, get
+from bs4 import BeautifulSoup
+from requests import Session, get, head
 from requests.adapters import HTTPAdapter
 
-# Imported (Xem's libraries)
-from XeLib import cls
+def cls():
+    system('cls')
 
 cls()
 
@@ -240,36 +231,31 @@ class MyApp(QWidget):
         if ok:
             # Continue with the build process
             if not isfile('prepatched.apk'):
-                # Try and check if Chromium's ChromeDriver is downloaded.
-                # If it's not, download it and set up WebDriver.
-                if isfile('chromedriver.exe') == False:
-                    self.download(r'https://www.googleapis.com/download/storage/v1/b/chromium-browser-snapshots/o/Win%2F722276%2Fchromedriver_win32.zip?generation=1575590357764683&alt=media', 'chromedriver.zip', "Chromium ChromeDriver")
-                    with ZipFile('chromedriver.zip', 'r') as zip_ref:
-                        zip_ref.extractall('')
-                    remove('chromedriver.zip')
-                    move('chromedriver_win32\chromedriver.exe', 'chromedriver.exe')
-                    rmdir('chromedriver_win32')
-                
-                # Try and check if Chromium 80 (2nd browser with devtools and DAWN API) is downloaded.
-                if not isdir('chrome-win'):
-                    if not isfile('chrome-win.zip'):
-                        self.download(r'https://www.googleapis.com/download/storage/v1/b/chromium-browser-snapshots/o/Win%2F722276%2Fchrome-win.zip?generation=1575590351685488&alt=media', 'chrome-win.zip', 'Chromium Browser')
-                    with ZipFile('chrome-win.zip', 'r') as zip_ref:
-                        zip_ref.extractall('')
-                    remove('chrome-win.zip')
-                opts = Options()
-                opts.binary_location = 'chrome-win/chrome.exe'
-                browser = webdriver.Chrome(service=Service("chromedriver.exe"), options=opts)
-
-                # Fetch and download the YouTube APK.
+                # FUCK selenium, all my homies use bs4
                 version_itemized = str(getversion()).replace('.', '-')
-                browser.get(f'https://www.apkmirror.com/apk/google-inc/youtube/youtube-{version_itemized}-release/youtube-{version_itemized}-android-apk-download/')
-                sleep(2)
-                browser.find_element(By.CLASS_NAME, 'fc-button-label').click()
-                dlurl = (browser.find_element(By.CLASS_NAME, 'downloadButton').get_attribute("href"))
-                browser.get(dlurl)
-                ytdlurl = ((browser.find_element(By.XPATH, '//a[contains(@href, "/wp-content/themes/APKMirror")]')).get_attribute('href'))
-                browser.quit()
+                headers = {'Accept-Encoding': 'gzip, deflate',
+                           'User-Agent': 'Mozilla/5.0',
+                           'cache_control': 'max-age=600',
+                           'connection': 'keep-alive'}
+
+                r = get(f'https://www.apkmirror.com/apk/google-inc/youtube/youtube-{version_itemized}-release/youtube-{version_itemized}-android-apk-download/', headers=headers)
+
+                soup = BeautifulSoup(r.content, 'html.parser')
+
+                # Find the element with the specified classes
+                element = soup.find("a", {"class": "downloadButton"})
+
+                url1 = f"https://www.apkmirror.com/{element['href']}"
+
+                r = get(url1, headers=headers)
+                soup = BeautifulSoup(r.content, 'html.parser')
+
+                url2 = soup.find('a', {'rel': 'nofollow', 'data-google-vignette': 'false'})
+
+                h = (f"https://www.apkmirror.com{url2['href']}")
+
+                response = head(h, allow_redirects=True, headers=headers)
+                ytdlurl = response.url
             
                 self.download(ytdlurl, 'prepatched.apk', 'YouTube APK')
 
@@ -344,12 +330,6 @@ class MyApp(QWidget):
 
             print(cmd)
             z = Popen(["cmd", "/c", cmd], creationflags=CREATE_NEW_CONSOLE)
-            
-            while True:
-                for process in process_iter(['name']):
-                    if process.info['name'] == process_name:
-                        return True
-                return False
 
 if __name__ == '__main__':
     try:
