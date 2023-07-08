@@ -11,6 +11,7 @@ from os import remove, system
 from os.path import isdir, isfile
 from subprocess import check_output, CREATE_NO_WINDOW, Popen, CREATE_NEW_CONSOLE
 from re import findall, MULTILINE
+from time import sleep
 
 # Imported (PYPI)
 from bs4 import BeautifulSoup
@@ -21,6 +22,7 @@ def cls():
     system('cls')
 
 cls()
+p_dumped = None
 
 def gettools():
     data = (loads((get('https://releases.revanced.app/tools').content).decode('utf-8')))['tools']
@@ -113,6 +115,11 @@ class MyApp(QWidget):
         # Create the "Disable version check" checkbox
         self.version_check_checkbox = QCheckBox("Disable version check")
         layout.addWidget(self.version_check_checkbox)
+        
+        # Create the "Previous Options" button
+        self.pre_options_button = QPushButton("Previous Options")
+        self.pre_options_button.clicked.connect(self.handle_pre_options_button)
+        layout.addWidget(self.pre_options_button)
 
         # Create the "Build" button
         self.build_button = QPushButton("Build")
@@ -122,7 +129,6 @@ class MyApp(QWidget):
         self.setLayout(layout)
         self.setWindowTitle("RVP RELOADED v1.0-EA")
         self.show()
-
 
     def download(self, url, filename, name):
         progress_callback=None
@@ -218,6 +224,14 @@ class MyApp(QWidget):
 
         # Close the deployment window
         self.deploy_window.close()
+        
+    def handle_pre_options_button(self):
+        global p_dumped
+        self.hide()
+        if isfile('lastsession.txt'):
+            f = open('lastsession.txt', "r")
+            p_dumped = f.read()
+        self.handle_build_button()
 
     def handle_build_button(self):
         self.hide()
@@ -317,19 +331,35 @@ class MyApp(QWidget):
             # Write the modified JSON to a file
             with open("options.json", "w") as file:
                 dump(data, file, indent=4)
+
             def expcheck():
                 if self.version_check_checkbox.checkState() == Qt.Checked:
                     return(' --experimental')
+                else:
+                    return('')
             cmd = f'java -jar {str((glob("revanced-cli-*.jar"))[0])} --exclusive -a prepatched.apk -b {str((glob("revanced-patches-*.jar"))[0])} -m {str((glob("revanced-integrations-*.apk"))[0])} -o {output_apk_name}{expcheck()}'
-
-            for i in selected_items:
-                cmd = cmd + f' -i {i}'
+            
+            if p_dumped == None:
+                for i in selected_items:
+                   cmd = cmd + f' -i {i}'
+            else:
+                cmd = cmd + p_dumped
 
             if self.device_id != '':
                 cmd = cmd + f' -d {self.device_id}'
 
             print(cmd)
             z = Popen(["cmd", "/c", cmd], creationflags=CREATE_NEW_CONSOLE)
+            
+            to_dump = ""
+            for i in selected_items:
+                to_dump = to_dump + f' -i {i}'
+
+            if isfile('lastsession.txt'):
+                sleep(3)
+                remove('lastsession.txt')
+            with open("lastsession.txt", "w") as file:
+                file.write(to_dump)
 
 if __name__ == '__main__':
     try:
