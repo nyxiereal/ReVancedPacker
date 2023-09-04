@@ -1,4 +1,4 @@
+rich
 requests
-PyQT5
-psutil
 bs4
+orjson
