@@ -1,24 +1,19 @@
-# ReVancedPacker
-[Discord](https://discord.gg/egSdNn6wUw)
+# 📦 ReVancedPacker
 
-TAKING FEATURE REQUESTS!!! Create an issue and add `[FR] <your title>` as it's title!
+Open Source [ReVanced](https://revanced.app) compiler.
 
-FOSS ReVanced Apk Packer written in Python 3
+Made with ❤️ by [Xemulated](https://xem.lol)
 
-Higher on the list = higher priority
-Lower on the list = lower priority
-# TODO:
-- [ ] make it better
-- [ ] Waiting for issues / requests
+# 📷 Screenshots
 
-# Required Programs:
-- Python 3.11.4 (for compiling)
-- Phone or Emulator with Android 7+ (8+ are preffered)
+TODO: Add Screenshots
 
-# Minimum Hardware:
-- Windows 64x
-- At least runs java 17.
-
-# Links:
-- [Download](https://github.com/xemulat/ReVancedPacker/releases)
-- [Liberapay](https://liberapay.com/xemulated)
+# ⚒️ Building
+TIP: You can add UPX to reduce app size!
+```
+git clone https://github.com/xemulat/ReVancedPacker
+cd ReVancedPacker
+pip install -r requirements.txt
+pip install pyinstaller
+pyinstaller --clean --onefile main.py
+```
