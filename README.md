@@ -9,7 +9,7 @@ Made with ❤️ by [Xemulated](https://xem.lol)
 TODO: Add Screenshots
 
 # ⚒️ Building
-TIP: You can add UPX to reduce app size!
+TIP: You can add UPX to reduce the app size!
 ```
 git clone https://github.com/xemulat/ReVancedPacker
 cd ReVancedPacker
