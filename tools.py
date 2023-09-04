@@ -1,6 +1,7 @@
 from os import system
 from requests import get, head
 from rich.progress import Progress
+from rich import print
 from re import match as rematch
 from subprocess import run, PIPE
 
@@ -13,12 +14,19 @@ def cls():
     system('cls')
 
 # Y/n quick question shortcut
-def yn():
+def ny():
     inp = input('(N/y) ')
     if inp.lower() == 'y':
         return(True)
     else:
         return(False)
+
+def yn():
+    inp = input('(Y/n) ')
+    if inp.lower() == 'n':
+        return(False)
+    else:
+        return(True)
 
 # Downloads the file from any source
 # Uses rich's progress bar tracking
@@ -32,7 +40,7 @@ def download(url, fnam, name):
     total_size = int(response.headers.get("content-length", 0))
 
     with Progress() as progress:
-        task = progress.add_task(f"[blue]:: Downloading {name}", total=total_size)
+        task = progress.add_task(f"[cyan]:: Downloading [bold]{name}[/bold][/cyan]", total=total_size)
 
         with open(fnam, "wb") as file:
 
