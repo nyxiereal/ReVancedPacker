@@ -4,6 +4,8 @@ Open Source [ReVanced](https://revanced.app) compiler.
 
 Made with ❤️ by [Xemulated](https://xem.lol)
 
+Discord support server [here](https://discord.gg/sVRWsFYu7S)
+
 # 📷 Screenshots
 
 TODO: Add Screenshots
